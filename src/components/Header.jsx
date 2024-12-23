@@ -18,15 +18,35 @@ function Header() {
                 <Form inline>
                     <Row>
                         <Col xs="auto">
-                            <Form.Control
-                                type="text"
-                                placeholder="Search"
-                                className=" mr-sm-2 rounded w-100 h-75"
-                            />
+                            <InputGroup>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Search rentify"
+                                    className="rounded"
+                                    style={{
+                                        fontSize: "14px",
+                                        paddingLeft: "30px" // Adds space for the icon
+                                    }}
+                                />
+                                <i
+                                    className="fa-solid fa-magnifying-glass fa-1x"
+                                    style={{
+                                        position: "absolute",
+                                        left: "10px",
+                                        top: "50%",
+                                        transform: "translateY(-50%)",
+                                        color: "#ccc"
+                                    }}
+                                ></i>
+                            </InputGroup>
+
+
                         </Col>
-                        <Col xs="auto">
-                            <Button type="submit">Submit</Button>
+                        <Col xs="auto" className='me-5 d-flex '>
+                       <div className='me-2'> <i class="fa-solid fa-bag-shopping "></i></div>
+                       <div className='ms-2'> <i class="fa-solid fa-user"></i></div>
                         </Col>
+                        
                     </Row>
                 </Form>
             </Navbar>
