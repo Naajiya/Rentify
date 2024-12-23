@@ -1,0 +1,7 @@
+.logo{
+    background-image: url('./assets/fash2.jpg');
+    background-size: cover;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
