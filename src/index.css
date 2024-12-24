@@ -1,7 +1,19 @@
-.logo{
+.logo {
     background-image: url('./assets/fash2.jpg');
     background-size: cover;
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
+}
+
+.hover-container {
+    position: relative; /* Parent container for positioning */
+    display: none;
+  }
+  
+.dropdown-items{
+  margin-top: 40px;
+  position: absolute;
+  display: block;
+  color: rgb(243, 243, 243);
 }
