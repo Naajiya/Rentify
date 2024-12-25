@@ -18,3 +18,12 @@
   /* color: rgb(240, 111, 111); */
   background-color: rgb(235, 232, 232);
 }
+
+.subBtn{
+  font-size: 14px;
+  color: blue;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
