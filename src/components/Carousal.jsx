@@ -24,7 +24,7 @@ function Carousal() {
       </Carousel.Item>
       <Carousel.Item interval={500}>
        
-      <div style={{height:'300px'}} className='w-100'><img className='img-fluid w-100' src={bigsale} alt="" /></div>
+      <div style={{height:'300px'}} className='w-100'><img className='img-fluid w-100'src={bigsale} alt="" /></div>
 
       
       </Carousel.Item>
