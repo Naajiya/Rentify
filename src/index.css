@@ -4,6 +4,7 @@
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
+    font-size: 18px;
 }
 
 .hover-container {
@@ -17,6 +18,7 @@
   display: block;
   /* color: rgb(240, 111, 111); */
   background-color: rgb(235, 232, 232);
+  z-index: 1050;
 }
 
 .subBtn{
@@ -26,4 +28,12 @@
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+.sub-head{
+  position: relative;
+}
+
+.carousel{
+  z-index: 1;
 }

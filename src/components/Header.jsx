@@ -28,65 +28,12 @@ function Header() {
     return (
         <>
 
-            {/* <Navbar className="bg-body-tertiary justify-content-between  w-100" style={{ position: 'fixed' }}>
-               <Container>
-                    <div >
-                        <h2 className=' ms-5 fw-bold fs-1 logo'>RENTIFY</h2>
-                       
-                    </div>
-                    <Form inline>
-                        <Row>
-                            <Col xs="auto">
-                                <InputGroup>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Search rentify"
-                                        className="rounded"
-                                        style={{
-                                            fontSize: "14px",
-                                            paddingLeft: "30px" // Adds space for the icon
-                                        }}
-                                    />
-                                    <i
-                                        className="fa-solid fa-magnifying-glass fa-1x "
-                                        style={{
-                                            position: "absolute",
-                                            left: "10px",
-                                            top: "55%",
-                                            transform: "translateY(-50%)",
-                                            color: "#ccc"
-                                        }}
-                                    ></i>
-                                </InputGroup>
-    
-    
-                            </Col>
-                            <Col xs="auto" className='me-5 d-flex mt-1 '>
-                                <OverlayTrigger
-                                    placement="right"
-                                    delay={{ show: 250, hide: 400 }}
-                                    overlay={renderTooltipa}
-                                >
-                                    <div className='me-2'> <i class="fa-solid fa-bag-shopping "></i></div>
-                                </OverlayTrigger>
-                                <OverlayTrigger
-                                    placement="right"
-                                    delay={{ show: 250, hide: 400 }}
-                                    overlay={renderTooltip}
-                                >
-                                <div className='ms-2'> <i class="fa-solid fa-user"></i></div>
-                            </OverlayTrigger>
-                        </Col>
-    
-                    </Row>
-                </Form>
-               </Container>
-        </Navbar > */}
+          
 
             <Navbar className="bg-body-tertiary" >
                 <Container>
                 <div >
-                        <h2 className=' ms-5 fw-bold fs-1 logo'>RENTIFY</h2>
+                        <h4 className=' ms-5 fw-bold fs-1 logo'>RENTIFY</h4>
                        
                     </div>
                     <Form inline>

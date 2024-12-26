@@ -14,7 +14,7 @@ function SubHead() {
   const [isHoveredKitchen, setIsHoveredKitchen] = useState(false)
   return (
     <>
-     <Row className='w-100'>
+     <Row className='w-100 sub-head'>
         <div className='d-flex  justify-content-center w-100  hover-contaier ms-2 mt-2 ' style={{ backgroundColor: 'rgb(243, 243, 243)',overflowY: 'auto', overflow:'none'}}>
   
           {/* men */}
