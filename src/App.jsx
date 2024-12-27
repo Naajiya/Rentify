@@ -4,6 +4,7 @@ import Header from './components/Header'
 import SubHead from './components/SubHead'
 import Carousal from './components/Carousal'
 import AllItems from './components/AllItems'
+import Footer from './components/Footer'
 
 
 
@@ -17,6 +18,7 @@ function App() {
      <SubHead/>
      <Carousal/>
      <AllItems/>
+     <Footer/>
     </> 
   )
 }
