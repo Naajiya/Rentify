@@ -4,7 +4,9 @@ import Card from 'react-bootstrap/Card';
 import chrdar from '../assets/chridar1.jpg'
 import menone from '../assets/men1.jpg'
 import { Col } from 'react-bootstrap';
-import chrdartwo from '../assets/chrdar2.jpg'
+import chrdartwo from '../assets/chrdar2.jpg';
+import { Link } from 'react-router-dom';
+
 
 function AllItems() {
     return (
@@ -24,15 +26,17 @@ function AllItems() {
                             </Card>
                         </Col>
     
-                        <Col>
-                            <Card style={{ width: '12rem' }} className='mb-3'>
-                                <Card.Img style={{height:'200px'}} className='img-fluid' variant="top" src={menone} />
-                                <Card.Body>
-                                    <Card.Title>Men Kurta</Card.Title>
-        
-                                    {/* <Button variant="primary">Go somewhere</Button> */}
-                                </Card.Body>
-                            </Card>
+                        <Col>   
+                            <Link to={`/viewdetails`}>
+                                <Card style={{ width: '12rem' }} className='mb-3'>
+                                    <Card.Img style={{height:'200px'}} className='img-fluid' variant="top" src={menone} />
+                                    <Card.Body>
+                                        <Card.Title>Men Kurta</Card.Title>
+            
+                                        {/* <Button variant="primary">Go somewhere</Button> */}
+                                    </Card.Body>
+                                </Card>
+                            </Link>
         
                         </Col>
     
