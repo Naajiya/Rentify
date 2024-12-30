@@ -28,13 +28,13 @@ function Header() {
     return (
         <>
 
-          
 
-            <Navbar className="bg-body-tertiary" >
+
+            <Navbar className="bg-body-tertiary w-100"  >
                 <Container>
-                <div >
-                        <h4 className=' ms-5 fw-bold fs-1 logo'>RENTIFY</h4>
-                       
+                    <div >
+                        <h2 className=' ms-5 fw-bold  logo'>RENTIFY</h2>
+
                     </div>
                     <Form inline>
                         <Row>
@@ -60,8 +60,8 @@ function Header() {
                                         }}
                                     ></i>
                                 </InputGroup>
-    
-    
+
+
                             </Col>
                             <Col xs="auto" className='me-5 d-flex mt-1 '>
                                 <OverlayTrigger
@@ -76,12 +76,12 @@ function Header() {
                                     delay={{ show: 250, hide: 400 }}
                                     overlay={renderTooltip}
                                 >
-                                <div className='ms-2'> <i class="fa-solid fa-user"></i></div>
-                            </OverlayTrigger>
-                        </Col>
-    
-                    </Row>
-                </Form>
+                                    <div className='ms-2'> <i class="fa-solid fa-user"></i></div>
+                                </OverlayTrigger>
+                            </Col>
+
+                        </Row>
+                    </Form>
                 </Container>
             </Navbar>
         </>

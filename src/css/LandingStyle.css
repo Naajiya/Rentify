@@ -1,0 +1,42 @@
+.parallax {
+    background-image: url('../assets/bg-rental.png');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    /* Fills the container */
+    height: 100vh;
+    /* Full viewport height */
+    width: 100%;
+}
+
+.home-logo {
+    background-image: url('../assets/text-bg.jpg');
+    background-size: cover;
+    -webkit-background-clip: text;
+    background-clip: text; /* Fallback */
+    color: transparent;
+    font-size: 4rem; /* Make sure font size is large enough */
+    font-weight: bold; /* Optional, for better visibility */
+    text-transform: uppercase; /* Optional, to enhance the appearance */
+    background-size: contain;
+
+}
+
+.style-card{
+    height: 66vh;
+    width: 60%;
+    background-color: rgb(232, 233, 232);
+    border-radius: 20px;
+    margin-top: 50px;
+    
+}
+
+.img-sty{
+    border-radius: 20px;
+    height: 19rem;
+}
+
+marquee{
+    
+}
