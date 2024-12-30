@@ -16,7 +16,7 @@ function AllItems() {
                     <div className='d-flex text-center justify-content-center m-3'><h1 className='text-success'>Popular Search</h1></div>
                     
                         <Col>
-                          <Card style={{ width: '12rem' }} className='mb-3'>
+                          <Card style={{ width: '12rem' }} className='mb-3 p-1'>
                                 <Card.Img style={{height:'200px'}} className='img-fluid' variant="top" src={chrdar} />
                                 <Card.Body>
                                     <Card.Title>Pakistani Suit</Card.Title>
