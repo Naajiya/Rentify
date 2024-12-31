@@ -5,9 +5,10 @@
     background-repeat: no-repeat;
     background-size: 100% 100%;
     /* Fills the container */
-    height: 100vh;
+    height: 100%;
     /* Full viewport height */
     width: 100%;
+    padding: 5%;
 }
 
 .home-logo {

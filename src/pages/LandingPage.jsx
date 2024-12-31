@@ -21,8 +21,8 @@ function LandingPage() {
 
         <Row>
 
-          <Col>
-            <div className='d-flex flex-column justify-content-center text-center align-items-center' style={{ top: '50px' }}>
+          <Col lg={6} md={12}>
+            <div className='d-flex flex-column justify-content-center text-center align-items-center' style={{ top: '5rem' }}>
               <h1 className='home-logo  ' style={{ marginTop: '7rem' }}> RENTIFY
 
               </h1>
@@ -57,7 +57,7 @@ function LandingPage() {
 
           </Col>
 
-          <Col>
+          <Col  lg={6} md={12}>
             <div className='d-flex text-center justify-content-center'>
               <div className='style-card'>
                 <div className='mt-3 m-1'>

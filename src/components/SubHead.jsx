@@ -15,7 +15,7 @@ function SubHead() {
   return (
     <>
      <Row className='w-100 sub-head'>
-        <div className='d-flex  justify-content-center w-100  hover-contaier ms-2 mt-1 ' style={{ backgroundColor: 'rgb(243, 243, 243)'}}>
+        <div className='d-flex  justify-content-center w-100  hover-contaier  mt-1 ' style={{ backgroundColor: 'rgb(243, 243, 243)',overflowX:'auto'}}>
   
           {/* men */}
           <Button
