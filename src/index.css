@@ -1,3 +1,7 @@
+/* *{
+  overflow-x: hidden;
+} */
+
 .logo {
     background-image: url('./assets/fash2.jpg');
     background-size: cover;

@@ -30,10 +30,10 @@ function Header() {
 
 
 
-            <Navbar className="bg-body-tertiary w-100"  >
+            <Navbar className="bg-body-tertiary w-100" >
                 <Container>
                     <div >
-                        <h2 className=' ms-5 fw-bold  logo'>RENTIFY</h2>
+                        <h2 className=' fw-bold  logo'>RENTIFY</h2>
 
                     </div>
                     <Form inline>

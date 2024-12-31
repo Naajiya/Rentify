@@ -26,7 +26,7 @@ function LandingPage() {
               <h1 className='home-logo  ' style={{ marginTop: '7rem' }}> RENTIFY
 
               </h1>
-              <span style={{ fontFamily: 'cursive' }}>
+              <span style={{ fontFamily: 'cursive',fontSize:'10px'}}>
                 <TypeAnimation
                   sequence={[
                     'rent',
@@ -75,6 +75,7 @@ function LandingPage() {
           </Col>
         </Row>
       </div>
+      {/* <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt ipsum voluptate corrupti explicabo qui quia rem eligendi esse. Atque, pariatur nihil perspiciatis saepe ab similique inventore earum expedita eos voluptatibus!</h3> */}
       <AllItems/>
     </>
   )

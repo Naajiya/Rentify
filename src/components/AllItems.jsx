@@ -1,116 +1,38 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import chrdar from '../assets/chridar1.jpg'
-import menone from '../assets/men1.jpg'
-import { Col } from 'react-bootstrap';
-import chrdartwo from '../assets/chrdar2.jpg';
+import chrdar from '../assets/chridar1.png'
+import { Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import '../css/AllItemStyle.css'
+
 
 
 function AllItems() {
     return (
         <>
-            <div className='mt-5  d-flex justify-content-center'>
-                <div className='mt-5 row d-flex justify-content-center border border-primary border-4 p-3 m-5'>
-                    <div className='d-flex text-center justify-content-center m-3'><h1 className='text-success'>Popular Search</h1></div>
-                    
-                        <Col>
-                          <Card style={{ width: '12rem' }} className='mb-3 p-1'>
-                                <Card.Img style={{height:'200px'}} className='img-fluid' variant="top" src={chrdar} />
-                                <Card.Body>
-                                    <Card.Title>Pakistani Suit</Card.Title>
-        
-                                    {/* <Button variant="primary">Go somewhere</Button> */}
-                                </Card.Body>
-                            </Card>
-                        </Col>
-    
-                        <Col>   
-                            <Link to={`/viewdetails`}>
-                                <Card style={{ width: '12rem' }} className='mb-3'>
-                                    <Card.Img style={{height:'200px'}} className='img-fluid' variant="top" src={menone} />
-                                    <Card.Body>
-                                        <Card.Title>Men Kurta</Card.Title>
-            
-                                        {/* <Button variant="primary">Go somewhere</Button> */}
-                                    </Card.Body>
-                                </Card>
-                            </Link>
-        
-                        </Col>
-    
-                        <Col>
-                            <Card style={{ width: '12rem' }} className='mb-3'>
-                                <Card.Img style={{height:'200px'}} className='img-fluid' variant="top" src={chrdartwo} />
-                                <Card.Body>
-                                    <Card.Title> Materirall </Card.Title>
-        
-                                    {/* <Button variant="primary">Go somewhere</Button> */}
-                                </Card.Body>
-                            </Card>
-        
-                        </Col>
-    
-                        <Col>
-                            <Card style={{ width: '12rem' }} className='mb-3'>
-                                <Card.Img style={{height:'200px'}} className='img-fluid' variant="top" src={menone} />
-                                <Card.Body>
-                                    <Card.Title>Card Title</Card.Title>
-        
-                                    {/* <Button variant="primary">Go somewhere</Button> */}
-                                </Card.Body>
-                            </Card>
-        
-                        </Col>
-    
-                        <Col>
-                            <Card style={{ width: '12rem' }} className='mb-3'>
-                                <Card.Img style={{height:'200px'}} className='img-fluid' variant="top" src={menone} />
-                                <Card.Body>
-                                    <Card.Title>Card Title</Card.Title>
-        
-                                    {/* <Button variant="primary">Go somewhere</Button> */}
-                                </Card.Body>
-                            </Card>
-        
-                        </Col>
-    
-                        <Col>
-                            <Card style={{ width: '12rem' }} className='mb-3'>
-                                <Card.Img style={{height:'200px'}} className='img-fluid' variant="top" src={chrdar} />
-                                <Card.Body>
-                                    <Card.Title>Card Title</Card.Title>
-        
-                                    {/* <Button variant="primary">Go somewhere</Button> */}
-                                </Card.Body>
-                            </Card>
-                        </Col>
-    
-                        <Col>
-                            <Card style={{ width: '12rem' }} className='mb-3'>
-                                <Card.Img style={{height:'200px'}} className='img-fluid' variant="top" src={menone} />
-                                <Card.Body>
-                                    <Card.Title>Card Title</Card.Title>
-        
-                                    {/* <Button variant="primary">Go somewhere</Button> */}
-                                </Card.Body>
-                            </Card>
-        
-                        </Col>
-    
-                        <Col>
-                            <Card style={{ width: '12rem' }} className='mb-3'>
-                                <Card.Img style={{height:'200px'}} className='img-fluid' variant="top" src={chrdartwo} />
-                                <Card.Body>
-                                    <Card.Title>Card Title</Card.Title>
-        
-                                    {/* <Button variant="primary">Go somewhere</Button> */}
-                                </Card.Body>
-                            </Card>
-        
-                        </Col>
-                    
+            <div className='d-flex justify-content-center' style={{ marginTop: '-10px' }}>
+                <div className='m-3 row d-flex justify-content-center '>
+                    <div className='d-flex text-center justify-content-center '>
+                        <h2 style={{ fontFamily: 'cursive' }}>Execlusive Product</h2>
+                    </div>
+                    <Row>
+                        <Card style={{ width: '14rem' }} >
+                            <div className='img-wrapper img-fluid w-100 mt-2 d-flex text-center justify-content-center align-items-center '>
+                                <Card.Img className='card-img img-fluid ' variant="top" src={chrdar} />
+                            </div>
+                            <Card.Body >
+                                <Card.Title >
+                                    <p style={{fontSize:'18px'}}>Pakistani salwar</p>
+                                </Card.Title>
+                                <Card.Text>
+                                    <p></p>
+                                </Card.Text>
+                                
+                            </Card.Body>
+                        </Card>
+                    </Row>
+
 
                 </div>
             </div>

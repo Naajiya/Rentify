@@ -24,6 +24,7 @@
 }
 
 .style-card{
+    /* position: fixed; */
     height: 66vh;
     width: 60%;
     background-color: rgb(232, 233, 232);

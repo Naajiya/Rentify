@@ -1,0 +1,19 @@
+.card-img{
+    height: 14rem;
+    width: 100%;
+    background-color: rgb(243, 243, 243);
+    
+    border-radius: 15px;
+    /* padding: 5%; */
+    /* margin: -1%; */
+}
+
+.card{
+   
+    border-radius: 20px;
+}
+
+/* .img-wrapper{
+    height: 100%;
+    width: 100%;
+} */
