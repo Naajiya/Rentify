@@ -1,10 +1,10 @@
 .card-img{
-    height: 14rem;
+    height: 12rem !important;
     width: 100%;
     background-color: rgb(243, 243, 243);
     
     border-radius: 15px;
-    /* padding: 5%; */
+    padding: 5%;
     /* margin: -1%; */
 }
 
@@ -13,7 +13,21 @@
     border-radius: 20px;
 }
 
-/* .img-wrapper{
+.img-wrapper{
     height: 100%;
     width: 100%;
-} */
+    position: relative;
+}
+
+.icon-sty{
+    position: absolute;
+    top: 1%;
+    right: 10%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 50%;
+    height: 2rem;
+    width: 2rem;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}

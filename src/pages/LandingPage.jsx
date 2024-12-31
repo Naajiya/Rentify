@@ -3,9 +3,9 @@ import SubHead from '../components/SubHead'
 import BgImg from '../assets/bg-rental.png'
 import '../css/LandingStyle.css'
 import { Col, Row } from 'react-bootstrap'
-import move from '../assets/moveOne.jpg'
-import men1 from '../assets/men1.jpg'
-import chrdar2 from '../assets/chrdar2.jpg'
+import move from '../assets/moveOneorg.jpg'
+import men1 from '../assets/men1org.jpg'
+import chrdar2 from '../assets/chrdar2org.jpg'
 import { TypeAnimation } from 'react-type-animation';
 import AllItems from '../components/AllItems'
 
