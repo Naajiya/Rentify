@@ -1,0 +1,47 @@
+.container{
+    display: flex;
+    overflow: hidden;
+}
+
+.box-card{
+    height: 15rem;
+    width: 8rem;
+    background-color: white;
+    margin: 1%;
+    border-radius: 5%;
+    overflow: hidden;
+    transition: width 0.5s ease;
+}
+
+.box-card.first{
+    width: 20rem;
+}
+
+.first:hover{
+    width: 20rem;
+}
+
+.box-card:hover{
+    width: 20rem;
+}
+
+/* .container:hover .box-card.first {
+    width: 8rem;
+} */
+
+
+.container:hover .box-card.first:not(:hover) {
+    width:8rem;
+}
+
+.img-style{
+    /* background-size: cover; */
+    height: 100% !important;
+    width: 100%;
+    border-radius: 5%;
+    object-fit: cover;
+}
+
+.body-color{
+    background-color: rgb(229, 239, 241);
+}

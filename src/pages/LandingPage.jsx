@@ -8,6 +8,7 @@ import men1 from '../assets/men1org.jpg'
 import chrdar2 from '../assets/chrdar2org.jpg'
 import { TypeAnimation } from 'react-type-animation';
 import AllItems from '../components/AllItems'
+import Advertise from '../components/Advertise'
 
 
 
@@ -76,7 +77,9 @@ function LandingPage() {
         </Row>
       </div>
       {/* <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt ipsum voluptate corrupti explicabo qui quia rem eligendi esse. Atque, pariatur nihil perspiciatis saepe ab similique inventore earum expedita eos voluptatibus!</h3> */}
+      <Advertise/>
       <AllItems/>
+    
     </>
   )
 }

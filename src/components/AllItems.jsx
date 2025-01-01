@@ -43,7 +43,7 @@ function AllItems() {
                         </Col>
 
                         <Col>
-                            <Card style={{ width: '13rem' ,height:'19rem',}} className='p-1' >
+                            <Card style={{ width: '13rem' ,height:'19rem',}} className='p-1  shadow' >
                                 <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>
                                 <div className='icon-sty text-secondary mt-1'><i class="fa-solid fa-heart"></i></div>
                                     <Card.Img className='card-img img-fluid ' variant="top" src={chrdar} />
