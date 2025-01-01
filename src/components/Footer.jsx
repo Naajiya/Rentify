@@ -5,7 +5,7 @@ import { Col, Container, Row } from 'react-bootstrap'
 function Footer() {
   return (
     <>
-    <div>
+    <div style={{overflowX:'hidden'}}>
       <Row className='p-5 shadow' style={{backgroundColor:'rgb(243, 243, 243)'}}>
         <Col lg={6} className='mt-2'>
         <h4 style={{fontSize:"1.4rem",fontFamily:'cursive'}} className=''>Rentify</h4>

@@ -27,7 +27,7 @@ function LandingPage() {
               <h1 className='home-logo  ' style={{ marginTop: '7rem' }}> RENTIFY
 
               </h1>
-              <span style={{ fontFamily: 'cursive',fontSize:'10px'}}>
+              <span style={{ fontFamily: 'cursive', fontSize: '10px' }}>
                 <TypeAnimation
                   sequence={[
                     'rent',
@@ -58,7 +58,7 @@ function LandingPage() {
 
           </Col>
 
-          <Col  lg={6} md={12}>
+          <Col lg={6} md={12}>
             <div className='d-flex text-center justify-content-center'>
               <div className='style-card'>
                 <div className='mt-3 m-1'>
@@ -73,13 +73,22 @@ function LandingPage() {
                 </div>
               </div>
             </div>
+            {/* <TypeAnimation
+              sequence={[
+                ()=> <img src={move}/>,500,
+                ()=> <img src={men1}/>,500,
+                ()=> <img src={chrdar2}/>,500,
+              ]}
+              wrapper="div"
+              repeat={Infinity}
+            /> */}
           </Col>
         </Row>
       </div>
       {/* <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt ipsum voluptate corrupti explicabo qui quia rem eligendi esse. Atque, pariatur nihil perspiciatis saepe ab similique inventore earum expedita eos voluptatibus!</h3> */}
-      <Advertise/>
-      <AllItems/>
-    
+      <Advertise />
+      <AllItems />
+
     </>
   )
 }
