@@ -10,11 +10,11 @@ import Button from 'react-bootstrap/Button';
 function Advertise() {
   return (
     <>
-    <div className='body-color  p-5 border shadow mb-2'>
+    <div className='body-color p-3 border shadow mb-2'>
         <div className='d-flex text-center  '>
-            <Row>
-                <Col lg={6} className=' container'>
-                <div className='box-card first'>
+            <Row lg={12}>
+                <Col  className='container ps-3 d-flex justify-content-center mt-3 p-2'>
+                <div className='box-card first border border-2'>
                     <img className='img-style img-fluid' src={chair} alt="" />
                 </div>
                 <div className='box-card'>
@@ -24,9 +24,9 @@ function Advertise() {
                 <img className='img-style img-fluid' src={kambi} alt="" />
                 </div>
                 </Col>
-                <Col lg={6}>
+                <Col lg={6} md={12}>
                 <div className='p-5'>
-                    <h4 style={{fontFamily:'cursive'}} className='text-info'>Start renting smarter. Sign up and explore!</h4>
+                    <h4 style={{fontFamily:'cursive'}} className=''>Start renting smarter. Sign up and explore!</h4>
                     <p style={{fontFamily:'cursive'}}>Why buy when you can rent? Get started now!  </p>
                     <Button style={{fontFamily:'cursive'}} variant="outline-dark">SignUp Now</Button>
                 </div>

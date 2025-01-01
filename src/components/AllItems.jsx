@@ -22,7 +22,7 @@ function AllItems() {
                         <h3 style={{ fontFamily: 'cursive' }}>Execlusive Product</h3>
                     </div>
                     <Row lg={4}>
-                        <Col>
+                        <Col lg={3} md={6} sm={6}> 
                             <Card style={{ width: '13rem' ,height:'19rem',}} className='p-1 mb-2' >
                                 <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>
                                 <div className='icon-sty text-secondary mt-1'><i class="fa-solid fa-heart"></i></div>
@@ -42,7 +42,7 @@ function AllItems() {
                             </Card>
                         </Col>
 
-                        <Col>
+                        <Col lg={3} md={6} sm={6}>
                             <Card style={{ width: '13rem' ,height:'19rem',}} className='p-1  shadow' >
                                 <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>
                                 <div className='icon-sty text-secondary mt-1'><i class="fa-solid fa-heart"></i></div>
@@ -62,7 +62,7 @@ function AllItems() {
                             </Card>
                         </Col>
 
-                        <Col>
+                        <Col lg={3} md={6}>
                             <Card style={{ width: '13rem' ,height:'19rem',}} className='p-1' >
                                 <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>
                                 <div className='icon-sty text-secondary mt-1'><i class="fa-solid fa-heart"></i></div>
@@ -82,7 +82,7 @@ function AllItems() {
                             </Card>
                         </Col>
                         
-                        <Col>
+                        <Col lg={3} md={6}>
                             <Card style={{ width: '13rem' ,height:'19rem',}} className='p-1' >
                                 <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>
                                 <div className='icon-sty text-secondary mt-1'><i class="fa-solid fa-heart"></i></div>
@@ -102,7 +102,7 @@ function AllItems() {
                             </Card>
                         </Col>
 
-                        <Col>
+                        <Col lg={3} md={6}>
                             <Card style={{ width: '13rem' ,height:'19rem',}} className='p-1' >
                                 <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>
                                 <div className='icon-sty text-secondary mt-1'><i class="fa-solid fa-heart"></i></div>
@@ -122,7 +122,7 @@ function AllItems() {
                             </Card>
                         </Col>
 
-                        <Col>
+                        <Col lg={3} md={6}>
                             <Card style={{ width: '13rem' ,height:'19rem',}} className='p-1' >
                                 <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>
                                 <div className='icon-sty text-secondary mt-1'><i class="fa-solid fa-heart"></i></div>
@@ -142,7 +142,7 @@ function AllItems() {
                             </Card>
                         </Col>
 
-                        <Col>
+                        <Col lg={3} md={6}>
                             <Card style={{ width: '13rem' ,height:'19rem',}} className='p-1' >
                                 <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>
                                 <div className='icon-sty text-secondary mt-1'><i class="fa-solid fa-heart"></i></div>
@@ -162,7 +162,7 @@ function AllItems() {
                             </Card>
                         </Col>
 
-                        <Col>
+                        <Col lg={3} md={6}>
                             <Card style={{ width: '13rem' ,height:'19rem',}} className='p-1' >
                                 <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>
                                 <div className='icon-sty text-secondary mt-1'><i class="fa-solid fa-heart"></i></div>

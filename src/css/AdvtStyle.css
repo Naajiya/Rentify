@@ -1,11 +1,11 @@
 .container{
     display: flex;
-    overflow: hidden;
+    overflow: auto;
 }
 
 .box-card{
     height: 15rem;
-    width: 8rem;
+    width: 4rem;
     background-color: white;
     margin: 1%;
     border-radius: 5%;
@@ -14,15 +14,15 @@
 }
 
 .box-card.first{
-    width: 20rem;
+    width: 10rem;
 }
 
 .first:hover{
-    width: 20rem;
+    width: 10rem;
 }
 
 .box-card:hover{
-    width: 20rem;
+    width: 10rem;
 }
 
 /* .container:hover .box-card.first {
@@ -31,7 +31,7 @@
 
 
 .container:hover .box-card.first:not(:hover) {
-    width:8rem;
+    width:4rem;
 }
 
 .img-style{
