@@ -9,6 +9,7 @@
     -webkit-background-clip: text;
     color: transparent;
     font-size: 30px;
+    background-size: contain;
 }
 
 .hover-container {
@@ -45,3 +46,7 @@
 /* .carosty{
   height:200px !important
 } */
+
+.t-sty{
+  font-family: cursive;
+}

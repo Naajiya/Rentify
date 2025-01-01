@@ -3,6 +3,7 @@ import './App.css'
 import Header from './components/Header'
 import LandingPage from './pages/LandingPage'
 import { Route, Routes } from 'react-router-dom'
+import Footer from './components/Footer'
 
 
 
@@ -18,6 +19,8 @@ function App() {
       <Routes>
         <Route element={<LandingPage />} path='/' />
       </Routes>
+
+      <Footer/>
 
 
 
