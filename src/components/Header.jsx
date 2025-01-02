@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { Container } from 'react-bootstrap'
+import { Link } from 'react-router-dom';
 
 
 function Header() {
@@ -21,6 +22,12 @@ function Header() {
     const renderTooltipa = (props) => (
         <Tooltip id="button-tooltip" {...props}>
             login
+        </Tooltip>
+    );
+
+    const renderTooltiwish = (props) => (
+        <Tooltip id="button-tooltip" {...props}>
+            wishllist
         </Tooltip>
     );
 
@@ -59,6 +66,7 @@ function Header() {
                                             color: "#ccc"
                                         }}
                                     ></i>
+                                   
                                 </InputGroup>
 
 
@@ -77,6 +85,14 @@ function Header() {
                                     overlay={renderTooltip}
                                 >
                                     <div className='ms-2'> <i class="fa-solid fa-user"></i></div>
+                                </OverlayTrigger>
+                                
+                                <OverlayTrigger
+                                    placement="right"
+                                    delay={{ show: 250, hide: 400 }}
+                                    overlay={renderTooltiwish}
+                                >
+                                    <Link to={'/wishlist'}><div className='ms-3 text-dark'> <i class="fa-solid fa-heart "></i></div></Link>
                                 </OverlayTrigger>
                             </Col>
 

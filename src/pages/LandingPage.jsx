@@ -87,6 +87,7 @@ function LandingPage() {
       </div>
       {/* <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt ipsum voluptate corrupti explicabo qui quia rem eligendi esse. Atque, pariatur nihil perspiciatis saepe ab similique inventore earum expedita eos voluptatibus!</h3> */}
       <Advertise />
+      <SubHead />
       <AllItems />
 
     </>

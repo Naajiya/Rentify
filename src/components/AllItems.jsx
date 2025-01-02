@@ -9,10 +9,14 @@ import moveOne from '../assets/moveOne.png'
 import { Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import '../css/AllItemStyle.css'
+import { useState } from 'react';
 
 
 
 function AllItems() {
+
+    const [wishlist,setWishlist]=useState(false)
+
     return (
         <>
             <div className='d-flex justify-content-center m-5' >
@@ -25,7 +29,8 @@ function AllItems() {
                         <Col lg={3} md={6} sm={6}> 
                             <Card style={{ width: '13rem' ,height:'19rem',}} className='p-1 mb-2' >
                                 <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>
-                                <div className='icon-sty text-secondary mt-1'><i class="fa-solid fa-heart"></i></div>
+
+                                <div className='icon-sty mt-1' style={{color:wishlist?'black':'gray'}} ><i onClick={()=>setWishlist(true)} class="fa-solid fa-heart"></i></div>
                                     <Card.Img className='card-img img-fluid ' variant="top" src={chrdar2} />
                                 </div>
                                 <Card.Body >

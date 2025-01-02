@@ -9,10 +9,10 @@ import { Link } from 'react-router-dom';
 function Auth({insideRegister}) {
   return (
 
-    <div style={{ overflowX: 'hidden' }}>
+    <div style={{ overflow: 'hidden' }}>
       <div className=' ms-5 me-5 mt-5 mb-3 p-1 shadow' style={{backgroundColor:'rgb(243, 243, 243)'}}>
         <div className=' '>
-          <Row style={{ backgroundColor:'hsl(0, 0.00%, 100.00%)',height:'22rem'}} >
+          <Row style={{ backgroundColor:'hsl(0, 0.00%, 100.00%)',height:'22rem',overflow:'hidden'}} >
             <Col lg={4} style={{backgroundColor:'rgb(255, 255, 255)'}}>
               <div className='p-2 h-100 text-center d-flex justify-content-center align-items-center' style={{backgroundColor:'rgb(243, 243, 243)'}}>
                 <div>
