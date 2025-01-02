@@ -20,7 +20,7 @@ function App() {
       <Routes>
         <Route element={<LandingPage />} path='/' />
         <Route element ={<Auth/>} path='/login'/>
-        <Route element={<Auth/>} path='/register'/>
+        <Route element={<Auth insideRegister={true} /> }  path='/register'/>
       </Routes>
 
       <Footer/>
