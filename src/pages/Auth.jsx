@@ -70,7 +70,7 @@ function Auth({ insideRegister }) {
 
                 {
                   insideRegister &&
-                  <div className='d-flex justify-content-between w-100 h-100'>
+                  <div className='d-flex justify-content-center w-100 h-100'>
                     <label></label>
 
                     <PhoneInput
