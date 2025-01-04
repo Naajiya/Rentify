@@ -3,26 +3,29 @@ import { Col, Row } from 'react-bootstrap'
 import moveOne from '../assets/chrdar2.png'
 import Button from 'react-bootstrap/Button';
 import '../css/AllItemStyle.css'
+import { Link } from 'react-router-dom';
 
 
 function ViewDetails() {
   return (
     <>
       <div>
-        <div className='p-3' >
+        <div className='p-3 mb-5' >
           <Row className='d-flex justify-content-center'>
             <Col lg={4} md={12} className='border text-center  ' style={{ backgroundColor: 'rgb(245, 245, 245)' }}>
               <div className='img-wrapper'>
-                <p  style={{fontSize:'13px'}} className='icon-sty text-success fw-bold w-25'>Available</p>
+                <Link to={'/cart'}><p className='cart-stylw'><i class="fa-solid fa-cart-plus"></i></p></Link>
+                <p style={{ fontSize: '13px' }} className='icon-sty text-success fw-bold w-25'>Available</p>
+                
                 <img className='img-fluid' src={moveOne} alt="" style={{ height: '100%', }} />
               </div>
               <div>
-             <div className='d-flex justify-content-between align-items-between'>
-                <Button className='w-50 m-1 text-dark fw-bold' variant="secondary">Cart</Button>
-                <Button className='w-50 m-1 text-dark fw-bold ' variant="secondary">Buy</Button>
-             </div>
+                <div className='d-flex justify-content-center align-items-between mb-3  ' style={{margin:'-10px'}}>
+                  {/* <Button className='w-50 m-1 text-dark fw-bold' variant="secondary">ACart</Button> */}
+                  {/* <Button className='w-50 m-1 text-dark fw-bold ' variant="secondary">Buy</Button> */}
+                </div>
               </div>
-{/*  https://careers.inkoop.io/job_posts/js-developer-intern/applicants/XN2jbd5v4KdJQZPgxJBg1REi */}
+              {/*  https://careers.inkoop.io/job_posts/js-developer-intern/applicants/XN2jbd5v4KdJQZPgxJBg1REi */}
             </Col>
             <Col lg={7} md={12} style={{ backgroundColor: 'white' }}>
 

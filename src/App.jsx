@@ -6,6 +6,7 @@ import { Route, Routes } from 'react-router-dom'
 import Footer from './components/Footer'
 import Auth from './pages/Auth'
 import ViewDetails from './pages/ViewDetails'
+import Cart from './pages/Cart'
 
 
 
@@ -23,6 +24,7 @@ function App() {
         <Route element ={<Auth/>} path='/login'/>
         <Route element={<Auth insideRegister={true} /> }  path='/register'/>
         <Route element={<ViewDetails/>} path='/viewdetails'/>
+        <Route element={<Cart/> } path='/cart'/>
       </Routes>
 
       <Footer/>

@@ -31,3 +31,17 @@
     justify-content: center;
     display: flex;
 }
+
+.cart-stylw{
+    position: absolute;
+    top: 1%;
+    left: 1%;
+    background-color: transparent;
+    border-radius: 7%;
+    height: 2rem;
+    width: 2rem;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    font-size: 1.1  rem;
+}
