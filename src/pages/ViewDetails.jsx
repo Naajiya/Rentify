@@ -10,8 +10,8 @@ function ViewDetails() {
   return (
     <>
       <div>
-        <div className='p-3 mb-5' >
-          <Row className='d-flex justify-content-center'>
+        <div className='p-5 mb-5 ' >
+          <Row className='d-flex justify-content-center mt-5'>
             <Col lg={4} md={12} className='border text-center  ' style={{ backgroundColor: 'rgb(245, 245, 245)' }}>
               <div className='img-wrapper'>
                 <Link to={'/cart'}><p className='cart-stylw'><i class="fa-solid fa-cart-plus"></i></p></Link>

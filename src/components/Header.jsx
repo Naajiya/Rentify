@@ -37,7 +37,7 @@ function Header() {
 
 
 
-            <Navbar className="bg-body-tertiary"  style={{overflowX:'hidden',position:'sticky'}}>
+            <Navbar className="bg-body-tertiary w-100"  style={{overflowX:'hidden',position:'fixed',zIndex:100}}>
                 <Container>
                     <div >
                         <h2 className=' fw-bold  logo' style={{fontFamily:'cursive'}}>RENTIFY</h2>
