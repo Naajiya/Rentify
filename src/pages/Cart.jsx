@@ -25,16 +25,10 @@ function Cart() {
   return (
     <>
       <div>
-        <h3 className='text-center mt-4'>My Cart</h3>
-        {/* <div>
-      <div className='d-flex justify-content-between m-2 p-3 fw-bold' style={{fontSize:'16px'}}>
-        <p>Product</p>
-        <p>Quantity</p>
-        <p>Days</p>
-        <p>Price</p>
-        <p>Total Price</p>
-      </div>
-    </div> */}
+        <h2 className='text-center p-5 ' style={{backgroundColor:'rgb(232, 233, 232)',fontFamily:'cursive',backgroundAttachment:'fixed'}}>
+          Your Cart
+          </h2>
+        
 
         <div className='m-2'>
           <Table  responsive  className={`table ${isSmallScreen ? 'table-bordered' : ''}`}  >
@@ -82,6 +76,7 @@ function Cart() {
                 <td><i class="fa-solid fa-circle-xmark"></i></td>
 
               </tr>
+
              
             </tbody>
           </Table>

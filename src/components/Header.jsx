@@ -40,7 +40,7 @@ function Header() {
             <Navbar className="bg-body-tertiary"  style={{overflowX:'hidden',position:'sticky'}}>
                 <Container>
                     <div >
-                        <h2 className=' fw-bold  logo'>RENTIFY</h2>
+                        <h2 className=' fw-bold  logo' style={{fontFamily:'cursive'}}>RENTIFY</h2>
 
                     </div>
                     <Form inline>

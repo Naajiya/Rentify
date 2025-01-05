@@ -24,7 +24,7 @@ function LandingPage() {
 
           <Col lg={6} md={12}>
             <div className='d-flex flex-column justify-content-center text-center align-items-center' style={{ top: '5rem' }}>
-              <h1 className='home-logo  ' style={{ marginTop: '7rem' }}> RENTIFY
+              <h1 className='home-logo  ' style={{ marginTop: '5rem',fontFamily: 'cursive' }}> RENTIFY
 
               </h1>
               <span style={{ fontFamily: 'cursive', fontSize: '10px' }}>
@@ -43,7 +43,7 @@ function LandingPage() {
                     '',
                     500,
                   ]}
-                  style={{ fontSize: '2em' }}
+                  style={{ fontSize: '2em',fontFamily: 'cursive' }}
                   repeat={Infinity}
                 />
               </span>
@@ -61,7 +61,7 @@ function LandingPage() {
           <Col lg={6} md={12}>
             <div className='d-flex text-center justify-content-center'>
               <div className='style-card'>
-                <div className='mt-3 m-1'>
+                <div className=' m-1'>
                   <marquee>
                     <img className='img-sty m-1' src={move} alt="" />
                     <img className='img-sty m-1' src={men1} alt="" />
