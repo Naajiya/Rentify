@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Table from 'react-bootstrap/Table';
 import chrdar from '../assets/chrdar2.png'
 import { Button, Col, Row } from 'react-bootstrap';
+import BottomDrawer from '../components/BottomDrawer';
 
 
 
@@ -125,7 +126,10 @@ function Cart() {
           </Col>
         </Row>
 
+        <BottomDrawer/>
+
       </div>
+      
     </>
   )
 }
