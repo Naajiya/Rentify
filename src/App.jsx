@@ -7,6 +7,7 @@ import Footer from './components/Footer'
 import Auth from './pages/Auth'
 import ViewDetails from './pages/ViewDetails'
 import Cart from './pages/Cart'
+import Address from './components/Address'
 
 
 
@@ -25,6 +26,7 @@ function App() {
         <Route element={<Auth insideRegister={true} /> }  path='/register'/>
         <Route element={<ViewDetails/>} path='/viewdetails'/>
         <Route element={<Cart/> } path='/cart'/>
+        <Route element={<Address/>} path='/address'/>
       </Routes>
 
       {/* <Footer/> */}

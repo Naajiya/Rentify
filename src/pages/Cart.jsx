@@ -50,7 +50,7 @@ function Cart() {
               </tr>
             </thead>
             <tbody>
-              <tr onClick={helo}>
+              <tr onClick={helo} >
                 <td className='d-flex h-100 align-items-center' >
                   <div>
                     <img className='img-fluid' src={chrdar} alt="Placeholder" style={{ width: '10vw', maxWidth: '50px', height: '10vw', maxHeight: '80px', backgroundColor: 'gray  ' }} />
@@ -126,7 +126,7 @@ function Cart() {
           </Col>
         </Row>
 
-        <BottomDrawer/>
+<BottomDrawer/>    
 
       </div>
       
