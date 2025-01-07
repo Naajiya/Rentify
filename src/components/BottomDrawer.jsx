@@ -39,8 +39,9 @@ export default function BottomDrawer() {
           </div>
 
           <div className='m-2'>
-            <Link to={'/address'}><Button color="secondary" className='fw-bold w-25'>Continue</Button></Link>
+            <Link to='/address'><Button color="secondary" className='fw-bold w-25'>Continue</Button></Link>
             </div>
+            
         </div>
       </Drawer>
     </div>
