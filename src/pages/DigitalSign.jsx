@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Button, Row } from 'react-bootstrap';
+import { Button, Col, Row } from 'react-bootstrap';
 import ReactDOM from 'react-dom'
 import SignatureCanvas from 'react-signature-canvas'
 Button
@@ -7,51 +7,58 @@ Button
 
 function DigitalSign() {
     const sigPad = useRef(null);
-    const [currentSign,setCurrentSign]=useState('')
+    const [currentSign, setCurrentSign] = useState('')
 
-    const saveSignature=()=>{
+    const saveSignature = () => {
 
-        if(sigPad.current.isEmpty()){
+        if (sigPad.current.isEmpty()) {
             alert('please draw and save')
-        }else{
+        } else {
 
             // remove all whitespace trim()
-        const savedSign = sigPad.current?.getTrimmedCanvas();
-        // get signature image
-        const dataUrl= savedSign.toDataURL('image/png')
-        console.log(dataUrl)
-        setCurrentSign(dataUrl)
-            
+            const savedSign = sigPad.current?.getTrimmedCanvas();
+            // get signature image
+            const dataUrl = savedSign.toDataURL('image/png')
+            console.log(dataUrl)
+            setCurrentSign(dataUrl)
+
         }
 
-        
+
     }
 
-    
-    useEffect(()=>{
+    const clearSign=()=>{
+        sigPad.current.clear()
+        setCurrentSign('')
+    }
 
-    },currentSign?.currentSign)
+
+    useEffect(() => {
+
+    }, currentSign?.currentSign)
     return (
         <>
             <div className='p-5  '>
                 <div className='pt-5 '>
                     <Row className='d-flex justify-content-center align-items-center text-center'>
-                        <div>
-                            <SignatureCanvas 
-                            ref={sigPad}
-                            penColor='green'
-                            canvasProps={{width: 300, height: 300, className: 'sigCanvas border border-3'}} />
-<div>
+                        <Col>
+                            <div>
+                                <SignatureCanvas
+                                    ref={sigPad}
+                                    penColor='black'
+                                    
+                                    canvasProps={{ width: 300, height: 300, className: 'sigCanvas border border-3'  }} />
+                                <div>
     
-                                <Button onClick={saveSignature}>Save</Button>
-                                <Button >Clear</Button>
-</div>
-                        </div>
-                        
-                    </Row>
-                    <Row>
-                    {currentSign && (
-                            <div className='text-center p-2 mt-3'>
+                                    <Button onClick={saveSignature}>Save</Button>
+                                    <Button onClick={clearSign}>Clear</Button>
+                                </div>
+                            </div>
+    
+                        </Col>
+                        <Col>
+                        {currentSign && (
+                            <div className='text-center '>
                                 <h2>Your Sign</h2>
                                 <img
                                     src={currentSign}
@@ -61,6 +68,10 @@ function DigitalSign() {
                                 />
                             </div>
                         )}
+                        </Col>
+                    </Row>
+                    <Row>
+                       
                     </Row>
                 </div>
 

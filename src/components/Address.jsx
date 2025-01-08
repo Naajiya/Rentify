@@ -15,7 +15,8 @@ import Option from '@mui/joy/Option';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
+import Modal from 'react-bootstrap/Modal';
+import OtpInput from 'react-otp-input';
 
 
 // import { Button as BootstrapButton } from 'react-bootstrap';
@@ -23,8 +24,16 @@ import { Link } from 'react-router-dom';
 function Address() {
   // const inputRef = React.useRef(null);
   const [dates, setDates] = useState({ day: null, month: null, year: null })
-  const [dataToSign, setDataToSign] = useState('');
-  const [signature, setSignature] = useState('');
+  
+
+  const [otp, setOtp] = useState('');
+
+  const [show, setShow] = useState(false);
+  
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+
   console.log("dates", dates)
 
   useEffect(() => {
@@ -52,7 +61,7 @@ function Address() {
 
             <Row className='d-flex justify-content-center'>
               <Col lg={7}>
-                <div className='border p-2 rounded'>
+                <div className='border p-2 rounded shadow'>
 
                   {/* phone number verification */}
                   <div className='d-flex border p-2 border-dark rounded' >
@@ -63,7 +72,7 @@ function Address() {
                       className='w-50 m-2 mt-3'
                     />
                     {/* get otp */}
-                    <Button variant="plain" className='h-25 mt-3' size='sm'>Get OTP</Button>
+                    <Button  onClick={handleShow} variant="plain" className='h-25 mt-3' size='sm'>Get OTP</Button>
                   </div>
 
                   <div className='d-flex m-2'>
@@ -215,6 +224,32 @@ function Address() {
 
           </div>
         </div>
+
+        <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+
+        </Modal.Header>
+        <Modal.Body>
+          <div className='text-center d-flex justify-content-center align-items-center w-100 h-100 '>
+            <OtpInput
+              value={otp}
+              onChange={setOtp}
+              inputType='number'
+              numInputs={4}
+              renderSeparator={<span>-</span>}
+              renderInput={(props) => <input {...props} 
+              style={{width:'4rem', height:'4rem'}}
+              className='text-center'
+              
+              />}
+            />
+          </div>
+          <div className='text-center'>
+            <Button variant='dark' className='m-3'>Verify</Button>
+          </div>
+        </Modal.Body>
+
+      </Modal>
 
       </div>
     </>

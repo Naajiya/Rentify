@@ -5,6 +5,7 @@ import chair from '../assets/chair.jpg'
 import tend from '../assets/tend.jpg'
 import kambi from '../assets/kambi.jpg'
 import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom'
 
 
 function Advertise() {
@@ -28,7 +29,7 @@ function Advertise() {
                 <div className='p-5'>
                     <h4 style={{fontFamily:'cursive'}} className=''>Start renting smarter. Sign up and explore!</h4>
                     <p style={{fontFamily:'cursive'}}>Why buy when you can rent? Get started now!  </p>
-                    <Button style={{fontFamily:'cursive'}} variant="outline-dark">SignUp Now</Button>
+                   <Link to={'/register'}> <Button style={{fontFamily:'cursive'}} variant="outline-dark">SignUp Now</Button></Link>
                 </div>
                 </Col>
             </Row>
