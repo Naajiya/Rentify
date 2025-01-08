@@ -24,6 +24,7 @@
     "react-phone-number-input": "^3.4.10",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.1.0",
+    "react-signature-canvas": "^1.0.7",
     "react-toastify": "^11.0.2",
     "react-type-animation": "^3.2.0"
   },

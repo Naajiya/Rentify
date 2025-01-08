@@ -8,6 +8,7 @@ import Auth from './pages/Auth'
 import ViewDetails from './pages/ViewDetails'
 import Cart from './pages/Cart'
 import Address from './components/Address'
+import DigitalSign from './pages/DigitalSign'
 
 
 
@@ -27,6 +28,7 @@ function App() {
         <Route element={<ViewDetails/>} path='/viewdetails'/>
         <Route element={<Cart/> } path='/cart'/>
         <Route element={<Address/>} path='/address'/>
+        <Route element={<DigitalSign/>} path='/digitalsign'/>
       </Routes>
 
       {/* <Footer/> */}

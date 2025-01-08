@@ -14,6 +14,8 @@ import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+
 
 
 // import { Button as BootstrapButton } from 'react-bootstrap';
@@ -21,6 +23,8 @@ import { useEffect } from 'react';
 function Address() {
   // const inputRef = React.useRef(null);
   const [dates, setDates] = useState({ day: null, month: null, year: null })
+  const [dataToSign, setDataToSign] = useState('');
+  const [signature, setSignature] = useState('');
   console.log("dates", dates)
 
   useEffect(() => {
@@ -46,7 +50,7 @@ function Address() {
         <div className='p-5'>
           <div className='pt-5 '>
 
-            <Row>
+            <Row className='d-flex justify-content-center'>
               <Col lg={7}>
                 <div className='border p-2 rounded'>
 
@@ -173,14 +177,40 @@ function Address() {
                   </div>
 
                   <div className='d-flex justify-content-end'>
-                    <Button variant="outline-danger m-2 bg-dark text-light" size='sm'>Save And Continue</Button>
+                    <Link to={'/digitalsign'}>
+                      <Button variant="outline-danger m-2 bg-dark text-light" size='sm'>Save And Continue</Button>
+                    </Link>
                   </div>
 
                 </div>
 
               </Col>
 
+              {/* <Col lg={5}>
+                <div className='border p-3 rounded'>
+                  <div>
+                    jeo
+                  </div>
+                </div>
+              </Col> */}
+
             </Row>
+
+            {/* <Row>
+
+              <h2>Digital Signature Example</h2>
+              <textarea
+                value={dataToSign}
+                onChange={(e) => setDataToSign(e.target.value)}
+                placeholder="Enter data to sign"
+              />
+              <button >Sign</button>
+              <br />
+              <p>Signature: {signature}</p>
+              <button>Verify</button>
+              <p>Verification Result: </p>
+
+            </Row> */}
 
 
           </div>
