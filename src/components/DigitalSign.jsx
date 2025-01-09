@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Button, Col, Row } from 'react-bootstrap';
 import ReactDOM from 'react-dom'
 import SignatureCanvas from 'react-signature-canvas'
-Button
+
 
 
 function DigitalSign() {
@@ -38,20 +38,20 @@ function DigitalSign() {
     }, currentSign?.currentSign)
     return (
         <>
-            <div className='p-5  '>
-                <div className='pt-5 '>
-                    <Row className='d-flex justify-content-center align-items-center text-center'>
+            <div className='ps-2 '>
+                <div className='mt-3 '>
+                    <Row className='d-flex justify-content-center align-items-center'>
                         <Col>
                             <div>
                                 <SignatureCanvas
                                     ref={sigPad}
                                     penColor='black'
                                     
-                                    canvasProps={{ width: 300, height: 300, className: 'sigCanvas border border-3'  }} />
-                                <div>
+                                    canvasProps={{ width: 300, height: 300, className: 'sigCanvas border shadow border-3'  }} />
+                                <div className=''>
     
-                                    <Button onClick={saveSignature}>Save</Button>
-                                    <Button onClick={clearSign}>Clear</Button>
+                                    <Button variant='dark' size='sm' className='p-2 bold' style={{fontSize:'14px'}} onClick={saveSignature}>Save</Button>
+                                    <Button variant='dark' size='sm' onClick={clearSign}>Clear</Button>
                                 </div>
                             </div>
     
@@ -70,9 +70,7 @@ function DigitalSign() {
                         )}
                         </Col>
                     </Row>
-                    <Row>
-                       
-                    </Row>
+                    
                 </div>
 
             </div>
