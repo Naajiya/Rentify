@@ -1,9 +1,10 @@
-.container{
+.container {
     display: flex;
     overflow: auto;
 }
 
-.box-card{
+.box-card {
+    flex-shrink: 0; /* Prevent shrinking */
     height: 15rem;
     width: 4rem;
     background-color: white;
@@ -13,35 +14,25 @@
     transition: width 0.5s ease;
 }
 
-.box-card.first{
-    width: 10rem;
+.box-card.first {
+    width: 10rem; /* Set the initial size for the first card */
 }
 
-.first:hover{
-    width: 10rem;
+.box-card:hover {
+    width: 10rem; /* Expand on hover */
 }
-
-.box-card:hover{
-    width: 10rem;
-}
-
-/* .container:hover .box-card.first {
-    width: 8rem;
-} */
-
 
 .container:hover .box-card.first:not(:hover) {
-    width:4rem;
+    width: 4rem; /* Reduce size for the first card when hovered over the container but not the first card */
 }
 
-.img-style{
-    /* background-size: cover; */
+.img-style {
     height: 100% !important;
     width: 100%;
     border-radius: 5%;
     object-fit: cover;
 }
 
-.body-color{
+.body-color {
     background-color: rgb(243, 243, 243);
 }

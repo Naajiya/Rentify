@@ -187,6 +187,15 @@ function Address() {
 
                   </div>
 
+                  <div className='ms-3 mt-3'>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                      <label class="form-check-label" for="flexCheckDefault" className='text-secondary' style={{fontSize:'12px'}}>
+                      I agree to the Terms and Conditions, and my Aadhaar number and Digital signature serve as legal consent
+                      </label>
+                    </div>
+                  </div>
+
                   <div className='d-flex justify-content-end'>
 
                     <Button variant="outline-danger m-2 bg-dark text-light" size='sm'>Save And Continue</Button>
@@ -200,21 +209,21 @@ function Address() {
 
               <Col lg={5} className='text-center d-flex flex-column justify-content-center align-items-center'>
 
-              <Aadhar/>
-              <div className='text-center d-flex flex-column justify-content-center align-items-center mt-4 '>
-                <div>
-                  Draw your sign
+                <Aadhar />
+                <div className='text-center d-flex flex-column justify-content-center align-items-center mt-4 '>
+                  <div>
+                    Draw your sign
+                  </div>
+                  <DigitalSign />
+
                 </div>
-              <DigitalSign/>
-              
-              </div>
-              
+
               </Col>
 
-            
+
             </Row>
 
-           
+
 
 
           </div>
