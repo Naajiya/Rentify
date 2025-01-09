@@ -50,8 +50,8 @@ function DigitalSign() {
                                     canvasProps={{ width: 300, height: 300, className: 'sigCanvas border shadow border-3'  }} />
                                 <div className=''>
     
-                                    <Button variant='dark' size='sm' className='p-2 bold' style={{fontSize:'14px'}} onClick={saveSignature}>Save</Button>
-                                    <Button variant='dark' size='sm' onClick={clearSign}>Clear</Button>
+                                    <Button variant='dark' size='sm' className='m-2 bold' style={{fontSize:'14px'}} onClick={saveSignature}>Save</Button>
+                                    <Button variant='dark' size='sm' className='bold m-2' style={{fontSize:'14px'}} onClick={clearSign}>Clear</Button>
                                 </div>
                             </div>
     

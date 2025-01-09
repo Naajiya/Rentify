@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import OtpInput from 'react-otp-input';
 import DigitalSign from './DigitalSign'
+import Aadhar from './Aadhar';
 
 
 // import { Button as BootstrapButton } from 'react-bootstrap';
@@ -198,7 +199,16 @@ function Address() {
 
 
               <Col lg={5} className='text-center d-flex flex-column justify-content-center align-items-center'>
+
+              <Aadhar/>
+              <div className='text-center d-flex flex-column justify-content-center align-items-center mt-4 '>
+                <div>
+                  Draw your sign
+                </div>
               <DigitalSign/>
+              
+              </div>
+              
               </Col>
 
             

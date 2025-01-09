@@ -3,6 +3,10 @@ import Table from 'react-bootstrap/Table';
 import chrdar from '../assets/chrdar2.png';
 import { Button, Col, Row } from 'react-bootstrap';
 import BottomDrawer from '../components/BottomDrawer';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+
 
 function Cart() {
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 768);
@@ -45,6 +49,8 @@ function Cart() {
               </tr>
             </thead>
             <tbody>
+            <Tooltip title="click" placement="bottom">
+            
               <tr onClick={() => toggleDrawer(true)} style={{ cursor: 'pointer' }}>
                 <td className='d-flex h-100 align-items-center'>
                   <div>
@@ -77,6 +83,7 @@ function Cart() {
                   <i className="fa-solid fa-circle-xmark"></i>
                 </td>
               </tr>
+              </Tooltip>
             </tbody>
           </Table>
         </div>
