@@ -8,6 +8,8 @@ import Auth from './pages/Auth'
 import ViewDetails from './pages/ViewDetails'
 import Cart from './pages/Cart'
 import Address from './components/Address'
+import HomePage from '../Admin/pags/HomePage'
+import Login from '../Admin/pags/Login'
 
 
 
@@ -28,10 +30,13 @@ function App() {
         <Route element={<ViewDetails/>} path='/viewdetails'/>
         <Route element={<Cart/> } path='/cart'/>
         <Route element={<Address/>} path='/address'/>
+
+
+        <Route element={<Login/>} path='/admin/login'/>
         
       </Routes>
 
-      {/* <Footer/> */}
+      <Footer/>
 
 
 

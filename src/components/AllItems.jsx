@@ -26,7 +26,7 @@ function AllItems() {
                     </div>
                     <Row lg={4}>
                         <Col lg={3} md={6} sm={6}>
-                            <Card style={{ width: '13rem', height: '19rem', }} className='p-1 mb-2' >
+                            <Card style={{ width: '13rem', height: '19rem', }} className='p-1 mb-2 border-none' >
                                 <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>
 
                                     {/* <div className='icon-sty mt-1' style={{color:wishlist?'black':'gray'}} ><i onClick={()=>setWishlist(true)} class="fa-solid fa-heart"></i></div> */}

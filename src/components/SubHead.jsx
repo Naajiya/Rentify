@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
+import menWomen from '../assets/menwomen.jpg'
+import furniture from '../assets/furnitures.jpg'
 
 
 function SubHead() {
@@ -14,18 +16,19 @@ function SubHead() {
   const [isHoveredKitchen, setIsHoveredKitchen] = useState(false)
   return (
     <>
-     <Row className='w-100 sub-head'>
-        <div className='d-flex  justify-content-center w-100  hover-contaier  mt-1 ' style={{ backgroundColor: 'rgb(243, 243, 243)',overflowX:'auto'}}>
+     <Row className='w-100 sub-head mt-1 '>
+        <div className='d-flex  justify-content-center w-100  hover-contaier  mt-3 ' style={{ backgroundColor: 'rgb(255, 255, 255)',overflowX:'auto'}}>
   
           {/* men */}
           <Button
-            className='border border-light fw-bold hover-button m-1'
+            className='d-flex flex-column justify-content-center align-items-center fw-bold hover-button m-1'
             onMouseEnter={() => setIsHoveredMen(true)}
             onMouseLeave={() => setIsHoveredMen(false)}
             variant=""
-            style={{fontSize:'11px'}}
+            style={{fontSize:'12px', fontFamily:'cursive'}}
           >
-            MEN
+            <img className='sub-img img-fluid border shadow' src={menWomen} alt="" />
+            <p className='text-center'>Fashion</p>
           </Button>
   
           {
@@ -43,9 +46,13 @@ function SubHead() {
           }
   
   
-          {/* women */}
-          <Button className='border border-light fw-bold hover-button m-1' style={{fontSize:'11px'}} onMouseEnter={() => setIsHoverWomen(true)}
-            onMouseLeave={() => setIsHoverWomen(false)} variant="">WOMEN</Button>
+          {/* Furniture */}
+          <Button className='d-flex flex-column justify-content-center align-items-center fw-bold hover-button m-1' style={{fontSize:'11px'}} onMouseEnter={() => setIsHoverWomen(true)}
+            onMouseLeave={() => setIsHoverWomen(false)} variant="">
+               <img className='sub-img img-fluid border shadow' src={furniture} alt="" />
+               <p className='text-center'>Furniture</p>
+
+            </Button>
           {
             isHoverWomen &&
             <div

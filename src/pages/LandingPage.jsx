@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import SubHead from '../components/SubHead'
 import BgImg from '../assets/bg-rental.png'
 import '../css/LandingStyle.css'
@@ -13,11 +13,26 @@ import Advertise from '../components/Advertise'
 
 
 
-
 function LandingPage() {
+
+  // const images=[
+  //   move,men1,chrdar2
+  // ];
+
+  // const [currentImg,setCurrentImg]=useState(images[0]);
+
+  // useEffect(()=>{
+
+  //   const interval = setInterval(()=>{
+  //     const randmIndex = Math.floor(Math.random()*images.length)
+  //     setCurrentImg(images[randmIndex])
+  //   },2800)
+  // },[images])
+
   return (
     <>
-      <SubHead />
+    
+      {/* <SubHead /> */}
       <div className='parallax'>
 
         <Row>
@@ -58,20 +73,24 @@ function LandingPage() {
 
           </Col>
 
+           
+
           <Col lg={6} md={12}>
             <div className='d-flex text-center justify-content-center'>
               <div className='style-card'>
-                <div className=' m-1'>
-                  <marquee>
-                    <img className='img-sty m-1' src={move} alt="" />
-                    <img className='img-sty m-1' src={men1} alt="" />
-                    <img className='img-sty m-1' src={chrdar2} alt="" />
-                    <img className='img-sty m-1' src={move} alt="" />
-                    <img className='img-sty m-1' src={men1} alt="" />
-                    <img className='img-sty m-1' src={chrdar2} alt="" />
-                  </marquee>
+                <div className='m-1'>
+                   {/* <img className='img-sty' src={currentImg} alt="" /> */}
+                    <marquee>
+                      <img className='img-sty m-1' src={move} alt="" />
+                      <img className='img-sty m-1' src={men1} alt="" />
+                      <img className='img-sty m-1' src={chrdar2} alt="" />
+                      <img className='img-sty m-1' src={move} alt="" />
+                      <img className='img-sty m-1' src={men1} alt="" />
+                      <img className='img-sty m-1' src={chrdar2} alt="" />
+                    </marquee>
                 </div>
               </div>
+             
             </div>
             {/* <TypeAnimation
               sequence={[
