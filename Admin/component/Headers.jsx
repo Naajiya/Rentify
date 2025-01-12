@@ -1,5 +1,6 @@
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
+import { Link } from 'react-router-dom';
 
 function Headers() {
   return (
@@ -11,6 +12,7 @@ function Headers() {
             <div className="text-light d-flex">
               <p className='m-2'>Order</p>
               <p className='m-2'>DashBoard</p>
+             <Link to={'/admin/items'}> <p className='m-2'>Items</p></Link>
             </div>
             <div>
               <button className="btn btn-light">Logout</button>
