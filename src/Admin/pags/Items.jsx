@@ -1,14 +1,14 @@
 import React from 'react'
-import AddItems from '../component/AddItems'
-import Headers from '../component/Headers'
 import Table from 'react-bootstrap/Table';
+import AddItems from '../component/AddItems'
+import Header from '../component/Header';
 
 
 
 function Items() {
     return (
         <>
-            <Headers />
+            <Header />
             <div className='p-3'>
                 <div className='d-flex justify-content-end align-items-end bg-light p-2'>
                     <AddItems />

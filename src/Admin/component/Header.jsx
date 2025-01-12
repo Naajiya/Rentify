@@ -2,7 +2,7 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 
-function Headers() {
+function Header() {
   return (
     <>
       <div className="bg-dark">
@@ -24,4 +24,4 @@ function Headers() {
   );
 }
 
-export default Headers;
+export default Header;

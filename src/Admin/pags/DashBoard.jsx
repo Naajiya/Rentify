@@ -1,9 +1,10 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
-import Headers from '../component/Headers'
+import Header from '../component/Header'
 
 
-function Dashboard() {
+
+function DashBoard() {
     return (
         <>
             <Headers />
@@ -22,4 +23,4 @@ function Dashboard() {
     )
 }
 
-export default Dashboard
+export default DashBoard
