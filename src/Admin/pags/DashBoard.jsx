@@ -7,7 +7,7 @@ import Header from '../component/Header'
 function DashBoard() {
     return (
         <>
-            <Headers />
+            <Header />
             <div className='p-4'>
                 <div className='mt-5'>
                     <div>

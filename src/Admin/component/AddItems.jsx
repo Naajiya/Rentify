@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
-
+import img from '../../assets/upldlog.png'
 
 
 function AddItems() {
@@ -25,32 +25,61 @@ function AddItems() {
                     AddItmes
                 </div>
 
-                <Modal show={show} onHide={handleClose}>
+                <Modal size='lg' show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Modal heading</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
 
-                        <div className='d-flex m-3 mb-4'>
-                            <div className='bg-dark border rounded m-2' style={{height:'6rem',width:'6rem'}}>
-                                <img src="" alt="" />
+                        <div className='d-flex m-3 mb-4 justify-content-center '>
+                            <div className='bg-dark border rounded m-2' style={{ height: '6rem', width: '6rem' }}>
+                                <img className='img-fluid' style={{ height: '100%' }} src={img} alt="" />
                             </div>
-                            <div className='bg-dark border rounded m-2' style={{height:'6rem',width:'6rem'}}></div>
-                            <div className='bg-dark border rounded m-2' style={{height:'6rem',width:'6rem'}}></div>
-                            <div className='bg-dark border rounded m-2' style={{height:'6rem',width:'6rem'}}></div>
+                            <div className='bg-dark border rounded m-2' style={{ height: '6rem', width: '6rem' }}>
+                                <img className='img-fluid' style={{ height: '100%' }} src={img} alt="" />
+                            </div>
+                            <div className='bg-dark border rounded m-2' style={{ height: '6rem', width: '6rem' }}>
+                                <img className='img-fluid' style={{ height: '100%' }} src={img} alt="" />
+                            </div>
+                            <div className='bg-dark border rounded m-2' style={{ height: '6rem', width: '6rem' }}>
+                                <img className='img-fluid' style={{ height: '100%' }} src={img} alt="" />
+                            </div>
 
                         </div>
 
                         <FloatingLabel
-                            controlId="floatingInput"
-                            label="Email address"
+                            controlId="floatingInput1"
+                            label="Product Name"
                             className="mb-3"
                         >
-                            <Form.Control type="email" placeholder="name@example.com" />
+                            <Form.Control type="text" placeholder="Product Name" />
                         </FloatingLabel>
-                        <FloatingLabel controlId="floatingPassword" label="Password">
-                            <Form.Control type="password" placeholder="Password" />
+
+                        <FloatingLabel
+                            controlId="floatingInput2"
+                            label="Product Description"
+                            className="mb-3"
+                        >
+                            <Form.Control type="text" placeholder="Product Description" />
                         </FloatingLabel>
+
+                        <div className='d-flex'>
+                            <Form.Select aria-label="Default select example" className='w-50 m-2'>
+                                <option>Category</option>
+                                <option value="1">Men</option>
+                                <option value="2">Women</option>
+                                <option value="3">Furniture</option>
+                            </Form.Select>
+
+                            <FloatingLabel
+                                controlId="floatingInput3"
+                                label="Price"
+                                className="mb-3 w-50 m-2"
+                            >
+                                <Form.Control type="number" placeholder="Price" />
+                            </FloatingLabel>
+                        </div>
+
 
                     </Modal.Body>
                     <Modal.Footer>
