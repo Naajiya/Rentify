@@ -19,10 +19,10 @@ function Items() {
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Product Name</th>
+                                <th>Product </th>
                                 <th>Price</th>
                                 <th>Category</th>
-                                <th>Details</th>
+                                <th>Product Details</th>
                                 <th>Size</th>
                             </tr>
                         </thead>

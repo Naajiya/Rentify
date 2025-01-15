@@ -25,7 +25,7 @@ function AddItems() {
                     AddItmes
                 </div>
 
-                <Modal size='lg' show={show} onHide={handleClose}>
+                <Modal size='md' show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Modal heading</Modal.Title>
                     </Modal.Header>
@@ -78,6 +78,31 @@ function AddItems() {
                             >
                                 <Form.Control type="number" placeholder="Price" />
                             </FloatingLabel>
+                        </div>
+
+                        <div className='m-2'>
+                            <p className='fw-bold'>Select Size</p>
+                            <Form.Check
+                                inline
+                                label="S"
+                                name="group1"
+                                type='checkbox'
+                                
+                            />
+                            <Form.Check
+                                inline
+                                label="M"
+                                name="group1"
+                                type='checkbox'
+                                
+                            />
+                             <Form.Check
+                                inline
+                                label="L"
+                                name="group1"
+                                type='checkbox'
+                                
+                            />
                         </div>
 
 
