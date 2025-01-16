@@ -31,6 +31,7 @@ function LandingPage() {
 
   return (
     <>
+    {/* <Header/> */}
     
       {/* <SubHead /> */}
       <div className='parallax'>

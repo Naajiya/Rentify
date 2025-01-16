@@ -17,8 +17,8 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import OtpInput from 'react-otp-input';
-import DigitalSign from './DigitalSign'
-import Aadhar from './Aadhar';
+import DigitalSign from '../components/DigitalSign'
+import Aadhar from '../components/Aadhar';
 
 
 // import { Button as BootstrapButton } from 'react-bootstrap';
@@ -198,7 +198,7 @@ function Address() {
 
                   <div className='d-flex justify-content-end'>
 
-                    <Button variant="outline-danger m-2 bg-dark text-light" size='sm'>Save And Continue</Button>
+                    <Link to={'/bookedItems'}><Button variant="outline-danger m-2 bg-dark text-light" size='sm'>Save And Continue</Button></Link>
 
                   </div>
 

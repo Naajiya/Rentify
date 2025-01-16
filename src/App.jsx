@@ -7,10 +7,12 @@ import Footer from './components/Footer'
 import Auth from './pages/Auth'
 import ViewDetails from './pages/ViewDetails'
 import Cart from './pages/Cart'
-import Address from './components/Address'
+
 import Login from './Admin/pags/Login'
 import DashBoard from './Admin/pags/DashBoard'
 import Items from './Admin/pags/Items'
+import Address from './pages/Address'
+import BookedItems from './pages/BookedItems'
 // import Login from '../Admin/pags/Login'
 // import Dashboard from '../Admin/pags/Dashboard'
 // import Items from '../Admin/pags/Items'
@@ -33,6 +35,7 @@ function App() {
         <Route element={<ViewDetails/>} path='/viewdetails'/>
         <Route element={<Cart/> } path='/cart'/>
         <Route element={<Address/>} path='/address'/>
+        <Route element={<BookedItems/>} path='/bookedItems'/>
 
 
         <Route element={<Login/>} path='/admin/login'/>
