@@ -8,8 +8,8 @@ function BookedItems() {
       <Header />
 
       <div className='pt-5'>
-        <div className='pt-4' style={{backgroundColor:'rgb(235, 232, 232)'}}>
-          <div className='p-5'>
+        <div className='pt-2' style={{backgroundColor:'rgb(235, 232, 232)'}}>
+          <div className='p-2'>
             <div style={{ fontFamily: 'cursive' }} className=' fs-3 text-dark text-center'>Your Bookings</div>
           </div>
         </div>
