@@ -8,10 +8,19 @@
     /* margin: -1%; */
 }
 
-.card{
-   
-    border-radius: 20px;
-}
+.card {
+    width: 300px;
+    height: 200px;
+    transition: transform 0.5s ease; /* Smooth scaling */
+    border: none;
+  }
+  
+  .card:hover {
+    transform: scale(1.01); /* Slightly enlarges the card */
+    /* color: blue; */
+    /* background-color:rgb(243, 243, 243) ; */
+    border: none;
+  }
 
 .img-wrapper{
     height: 100%;

@@ -9,7 +9,7 @@ function BookedItems() {
 
       <div className='pt-5'>
         <div className='pt-2' style={{backgroundColor:'rgb(235, 232, 232)'}}>
-          <div className='p-2'>
+          <div className='p-4 '>
             <div style={{ fontFamily: 'cursive' }} className=' fs-3 text-dark text-center'>Your Bookings</div>
           </div>
         </div>
