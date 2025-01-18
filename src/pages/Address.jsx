@@ -43,14 +43,20 @@ function Address() {
   }, [])
 
   const today = () => {
-    const date = new Date()
-    console.log(date)
-    const m = date.getMonth()
-    const d = date.getDate()
-    const y = date.getFullYear()
-    console.log(d)
 
-    setDates({ day: d, month: m, year: y })
+    const date = new Date();
+    console.log(date); 
+    const m = date.getMonth(); 
+    let d = date.getDate(); 
+    const y = date.getFullYear(); 
+    console.log(d);
+
+    const newDate = new Date(date.setDate(d + 5)); 
+    const newDay = newDate.getDate(); 
+    const newMonth = newDate.getMonth(); 
+    const newYear = newDate.getFullYear();
+
+    setDates({ day: newDay, month: newMonth, year: newYear });
   }
 
 
