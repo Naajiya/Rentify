@@ -1,14 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
-
+import { ToastContainer, toast } from 'react-toastify';
+import { adminLogin } from '../../../services/allApi';
 
 
 
 function Login() {
+
+    const [adminlog, setAdminLog] = useState({ email: "", password: "" });
+    console.log(adminlog)
+
+    const handleAdminLog = async (e) => {
+        e.preventDefault()
+        if (adminlog.email && adminlog.password) {
+            try {
+                const result = await adminLogin(adminlog)
+                console.log(result)
+            } catch (err) {
+                console.log(err)
+            }
+        } else {
+            toast.warning("enter the fields completly..")
+        }
+    }
+
     return (
         <>
             <div className='pt-5 bg-dark'>
@@ -26,18 +45,25 @@ function Login() {
                                         label="Email address"
                                         className="mb-3 bg-dark text-light "
                                     >
-                                        <Form.Control type="email" className='bg-dark border-light text-light w-100' placeholder="name@example.com" />
+                                        <Form.Control type="email" onChange={(e) => { setAdminLog({ ...adminlog, email: e.target.value }) }} className='bg-dark border-light text-light w-100' placeholder="name@example.com" />
                                     </FloatingLabel>
 
                                     <FloatingLabel controlId="floatingPassword" className="mb-3 bg-dark text-light " label="Password">
-                                        <Form.Control type="password" className='bg-dark border-light text-light w-100' placeholder="Password" />
+                                    <Form.Control type="password" onChange={(e) => { setAdminLog({ ...adminlog, password: e.target.value }) }} className='bg-dark border-light text-light w-100' placeholder="passwoed" />
                                     </FloatingLabel>
-                                   <Link to={'/admin/dashboard'} > <Button variant="outline-secondary">login</Button></Link>
+                                    <Button onClick={(e) => handleAdminLog(e)} variant="outline-secondary">login</Button>
                                 </div>
                             </Col>
                         </Row>
                     </div>
                 </div>
+
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    theme='colored'
+                />
+
             </div>
         </>
     )
