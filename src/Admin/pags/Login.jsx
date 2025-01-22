@@ -3,13 +3,15 @@ import { Col, Row } from 'react-bootstrap'
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { adminLogin } from '../../../services/allApi';
 
 
 
 function Login() {
+
+    const navigate =useNavigate()
 
     const [adminlog, setAdminLog] = useState({ email: "", password: "" });
     console.log(adminlog)
@@ -19,7 +21,21 @@ function Login() {
         if (adminlog.email && adminlog.password) {
             try {
                 const result = await adminLogin(adminlog)
-                console.log(result)
+                if(result.status == 200){
+                    toast.success("successfully logined")
+                    navigate('/admin/dashBoard');
+                    setAdminLog({email:"",password:""})
+                }else{
+                    if (result.status == 400) {
+                        toast.warning(result.response.data)
+                        setAdminLog({email:"",password:""})
+            
+                      }
+                }
+
+                
+                
+
             } catch (err) {
                 console.log(err)
             }
