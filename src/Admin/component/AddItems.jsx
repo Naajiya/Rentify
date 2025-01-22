@@ -8,21 +8,45 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import img from '../../assets/upldlog.png'
 import img2 from '../../assets/upldlog2.png'
+import { useEffect } from 'react';
 
 
 function AddItems() {
 
     const [show, setShow] = useState(false);
 
-    const [items, setItems] = useState({ name: "", description: "", category: "", price: "", size: [], availability:"", imgOne: "", imgTwo: "" })
+    const [items, setItems] = useState({ name: "", description: "", category: "", price: "", size: [], availability: "", imgOne: "", imgTwo: "" })
     console.log(items)
 
 
     // image 
-    const [isValidOne,setIsValidOne]=useState('')
-    const [isValidTwo,setIsValidTwo]=useState('')
-    const [previewOne,setPreviewOne]=useState('')
-    const [previewTwo, setPreviewTwo]=useState('')
+    const [isValidOne, setIsValidOne] = useState(false)
+    const [isValidTwo, setIsValidTwo] = useState(false)
+    const [previewOne, setPreviewOne] = useState(img)
+    const [previewTwo, setPreviewTwo] = useState(img2)
+
+
+    // useeffect show image
+    useEffect(() => {
+
+        if (items.imgOne.type == "image/png" || items.imgOne.type == "image/jpg" || items.imgOne.type == "image/jpeg"){
+            setIsValidOne(true)
+            setPreviewOne(URL.createObjectURL(items.imgOne))
+        }else{
+            setIsValidOne(false)
+            setItems({...items,imgOne:""})
+            setPreviewOne(img)
+        }
+
+        if (items.imgTwo.type == "image/png" || items.imgTwo.type == "image/jpg" || items.imgTwo.type == "image/jpeg"){
+            setIsValidTwo(true)
+            setPreviewTwo(URL.createObjectURL(items.imgTwo))
+        }else{
+            setIsValidOne(false)
+            setItems({...items,imgTwo:""})
+            setPreviewTwo(img)
+        }
+    },[items.imgOne, items.imgTwo])
 
 
 
@@ -39,11 +63,11 @@ function AddItems() {
         });
     };
 
-    const handleAvailable=(e)=>{
-        const {checked}=e.target;
+    const handleAvailable = (e) => {
+        const { checked } = e.target;
         console.log(checked)
-        if(checked){
-            setItems({...items, availability:true})
+        if (checked) {
+            setItems({ ...items, availability: true })
         }
     }
 
@@ -56,7 +80,7 @@ function AddItems() {
                     AddItmes
                 </div>
 
-                <Modal size='lg'  show={show} onHide={handleClose}>
+                <Modal size='lg' show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Add New Product</Modal.Title>
                     </Modal.Header>
@@ -66,26 +90,38 @@ function AddItems() {
 
 
                             {/* image One */}
-                            <div className='bg-dark border rounded m-2' style={{ height: '6rem', width: '6rem' }}>
+                            <div className='bg-dark border rounded m-3' style={{ height: '6rem', width: '6rem' }}>
                                 <label>
-                                    <input type="file" className='img-fluid' style={{display:'none'}} onChange={(e)=>setItems({...items,imgOne:e.target.files[0]})} />
-                                    <img className='img-fluid' style={{ height: '100%' }} src={img} alt="" />
+                                    <input type="file" className='img-fluid' style={{ display: 'none' }} onChange={(e) => setItems({ ...items, imgOne: e.target.files[0] })} />
+                                    <img className='img-fluid' style={{ height: '100%' }} src={previewOne   } alt="" />
                                 </label>
-                               
-                            </div>
+                                {
+                                    !isValidOne &&
+                                    <div className='text-danger text-center mt-2' style={{ fontSize: '14px' }}>
+                                        upload  (jpg,jpeg,png)
+                                    </div>
+                                }
+
+                            </div>  
 
 
                             {/* image Two */}
-                            <div className='bg-dark border rounded m-2' style={{ height: '6rem', width: '6rem' }}>
+                            <div className='bg-dark border rounded m-3' style={{ height: '6rem', width: '6rem' }}>
                                 <label>
-                                <input type="file" style={{display:'none'}} onChange={(e)=>setItems({...items,imgTwo:e.target.files[0]})} />
-                                <img className='img-fluid' style={{ height: '100%' }} src={img2} alt="" />
+                                    <input type="file" style={{ display: 'none' }} onChange={(e) => setItems({ ...items, imgTwo: e.target.files[0] })} />
+                                    <img className='img-fluid' style={{ height: '100%' }} src={previewTwo} alt="" />
                                 </label>
-                               
-                            </div>
-                            
+                                {
+                                    !isValidTwo &&
+                                    <div className='text-danger text-center mt-2' style={{ fontSize: '14px' }}>
+                                        upload (jpg,jpeg,png)
+                                    </div>
+                                }
 
-                        </div>  
+                            </div>
+
+
+                        </div>
 
                         <FloatingLabel
                             controlId="floatingInput1"
@@ -128,7 +164,7 @@ function AddItems() {
                                 type='checkbox'
                                 value="availabilty"
                                 onChange={handleAvailable}
-                                // onChange={(e)=>setItems({...items,availability:e.target.value})}
+                            // onChange={(e)=>setItems({...items,availability:e.target.value})}
                             />
                         </div>
 
