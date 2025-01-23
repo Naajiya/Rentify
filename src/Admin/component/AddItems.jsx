@@ -9,6 +9,10 @@ import Form from 'react-bootstrap/Form';
 import img from '../../assets/upldlog.png'
 import img2 from '../../assets/upldlog2.png'
 import { useEffect } from 'react';
+import { addProduct } from '../../../services/allApi';
+import { toast, ToastContainer } from 'react-toastify';
+
+
 
 
 function AddItems() {
@@ -29,24 +33,24 @@ function AddItems() {
     // useeffect show image
     useEffect(() => {
 
-        if (items.imgOne.type == "image/png" || items.imgOne.type == "image/jpg" || items.imgOne.type == "image/jpeg"){
+        if (items.imgOne.type == "image/png" || items.imgOne.type == "image/jpg" || items.imgOne.type == "image/jpeg") {
             setIsValidOne(true)
             setPreviewOne(URL.createObjectURL(items.imgOne))
-        }else{
+        } else {
             setIsValidOne(false)
-            setItems({...items,imgOne:""})
+            setItems({ ...items, imgOne: "" })
             setPreviewOne(img)
         }
 
-        if (items.imgTwo.type == "image/png" || items.imgTwo.type == "image/jpg" || items.imgTwo.type == "image/jpeg"){
+        if (items.imgTwo.type == "image/png" || items.imgTwo.type == "image/jpg" || items.imgTwo.type == "image/jpeg") {
             setIsValidTwo(true)
             setPreviewTwo(URL.createObjectURL(items.imgTwo))
-        }else{
+        } else {
             setIsValidOne(false)
-            setItems({...items,imgTwo:""})
+            setItems({ ...items, imgTwo: "" })
             setPreviewTwo(img)
         }
-    },[items.imgOne, items.imgTwo])
+    }, [items.imgOne, items.imgTwo])
 
 
 
@@ -68,6 +72,56 @@ function AddItems() {
         console.log(checked)
         if (checked) {
             setItems({ ...items, availability: true })
+        }
+    }
+
+
+    // handle add
+    const handleAddProduct = async () => {
+
+        console.log('in add ')
+        const { name, description, category, price, size, availability, imgOne, imgTwo } = items
+        console.log(name, description, category, price, size, availability, imgOne, imgTwo)
+
+        if (name && description && category && price && size && availability && imgOne && imgTwo) {
+            console.log('incheck')
+            const reqBody = new FormData()
+            reqBody.append("name", name)
+            reqBody.append("description", description)
+            reqBody.append("category", category)
+            reqBody.append("price", price)
+            reqBody.append("size", size)
+            reqBody.append("availability", availability)
+            reqBody.append("imgOne", imgOne)
+            reqBody.append("imgTwo", imgTwo)
+
+
+            const token = sessionStorage.getItem("token")
+            console.log(token)
+
+            if (token) {
+                const reqHeader = {
+                    "Content-Type": "multipart/form-data",
+                    "Authorization": `Beror ${token}`
+                }
+
+                try {
+
+                    const result = await addProduct(reqBody, reqHeader)
+                    if (result.status == 200) {
+                        console.log('200')
+                        toast.success("product added ")
+                        handleClose()
+                    } else {
+                        toast.error(result.response.data)
+                    }
+                    console.log(result)
+                } catch (err) {
+                    console.log(err)
+                }
+            }
+        } else {
+            toast.error('please fill all fields')
         }
     }
 
@@ -93,7 +147,7 @@ function AddItems() {
                             <div className='bg-dark border rounded m-3' style={{ height: '6rem', width: '6rem' }}>
                                 <label>
                                     <input type="file" className='img-fluid' style={{ display: 'none' }} onChange={(e) => setItems({ ...items, imgOne: e.target.files[0] })} />
-                                    <img className='img-fluid' style={{ height: '100%' }} src={previewOne   } alt="" />
+                                    <img className='img-fluid' style={{ height: '100%' }} src={previewOne} alt="" />
                                 </label>
                                 {
                                     !isValidOne &&
@@ -102,7 +156,7 @@ function AddItems() {
                                     </div>
                                 }
 
-                            </div>  
+                            </div>
 
 
                             {/* image Two */}
@@ -202,11 +256,18 @@ function AddItems() {
                         <Button variant="secondary" onClick={handleClose}>
                             Close
                         </Button>
-                        <Button variant="primary" onClick={handleClose}>
+                        <Button variant="primary" onClick={handleAddProduct}>
                             Save Changes
                         </Button>
                     </Modal.Footer>
                 </Modal>
+
+
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    
+                />
 
             </div>
         </>

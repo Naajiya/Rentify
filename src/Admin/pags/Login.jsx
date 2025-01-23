@@ -22,6 +22,9 @@ function Login() {
             try {
                 const result = await adminLogin(adminlog)
                 if(result.status == 200){
+                    sessionStorage.setItem("admin", JSON.stringify(result.data.admin))
+                    sessionStorage.setItem("token", result.data.token)
+
                     toast.success("successfully logined")
                     navigate('/admin/dashBoard');
                     setAdminLog({email:"",password:""})
