@@ -19,7 +19,7 @@ function AddItems() {
 
     const [show, setShow] = useState(false);
 
-    const [items, setItems] = useState({ name: "", description: "", category: "", price: "", size: [], availability: "", imgOne: "", imgTwo: "" })
+    const [items, setItems] = useState({ name: "", description: "", category: "", price: "", size: [], availability: false, imgOne: "", imgTwo: "" })
     console.log(items)
 
 
@@ -72,6 +72,8 @@ function AddItems() {
         console.log(checked)
         if (checked) {
             setItems({ ...items, availability: true })
+        }else{
+            setItems({ ...items, availability: false })
         }
     }
 
@@ -83,7 +85,7 @@ function AddItems() {
         const { name, description, category, price, size, availability, imgOne, imgTwo } = items
         console.log(name, description, category, price, size, availability, imgOne, imgTwo)
 
-        if (name && description && category && price && size && availability && imgOne && imgTwo) {
+        if (name && description && category && price && size  && imgOne && imgTwo) {
             console.log('incheck')
             const reqBody = new FormData()
             reqBody.append("name", name)
