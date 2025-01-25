@@ -2,24 +2,26 @@ import React, { useEffect, useState } from 'react'
 import Table from 'react-bootstrap/Table';
 import AddItems from '../component/AddItems'
 import Header from '../component/Header';
-import { getAllProduct } from '../../../services/allApi';
+import { deleteProduct, getAllProduct } from '../../../services/allApi';
 import SERVER_URL from '../../../services/serverUrl';
+import EditItem from '../component/EditItem';
 
 
 
-function Items() {
+function Items() {  
 
     const [allproduct, setAllproduct] = useState()
-    console.log(allproduct)
+    // console.log(allproduct)
 
 
 
 
     useEffect(() => {
         getAllProductTable()
-    }, [])
+    }, [allproduct])
 
     const getAllProductTable = async () => {
+        
 
         try {
 
@@ -28,10 +30,23 @@ function Items() {
             if (res.status == 200) {
                 console.log('its response')
                 setAllproduct(res.data)
-                console.log(res.data.imgOne)
+                // console.log(allproduct)
+                // console.log(res.data.imgOne)    
             }
 
         } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const handleDelete =async(pid)=>{
+        try{
+            const result = await deleteProduct(pid)
+
+            if(result.status == 200){
+                getAllProductTable()
+            }
+        }catch(err){
             console.log(err)
         }
     }
@@ -59,12 +74,14 @@ function Items() {
                                 <th>Size</th>
                                 <th>img</th>
                                 <th>Available</th>
+                                <th><i class="fa-solid fa-trash"></i></th>
+                                <th><i class="fa-solid fa-file-pen"></i></th>
                             </tr>
                         </thead>
                         <tbody>
                             {
                                 allproduct?.
-                                    map(pro => (
+                                    map(pro => (    
                                         <tr>
                                             <td></td>
                                             <td>{pro.name}</td>
@@ -74,6 +91,8 @@ function Items() {
                                             <td> {Object.keys(pro.size).filter(size => pro.size[size]).join(', ')}</td>
                                             <td><img src={`${SERVER_URL}/uploads/${pro.imgOne}`} alt="" style={{height:'80px', width:'100px'}} /></td>
                                             <td>{pro.availability ? 'available': 'not available'}</td>
+                                            <td><i onClick={()=>handleDelete(pro?._id)} class="fa-solid fa-xmark"></i></td>
+                                            <td><EditItem/></td>
                                         </tr>
                                     ))
 

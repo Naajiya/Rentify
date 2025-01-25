@@ -115,7 +115,7 @@ function AddItems() {
                         toast.success("product added ")
                         handleClose()
                     } else {
-                        toast.error(result.response.data)
+                        toast.error(    )
                     }
                     console.log(result)
                 } catch (err) {

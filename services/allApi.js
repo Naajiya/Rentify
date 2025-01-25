@@ -17,5 +17,5 @@ export const getAllProduct = async ()=>{
 }
 
 export const deleteProduct = async (pid) =>{
-    return await commonApi("DELETE", `${SERVER_URL}/delete-product/`)
+    return await commonApi("DELETE", `${SERVER_URL}/delete-product/${pid}`, {})
 }
