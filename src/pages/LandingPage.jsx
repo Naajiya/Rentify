@@ -9,7 +9,7 @@ import chrdar2 from '../assets/chrdar2org.jpg'
 import { TypeAnimation } from 'react-type-animation';
 import AllItems from '../components/AllItems'
 import Advertise from '../components/Advertise'
-
+import Header from '../components/Header'
 
 
 
@@ -31,7 +31,7 @@ function LandingPage() {
 
   return (
     <>
-    {/* <Header/> */}
+    <Header/>
     
       {/* <SubHead /> */}
       <div className='parallax'>
