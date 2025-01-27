@@ -8,10 +8,11 @@ import EditItem from '../component/EditItem';
 
 
 
-function Items() {  
+function Items() {
 
-    const [allproduct, setAllproduct] = useState()
+    const [allproduct, setAllproduct] = useState([])
     // console.log(allproduct)
+
 
 
 
@@ -21,14 +22,14 @@ function Items() {
     }, [allproduct])
 
     const getAllProductTable = async () => {
-        
+
 
         try {
 
             const res = await getAllProduct()
 
             if (res.status == 200) {
-                console.log('its response')
+                // console.log('its response')
                 setAllproduct(res.data)
                 // console.log(allproduct)
                 // console.log(res.data.imgOne)    
@@ -39,14 +40,14 @@ function Items() {
         }
     }
 
-    const handleDelete =async(pid)=>{
-        try{
+    const handleDelete = async (pid) => {
+        try {
             const result = await deleteProduct(pid)
 
-            if(result.status == 200){
+            if (result.status == 200) {
                 getAllProductTable()
             }
-        }catch(err){
+        } catch (err) {
             console.log(err)
         }
     }
@@ -57,7 +58,7 @@ function Items() {
             <div className='p-3'>
                 <div className='d-flex justify-content-between align-items-end bg-light p-4 w-100'>
                     <div className='w-50'>
-                        <input type="search" className='form-control w-100' placeholder='search by product name' style={{fontSize:'12px'}} />
+                        <input type="search" className='form-control w-100' placeholder='search by product name' style={{ fontSize: '12px' }} />
                     </div>
                     <AddItems />
                 </div>
@@ -81,18 +82,23 @@ function Items() {
                         <tbody>
                             {
                                 allproduct?.
-                                    map(pro => (    
+                                    map(pro => (
+                                        
                                         <tr>
                                             <td></td>
                                             <td>{pro.name}</td>
                                             <td>{pro.price}</td>
-                                            <td> {Object.keys(pro.category).filter(category => pro.category[category])}</td>
+                                            <td>{Object.keys(pro.category)
+                                                .filter(category => pro.category[category])
+                                                .join(", ") || "No size available"}</td>
                                             <td>{pro.description}</td>
-                                            <td> {Object.keys(pro.size).filter(size => pro.size[size]).join(', ')}</td>
-                                            <td><img src={`${SERVER_URL}/uploads/${pro.imgOne}`} alt="" style={{height:'80px', width:'100px'}} /></td>
-                                            <td>{pro.availability ? 'available': 'not available'}</td>
-                                            <td><i onClick={()=>handleDelete(pro?._id)} class="fa-solid fa-xmark"></i></td>
-                                            <td><EditItem/></td>
+                                            <td> {Object.keys(pro.size)
+                                                .filter(size => pro.size[size])
+                                                .join(", ") || "No size available"}</td>
+                                            <td><img src={`${SERVER_URL}/uploads/${pro.imgOne}`} alt="" style={{ height: '80px', width: '100px' }} /></td>
+                                            <td>{pro.availability ? 'available' : 'not available'}</td>
+                                            <td><i onClick={() => handleDelete(pro?._id)} class="fa-solid fa-xmark"></i></td>
+                                            <td><EditItem pro={pro} /></td>
                                         </tr>
                                     ))
 

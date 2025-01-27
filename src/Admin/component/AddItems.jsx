@@ -19,8 +19,11 @@ function AddItems() {
 
     const [show, setShow] = useState(false);
 
+    const[freeSizeBtn,setFreeSizeBtn]=useState(true)
+
     const [items, setItems] = useState({ name: "", description: "", category: "", price: "", size: [], availability: false, imgOne: "", imgTwo: "" })
-    console.log(items)
+    // console.log('itsm')
+    // console.log(items)
 
 
     // image 
@@ -57,15 +60,25 @@ function AddItems() {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+
+    // size l, m, s
     const handleSizeChange = (e) => {
         const { value, checked } = e.target;
         setItems(prevItems => {
-            const newSize = checked
-                ? [...prevItems.size, value]
-                : prevItems.size.filter(size => size !== value);
+            const newSize = checked ? [...prevItems.size, value] : prevItems.size.filter(size => size !== value);
             return { ...prevItems, size: newSize };
         });
     };
+
+    // freesize change
+    const handleSize=()=>{
+        setFreeSizeBtn(false)
+        setItems(prevItems => {
+            const newSize = prevItems.size.includes('Freeize') ? prevItems.size.filter(size => size !== 'Freeize') : ['Freeize'];
+            const updatedItems = { ...prevItems, size: newSize, M: false, S: false, L: false };
+            return updatedItems;
+        });
+    }
 
     const handleAvailable = (e) => {
         const { checked } = e.target;
@@ -85,7 +98,7 @@ function AddItems() {
         const { name, description, category, price, size, availability, imgOne, imgTwo } = items
         console.log(name, description, category, price, size, availability, imgOne, imgTwo)
 
-        if (name && description && category && price && size  && imgOne && imgTwo) {
+        if (name && description && category && price  && imgOne && imgTwo && size.length>0) {
             console.log('incheck')
             const reqBody = new FormData()
             reqBody.append("name", name)
@@ -114,6 +127,8 @@ function AddItems() {
                         console.log('200')
                         toast.success("product added ")
                         handleClose()
+                        setItems({ name: "", description: "", category: "", price: "", size: [], availability: false, imgOne: "", imgTwo: ""})
+                        setFreeSizeBtn(true)
                     } else {
                         toast.error(    )
                     }
@@ -213,6 +228,7 @@ function AddItems() {
                         </div>
 
                         <div className='m-2'>
+                           
                             <Form.Check
                                 inline
                                 label="Available"
@@ -225,31 +241,41 @@ function AddItems() {
                         </div>
 
                         <div className='m-2'>
-                            <p className='fw-bold'>Select Size</p>
-                            <Form.Check
-                                inline
-                                label="S"
-                                name="size"
-                                type='checkbox'
-                                value="S"
-                                onChange={handleSizeChange}
-                            />
-                            <Form.Check
-                                inline
-                                label="M"
-                                name="size"
-                                type='checkbox'
-                                value="M"
-                                onChange={handleSizeChange}
-                            />
-                            <Form.Check
-                                inline
-                                label="L"
-                                name="size"
-                                type='checkbox'
-                                value="L"
-                                onChange={handleSizeChange}
-                            />
+
+                            <p className='fw-bold m-1'>Select Size</p>
+                            <div className='d-flex align-items-center'>
+                                <div className=''><button className='btn btn-light m-1' onClick={handleSize}>free size</button></div>
+                                {
+                                    freeSizeBtn &&
+                                    <div>
+                                        <Form.Check
+                                    inline
+                                    label="S"
+                                    name="size"
+                                    type='checkbox'
+                                    value="S"
+                                    onChange={handleSizeChange}
+                                />
+                                <Form.Check
+                                    inline
+                                    label="M"
+                                    name="size"
+                                    type='checkbox'
+                                    value="M"
+                                    onChange={handleSizeChange}
+                                />
+                                <Form.Check
+                                    inline
+                                    label="L"
+                                    name="size"
+                                    type='checkbox'
+                                    value="L"
+                                    onChange={handleSizeChange}
+                                />
+                                    </div>
+                                }
+                            </div>
+                            
                         </div>
 
 
