@@ -11,19 +11,23 @@ import img2 from '../../assets/upldlog2.png'
 import { useEffect } from 'react';
 import { addProduct } from '../../../services/allApi';
 import { toast, ToastContainer } from 'react-toastify';
+import axios from 'axios';
 
 
 
 
-function AddItems() {
+function AddItems({setProductChanged}) {
 
     const [show, setShow] = useState(false);
 
-    const[freeSizeBtn,setFreeSizeBtn]=useState(true)
+    const [freeSizeBtn, setFreeSizeBtn] = useState(true)
 
     const [items, setItems] = useState({ name: "", description: "", category: "", price: "", size: [], availability: false, imgOne: "", imgTwo: "" })
     // console.log('itsm')
-    // console.log(items)
+    console.log(items)
+    const [image_one,setImageOne] = useState()
+    const [image_two, setImageTwo] = useState()
+
 
 
     // image 
@@ -35,29 +39,32 @@ function AddItems() {
 
     // useeffect show image
     useEffect(() => {
-
-        if (items.imgOne.type == "image/png" || items.imgOne.type == "image/jpg" || items.imgOne.type == "image/jpeg") {
-            setIsValidOne(true)
-            setPreviewOne(URL.createObjectURL(items.imgOne))
+        if (image_one && ["image/png", "image/jpg", "image/jpeg"].includes(image_one.type)) {
+            setIsValidOne(true);
+            setPreviewOne(URL.createObjectURL(image_one));
         } else {
-            setIsValidOne(false)
-            setItems({ ...items, imgOne: "" })
-            setPreviewOne(img)
+            setIsValidOne(false);
+            // setItems(prev => ({ ...prev, imgOne: "" }));
+            setPreviewOne(img);
         }
-
-        if (items.imgTwo.type == "image/png" || items.imgTwo.type == "image/jpg" || items.imgTwo.type == "image/jpeg") {
-            setIsValidTwo(true)
-            setPreviewTwo(URL.createObjectURL(items.imgTwo))
+    
+        if (image_two && ["image/png", "image/jpg", "image/jpeg"].includes(image_two.type)) {
+            setIsValidTwo(true);
+            setPreviewTwo(URL.createObjectURL(image_two));
         } else {
-            setIsValidOne(false)
-            setItems({ ...items, imgTwo: "" })
-            setPreviewTwo(img)
+            setIsValidTwo(false); // Change to setIsValidTwo
+            // setItems(prev => ({ ...prev, imgTwo: "" }));
+            setPreviewTwo(img2);
         }
-    }, [items.imgOne, items.imgTwo])
+    }, [image_one, image_two]);
+    
 
 
+    const handleClose = () =>{
+        setShow(false);
+        setItems({ name: "", description: "", category: "", price: "", size: [], availability: false, imgOne: "", imgTwo: "" })
 
-    const handleClose = () => setShow(false);
+    }
     const handleShow = () => setShow(true);
 
 
@@ -71,81 +78,97 @@ function AddItems() {
     };
 
     // freesize change
-    const handleSize=()=>{
-        setFreeSizeBtn(false)
+    const handleSize = () => {
+        setFreeSizeBtn(false);
         setItems(prevItems => {
-            const newSize = prevItems.size.includes('Freeize') ? prevItems.size.filter(size => size !== 'Freeize') : ['Freeize'];
-            const updatedItems = { ...prevItems, size: newSize, M: false, S: false, L: false };
-            return updatedItems;
+          // Only append 'Freeize' directly, instead of an array ['Freeize']
+          const newSize = prevItems.size.includes('Freeize') ? prevItems.size.filter(size => size !== 'Freeize') : [...prevItems.size, 'Freeize'];
+      
+          return { ...prevItems, size: newSize };
         });
-    }
+      };
+      
 
     const handleAvailable = (e) => {
         const { checked } = e.target;
         console.log(checked)
         if (checked) {
             setItems({ ...items, availability: true })
-        }else{
+        } else {
             setItems({ ...items, availability: false })
         }
     }
 
 
-    // handle add
-    const handleAddProduct = async () => {
+ 
 
-        console.log('in add ')
-        const { name, description, category, price, size, availability, imgOne, imgTwo } = items
-        console.log(name, description, category, price, size, availability, imgOne, imgTwo)
+const handleAddProduct = async () => {
+    const { name, description, category, price, size, availability } = items;
 
-        if (name && description && category && price  && imgOne && imgTwo && size.length>0) {
-            console.log('incheck')
-            const reqBody = new FormData()
-            reqBody.append("name", name)
-            reqBody.append("description", description)
-            reqBody.append("category", category)
-            reqBody.append("price", price)
-            reqBody.append("size", size)
-            reqBody.append("availability", availability)
-            reqBody.append("imgOne", imgOne)
-            reqBody.append("imgTwo", imgTwo)
-
-
-            const token = sessionStorage.getItem("token")
-            console.log(token)
-
-            if (token) {
-                const reqHeader = {
-                    "Content-Type": "multipart/form-data",
-                    "Authorization": `Beror ${token}`
-                }
-
-                try {
-
-                    const result = await addProduct(reqBody, reqHeader)
-                    if (result.status == 200) {
-                        console.log('200')
-                        toast.success("product added ")
-                        handleClose()
-                        setItems({ name: "", description: "", category: "", price: "", size: [], availability: false, imgOne: "", imgTwo: ""})
-                        setFreeSizeBtn(true)
-                    } else {
-                        toast.error(    )
-                    }
-                    console.log(result)
-                } catch (err) {
-                    console.log(err)
-                }
-            }
-        } else {
-            toast.error('please fill all fields')
-        }
+    if (!name || !description || !category || !price || size.length === 0) {
+        toast.error('Please fill all required fields');
+        return;
     }
+
+    const reqBody = new FormData();
+    reqBody.append("name", name);
+    reqBody.append("description", description);
+    reqBody.append("category", category);
+    reqBody.append("price", price);
+    reqBody.append("size", JSON.stringify(size)); // Send as JSON string
+    reqBody.append("availability", availability.toString()); // Convert to string
+    
+    if (image_one) reqBody.append("imgOne", image_one);
+    if (image_two) reqBody.append("imgTwo", image_two);
+
+    // const token_string = sessionStorage.getItem("token");
+    
+    // // if (!token) {
+    // //     toast.error('Authentication token not found');
+    // //     return;
+    // // }
+    
+        
+    //     if(token_string){
+    //         const reqHeader = {
+    //         "Authorization": token_string
+            
+    
+            
+    //     };
+        try {
+            // const result = await addProduct(reqBody, reqHeader);
+            const result =await axios.post('http://localhost:3000/addProducts',reqBody,{ headers: { Authorization: sessionStorage.getItem('token') } })
+            if (result.status === 200) {
+                console.log(result.status)
+                toast.success("Product added successfully");
+                setProductChanged(result.data)
+                handleClose();
+                setItems({ name: "", description: "", category: "", price: "", size: [], availability: false, imgOne: "", imgTwo: "" });
+                setFreeSizeBtn(true);
+            } else {
+                
+                toast.error('Failed to add product');
+            }
+        } catch (err) {
+            console.error('Error adding product:', err);
+            toast.error('An error occurred while adding the product');
+        }
+
+    
+
+
+    
+  
+    
+};
+
+
 
     return (
         <>
             <div className='d-flex flex-column'>
-                <div className='d-flex bg-dark p-2 border rounded-3 text-light ' style={{ cursor: 'pointer' }} onClick={handleShow}>
+                <div className='d-flex bg-dark p-2 border rounded-3 text-light ' onClick={handleShow}>
 
                     <span><AddCircleOutlineIcon /></span>
                     AddItmes
@@ -163,7 +186,11 @@ function AddItems() {
                             {/* image One */}
                             <div className='bg-dark border rounded m-3' style={{ height: '6rem', width: '6rem' }}>
                                 <label>
-                                    <input type="file" className='img-fluid' style={{ display: 'none' }} onChange={(e) => setItems({ ...items, imgOne: e.target.files[0] })} />
+                                    <input
+                                        type="file"
+                                        style={{ display: 'none' }}
+                                        onChange={(e)=>setImageOne(e.target.files[0])}
+                                    />
                                     <img className='img-fluid' style={{ height: '100%' }} src={previewOne} alt="" />
                                 </label>
                                 {
@@ -179,8 +206,11 @@ function AddItems() {
                             {/* image Two */}
                             <div className='bg-dark border rounded m-3' style={{ height: '6rem', width: '6rem' }}>
                                 <label>
-                                    <input type="file" style={{ display: 'none' }} onChange={(e) => setItems({ ...items, imgTwo: e.target.files[0] })} />
-                                    <img className='img-fluid' style={{ height: '100%' }} src={previewTwo} alt="" />
+                                    <input
+                                        type="file"
+                                        style={{ display: 'none' }}
+                                        onChange={(e) => setImageTwo(e.target.files[0])}
+                                    />                                    <img className='img-fluid' style={{ height: '100%' }} src={previewTwo} alt="" />
                                 </label>
                                 {
                                     !isValidTwo &&
@@ -223,12 +253,12 @@ function AddItems() {
                                 label="Price"
                                 className="mb-3 w-50 m-2"
                             >
-                                <Form.Control onChange={(e) => setItems({ ...items, price: 99 })} type="number" placeholder="Price" />
+                                <Form.Control onChange={(e) => setItems({ ...items, price: e.target.value })} type="number" placeholder="Price" />
                             </FloatingLabel>
                         </div>
 
                         <div className='m-2'>
-                           
+
                             <Form.Check
                                 inline
                                 label="Available"
@@ -249,33 +279,33 @@ function AddItems() {
                                     freeSizeBtn &&
                                     <div>
                                         <Form.Check
-                                    inline
-                                    label="S"
-                                    name="size"
-                                    type='checkbox'
-                                    value="S"
-                                    onChange={handleSizeChange}
-                                />
-                                <Form.Check
-                                    inline
-                                    label="M"
-                                    name="size"
-                                    type='checkbox'
-                                    value="M"
-                                    onChange={handleSizeChange}
-                                />
-                                <Form.Check
-                                    inline
-                                    label="L"
-                                    name="size"
-                                    type='checkbox'
-                                    value="L"
-                                    onChange={handleSizeChange}
-                                />
+                                            inline
+                                            label="S"
+                                            name="size"
+                                            type='checkbox'
+                                            value="S"
+                                            onChange={handleSizeChange}
+                                        />
+                                        <Form.Check
+                                            inline
+                                            label="M"
+                                            name="size"
+                                            type='checkbox'
+                                            value="M"
+                                            onChange={handleSizeChange}
+                                        />
+                                        <Form.Check
+                                            inline
+                                            label="L"
+                                            name="size"
+                                            type='checkbox'
+                                            value="L"
+                                            onChange={handleSizeChange}
+                                        />
                                     </div>
                                 }
                             </div>
-                            
+
                         </div>
 
 
@@ -294,7 +324,7 @@ function AddItems() {
                 <ToastContainer
                     position="top-right"
                     autoClose={5000}
-                    
+
                 />
 
             </div>

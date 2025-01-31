@@ -8,8 +8,16 @@ import Form from 'react-bootstrap/Form';
 import img from '../../assets/upldlog.png'
 import img2 from '../../assets/upldlog2.png'
 import { useEffect } from 'react';
+import SERVER_URL from '../../../services/serverUrl';
+import { updateProduct } from '../../../services/allApi';
+import axios from 'axios';
+// import { preview } from 'vite';
+
+
+
 
 function EditItem({ pro }) {
+    console.log(pro)
 
     const [show, setShow] = useState(false);
     const handleClose = () => {
@@ -23,21 +31,46 @@ function EditItem({ pro }) {
     const [sizeL, setSizeL] = useState(false);
     const [sizeFreeize, setSizeFreeize] = useState(false);
 
-   
+
 
     const [productDetails, setProductDetails] = useState({ id: pro?._id, name: pro?.name, description: pro?.description, category: pro?.category || "", price: pro?.price, size: pro?.size ? pro.size : [], availability: pro?.availability || false, imgOne: pro?.imgOne, imgTwo: pro?.imgTwo })
+
+    const [img_one,setImageOne]=useState('')
+    const [img_two, setImgTwo]=useState('')
+    useEffect(() => {
+        setImageOne(productDetails.imgOne);
+        setImgTwo(productDetails.imgTwo);
+    }, [productDetails.imgOne, productDetails.imgTwo]);
     // free size
     const [freeSizeBtn, setFreeSizeBtn] = useState(true)
 
     // image updation
-    const [preview, setPreview] = useState(false)
-    const [isValidfile, setIsValidfile] = useState(false);
-    
+    const [previewOne, setPreviewOne] = useState(false)
+    const [isValidfileOne, setIsValidfileOne] = useState(false);
+    const [previewTwo, setPreviewTwo] = useState(false)
+    const [isValidfileTwo, setIsValidfileTwo] = useState(false);
+
+
+    useEffect(() => {
+        if (productDetails.imgOne && productDetails.imgOne instanceof File) {
+            const isValidType = ["image/png", "image/jpg", "image/jpeg"].includes(productDetails.imgOne.type);
+            setIsValidfileOne(isValidType);
+            setPreviewOne(isValidType ? URL.createObjectURL(productDetails.imgOne) : '');
+        }
+
+        if (productDetails.imgTwo && productDetails.imgTwo instanceof File) {
+            const isValidType = ["image/png", "image/jpg", "image/jpeg"].includes(productDetails.imgTwo.type);
+            setIsValidfileTwo(isValidType);
+            setPreviewTwo(isValidType ? URL.createObjectURL(productDetails.imgTwo) : '');
+        }
+    }, [productDetails.imgOne, productDetails.imgTwo]);
+
+
 
     // modal open
     const handleShow = () => {
         console.log(productDetails);
-        const { Freeize, S, M, L } = productDetails.size; // Safely destructure
+        const { Freeize, S, M, L } = productDetails.size;
         if (S) {
             setSizeS(true)
         }
@@ -61,26 +94,94 @@ function EditItem({ pro }) {
 
     const handleSizeChange = (e) => {
         const { value, checked } = e.target;
-
-        setProductDetails((prevDetails) => {
-            const updatedSizes = {
-                ...prevDetails.size, // Copy the existing sizes
-                [value]: checked,    // Update the specific size based on the checkbox state
-            };
-
-            return { ...prevDetails, size: updatedSizes }; // Update the product details with the modified sizes
+        setProductDetails(prevDetails => {
+            const updatedSizes = checked 
+                ? [...prevDetails.size, value] 
+                : prevDetails.size.filter(size => size !== value);
+    
+            return { ...prevDetails, size: updatedSizes };
         });
+    };
+    
 
-        // Update individual size states
-        if (value === "S") setSizeS(checked);
-        if (value === "M") setSizeM(checked);
-        if (value === "L") setSizeL(checked);
-        if (value === "Freeize") setSizeFreeize(checked);
+
+
+    const handleUpdates = async () => {
+        const { id, name, description, category, price, size, availability, imgOne, imgTwo } = productDetails;
+        console.log("Update Payload:", id, name, description, category, price, size, availability, imgOne, imgTwo);
+
+        if (name && description && category && price && size) {
+            console.log('inside if');
+            console.log("inside if", category, size)
+
+            // const categoryString = typeof category === 'object' ? JSON.stringify(Object.keys(category).filter(key => category[key])) : category;
+            const sizeArray = Array.isArray(size) ? size : Object.keys(size).filter(key => size[key]);
+
+            const reqBody = new FormData();
+            reqBody.append("name", name);
+            reqBody.append("description", description);
+            reqBody.append("category", category); // Convert category object to string
+            reqBody.append("price", price);
+            reqBody.append("size", JSON.stringify(sizeArray));  // Convert size object to string
+            reqBody.append("availability", availability);
+
+            if (imgOne instanceof File) {
+                reqBody.append("imgOne", imgOne);
+            } else {
+                reqBody.append("imgOne", img_one);
+            }
+
+            console.log("reqBody",reqBody)
+
+            if (imgTwo instanceof File) {
+                reqBody.append("imgOne", imgTwo);
+            } else {
+                reqBody.append("imgOne", img_two);
+            }
+
+            // const token = sessionStorage.getItem("token");
+            // if (token) {
+            // const reqHeader = {
+            //     "Content-Type": (previewOne || previewTwo) ? "multipart/form-data" : "application/json",
+            //     "Authorization": `Bearer ${token}`
+            // };
+            try {
+                console.log("Product ID:", id);
+                // Make sure the id is correctly used in the URL
+                const result = await axios.put(`http://localhost:3000/update-product/${id}`, reqBody, { headers: { Authorization: sessionStorage.getItem('token') } })
+
+
+                // const result = await updateProduct(id, reqBody, { headers: reqHeader });
+                console.log(result.data)
+                // handleResponse(result.data);
+                alert('Success');
+            } catch (err) {
+                console.error('Update failed:', err.response?.data || err.message);
+            }
+            // }
+        }
+    };
+
+    // Ensure the updateProduct function is correctly defined to accept id, reqBody, and reqHeader.
+
+    const handleResponse = (data) => {
+        // Parse the JSON string fields back into objects
+        data.category = JSON.parse(data.category);
+        data.size = JSON.parse(data.size);
+
+        console.log("Parsed Category:", data.category);
+        console.log("Parsed Size:", data.size);
+
+        // Now you can work with the parsed objects
+        // Example: Updating the product details state with the parsed data
+        setProductDetails((prevDetails) => ({
+            ...prevDetails,
+            category: data.category,
+            size: data.size
+        }));
     };
 
 
-
-    
 
 
     return (
@@ -98,32 +199,32 @@ function EditItem({ pro }) {
 
                         {/* image One */}
                         <div className='bg-dark border rounded m-3' style={{ height: '6rem', width: '6rem' }}>
-                            {/* <label> */}
-                            {/* <input type="file" className='img-fluid' style={{ display: 'none' }} onChange={(e) => setItems({ ...items, imgOne: e.target.files[0] })} />
-                                    <img className='img-fluid' style={{ height: '100%' }} src={previewOne} alt="" />
-                                </label>
-                                {
-                                    !isValidOne &&
-                                    <div className='text-danger text-center mt-2' style={{ fontSize: '14px' }}>
-                                        upload  (jpg,jpeg,png)
-                                    </div>
-                                } */}
+                            <label>
+                                <input type="file" className='img-fluid' style={{ display: 'none' }} onChange={(e) => setProductDetails({ ...productDetails, imgOne: e.target.files[0] })} />
+                                <img className='img-fluid' style={{ height: '100%' }} src={previewOne ? previewOne : `${SERVER_URL}/uploads/${pro.imgOne}`} alt="" />
+                            </label>
+                            {
+                                !isValidfileOne &&
+                                <div className='text-danger text-center mt-2' style={{ fontSize: '14px' }}>
+                                    upload  (jpg,jpeg,png)
+                                </div>
+                            }
 
                         </div>
 
 
                         {/* image Two */}
                         <div className='bg-dark border rounded m-3' style={{ height: '6rem', width: '6rem' }}>
-                            {/* <label>
-                                    <input type="file" style={{ display: 'none' }} onChange={(e) => setItems({ ...items, imgTwo: e.target.files[0] })} />
-                                    <img className='img-fluid' style={{ height: '100%' }} src={previewTwo} alt="" />
-                                </label>
-                                {
-                                    !isValidTwo &&
-                                    <div className='text-danger text-center mt-2' style={{ fontSize: '14px' }}>
-                                        upload (jpg,jpeg,png)
-                                    </div>
-                                } */}
+                            <label>
+                                <input type="file" style={{ display: 'none' }} onChange={(e) => setProductDetails({ ...productDetails, imgTwo: e.target.files[0] })} />
+                                <img className='img-fluid' style={{ height: '100%' }} src={previewTwo ? previewTwo : `${SERVER_URL}/uploads/${pro.imgTwo}`} alt="" />
+                            </label>
+                            {
+                                !isValidfileTwo &&
+                                <div className='text-danger text-center mt-2' style={{ fontSize: '14px' }}>
+                                    upload (jpg,jpeg,png)
+                                </div>
+                            }
 
                         </div>
 
@@ -153,33 +254,14 @@ function EditItem({ pro }) {
                         <Form.Select
                             aria-label="Default select example"
                             className="w-50 m-2"
-                            value={
-                                Object.keys(productDetails.category).find(
-                                    (key) => productDetails.category[key] === true
-                                ) || ""
-                            } // Find the category with a value of true
-                            onChange={(e) => {
-                                const selectedCategory = e.target.value;
-                                const updatedCategory = {
-                                    Men: false,
-                                    Women: false,
-                                    Furniture: false,
-                                    [selectedCategory]: true, // Set the selected category to true
-                                };
-
-                                setProductDetails({
-                                    ...productDetails,
-                                    category: updatedCategory,
-                                });
-                            }}
-                        >
-                            <option value="" disabled>
-                                --select a category--
-                            </option>
+                            value={productDetails.category}
+                            onChange={(e) => setProductDetails({ ...productDetails, category: e.target.value })}>
+                            <option value="" disabled>--select a category--</option>
                             <option value="Men">Men</option>
                             <option value="Women">Women</option>
                             <option value="Furniture">Furniture</option>
                         </Form.Select>
+
 
 
                         <FloatingLabel
@@ -251,8 +333,8 @@ function EditItem({ pro }) {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary">
-                        Save Changes
+                    <Button onClick={handleUpdates} variant="primary">
+                        Edit
                     </Button>
                 </Modal.Footer>
             </Modal>

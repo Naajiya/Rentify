@@ -5,50 +5,52 @@ import menWomen from '../assets/menwomen.jpg'
 import furniture from '../assets/furnitures.jpg'
 import { selectCategory } from '../../services/allApi';
 
+import { Link, useNavigate } from 'react-router-dom';
+
+
 
 function SubHead() {
 
-  const handleCategory=async(category)=>{
-    console.log(category)
-    const cat=category
-    console.log(cat)
+  const navigate = useNavigate()
 
-    try{
-      const result = await selectCategory(cat)
-      if(result.status==200){
-        console.log(result.data)
-      }
-    }catch(err){
-      console.log(err)
-    }
-  }
+  const [categoryDetails,setCategoryDetails]=useState()
 
+  
+
+  const [men,setMen]=useState('Men')
+  const [furnitures,setFurniture]=useState('Furniture')
   return (
     <>
       <Row className='w-100 sub-head mt-1 '>
         <div className='d-flex  justify-content-center w-100  hover-contaier  mt-3 ' style={{ backgroundColor: 'rgb(255, 255, 255)', overflowX: 'auto' }}>
 
           {/* men */}
-          <Button
-            className='d-flex flex-column justify-content-center align-items-center fw-bold hover-button m-1'
-            variant=""
-            value="Men"
-            style={{ fontSize: '12px', fontFamily: 'cursive'}}
-            onClick={()=>handleCategory("Men")}
-          >
-            <img className='sub-img img-fluid border shadow' src={menWomen} alt="" />
-            <p className='text-center'>Men</p>
-          </Button>
+          
+           <Link to={`/${men}/category`} className='text-decoration-none'>
+              <Button
+                className='d-flex flex-column justify-content-center align-items-center fw-bold hover-button m-1'
+                variant=""
+                value="Men"
+                style={{ fontSize: '12px', fontFamily: 'cursive'}}
+                
+              >
+                <img className='sub-img img-fluid border shadow' src={menWomen} alt="" />
+                <p className='text-center'>Men</p>
+              </Button>
+           </Link>
+        
 
 
 
           {/* Furniture */}
-          <Button className='d-flex flex-column justify-content-center align-items-center fw-bold hover-button m-1' style={{ fontSize: '11px' }}
-            variant="">
-            <img className='sub-img img-fluid border shadow' src={furniture} alt="" />
-            <p className='text-center'>Furniture</p>
-
-          </Button>
+         <Link to={`/${furnitures}/category`} className='text-decoration-none'>
+            <Button className='d-flex flex-column justify-content-center align-items-center fw-bold hover-button m-1' style={{ fontSize: '11px' }}
+              variant="">
+              <img className='sub-img img-fluid border shadow' src={furniture} alt="" />
+              <p className='text-center'>Furniture</p>
+  
+            </Button>
+         </Link>
 
           <Button className='border border-light fw-bold hover-button  m-1' style={{ fontSize: '11px' }}
             variant="">VEHICLES</Button>

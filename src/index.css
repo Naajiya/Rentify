@@ -70,3 +70,10 @@ input[type=number] {
   border-radius: 50%;
   background-color: rgb(161, 3, 3);
 }
+
+
+.cart-icon:hover {
+  /* color: #a09b9a; Change to your preferred color */
+  transform: scale(1.2); /* Slightly enlarge the icon */
+  cursor: pointer;
+}

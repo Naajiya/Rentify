@@ -12,7 +12,7 @@ export const adminLogin=async(reqBody)=>{
 
 // add product
 export const addProduct = async (reqHeader,reqBody)=>{
-    return await commonApi("POST",`${SERVER_URL}/addProducts`,reqHeader,reqBody)
+    return await commonApi("POST",`${SERVER_URL}/addProducts`,reqBody,reqHeader)
 }
 
 // get all added items
@@ -44,4 +44,16 @@ export const userLogin = async(reqBody)=>{
 
 export const selectCategory=async (cat)=>{
     return await commonApi("GET",`${SERVER_URL}/user-category/${cat}`,{})
+}
+
+export const viewProduct = async (pid)=>{
+    return await commonApi("GET", `${SERVER_URL}/product-details/${pid}`, {})
+}
+
+export const addtoCart = async (reqHeader, reqBody) => {
+    return await commonApi("POST", `${SERVER_URL}/add-to-cart`, reqBody, reqHeader);
+};
+
+export const getCartDetails = async (reqHeader)=>{
+    return await commonApi("GET",`${SERVER_URL}/get-carts`,reqHeader)
 }

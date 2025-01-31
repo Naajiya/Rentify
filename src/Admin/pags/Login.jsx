@@ -11,7 +11,7 @@ import { adminLogin } from '../../../services/allApi';
 
 function Login() {
 
-    const navigate =useNavigate()
+    const navigate = useNavigate()
 
     const [adminlog, setAdminLog] = useState({ email: "", password: "" });
     console.log(adminlog)
@@ -21,23 +21,27 @@ function Login() {
         if (adminlog.email && adminlog.password) {
             try {
                 const result = await adminLogin(adminlog)
-                if(result.status == 200){
+                console.log(result.data)
+                if (result.status == 200) {
                     sessionStorage.setItem("admin", JSON.stringify(result.data.admin))
                     sessionStorage.setItem("token", result.data.token)
 
+                    console.log("Admin:", sessionStorage.getItem("admin"));
+                    console.log("Token:", sessionStorage.getItem("token"));
+
                     toast.success("successfully logined")
                     navigate('/admin/dashBoard');
-                    setAdminLog({email:"",password:""})
-                }else{
+                    setAdminLog({ email: "", password: "" })
+                } else {
                     if (result.status == 400) {
                         toast.warning(result.response.data)
-                        setAdminLog({email:"",password:""})
-            
-                      }
+                        setAdminLog({ email: "", password: "" })
+
+                    }
                 }
 
-                
-                
+
+
 
             } catch (err) {
                 console.log(err)
@@ -68,7 +72,7 @@ function Login() {
                                     </FloatingLabel>
 
                                     <FloatingLabel controlId="floatingPassword" className="mb-3 bg-dark text-light " label="Password">
-                                    <Form.Control type="password" onChange={(e) => { setAdminLog({ ...adminlog, password: e.target.value }) }} className='bg-dark border-light text-light w-100' placeholder="passwoed" />
+                                        <Form.Control type="password" onChange={(e) => { setAdminLog({ ...adminlog, password: e.target.value }) }} className='bg-dark border-light text-light w-100' placeholder="passwoed" />
                                     </FloatingLabel>
                                     <Button onClick={(e) => handleAdminLog(e)} variant="outline-secondary">login</Button>
                                 </div>

@@ -6,13 +6,48 @@ import BottomDrawer from '../components/BottomDrawer';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import { getCartDetails } from '../../services/allApi';
+import axios from 'axios';
+
+
 
 
 function Cart() {
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 768);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [cartDetails, setCartDetails] = useState([])
+  console.log('cartDetails')
+  console.log(cartDetails)
+
+  const [addQuantity,setAddQunatity]=useState()
+
+  
+
+
+
+  const getCarts = async () => {
+
+    try {
+      const result = await axios.get("http://localhost:3000/get-carts", { headers: { Authorization: sessionStorage.getItem('token') } })
+      // const result = await getCartDetails(reqHeader);
+      console.log("API Response:", result);
+
+      if (result.status === 200) {
+        console.log("Success: Retrieved cart details.");
+        setCartDetails(result.data.cart);
+      } else {
+        console.error("API Error:", result);
+      }
+    } catch (err) {
+      console.error("Error fetching cart data:", err);
+
+    };
+  }
+
+
 
   useEffect(() => {
+    getCarts()
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 768);
     };
@@ -28,11 +63,14 @@ function Cart() {
     setIsDrawerOpen(open);
   };
 
+
+
+
   return (
     <>
       <div className='' style={{ overflow: 'hidden' }}>
         <h2 className='text-center p-5' style={{ backgroundColor: 'rgb(232, 233, 232)', fontFamily: 'cursive', backgroundAttachment: 'fixed' }}>
-          <div className='mt-5'>Your Cart</div>
+          <div className='mt-5'>Your cart</div>
         </h2>
 
         <div className='m-3 mb-2'>
@@ -48,43 +86,54 @@ function Cart() {
                 </th>
               </tr>
             </thead>
-            <tbody>
-            <Tooltip title="click" placement="bottom">
-            
-              <tr onClick={() => toggleDrawer(true)} style={{ cursor: 'pointer' }}>
-                <td className='d-flex h-100 align-items-center'>
-                  <div>
-                    <img className='img-fluid' src={chrdar} alt="Placeholder" style={{ width: '10vw', maxWidth: '50px', height: '10vw', maxHeight: '80px', backgroundColor: 'gray' }} />
-                  </div>
-                  <div className='ms-3'>
-                    <span className='fw-bold'>Dupatta Set</span><br />
-                    <span style={{ marginTop: '-10px' }}>299/Day</span><br />
-                    <span>M,silk</span>
-                  </div>
-                </td>
-                <td>
-                  <div className=' d-flex'>
-                    <div className='w-50 d-flex justify-content-between'>
-                      <Button variant="outline-light" className='text-dark w-75 fs-5'>+</Button>
-                      <input type="text" className='border border-light text-center bg-light rounded m-1' style={{ width: '40px' }} readOnly value={0} />
-                      <Button variant="outline-light " className='text-dark w-75 fs-5'>-</Button>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div className='w-50 d-flex justify-content-between'>
-                    <Button variant="outline-light" className='text-dark w-75 fs-5'>+</Button>
-                    <input type="text" className='border border-light text-center bg-light rounded m-1' style={{ width: '40px' }} readOnly value={1} />
-                    <Button variant="outline-light " className='text-dark w-75 fs-5'>-</Button>
-                  </div>
-                </td>
-                <td>RS. 299</td>
-                <td className='text-secondary'>
-                  <i className="fa-solid fa-circle-xmark"></i>
-                </td>
-              </tr>
-              </Tooltip>
-            </tbody>
+            {
+              cartDetails ? cartDetails.map(details => (
+                <tbody key={details._id} >
+                  <Tooltip title="click" placement="bottom">
+
+                    <tr onClick={() => toggleDrawer(true)} style={{ cursor: 'pointer' }}>
+                      <td className='d-flex h-100 align-items-center'>
+                        <div>
+                          <img className='img-fluid' src={chrdar} alt="Placeholder" style={{ width: '10vw', maxWidth: '60px', height: '10vw', maxHeight: '80px', backgroundColor: 'gray' }} />
+                        </div>
+                        <div className='ms-3'>
+                          <span className='fw-bold'>{details.productId.name}</span><br />
+                          <span style={{ marginTop: '-10px' }}>{details.productId.price}/Day</span><br />
+                          <span>Size : {details.size}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div className=' d-flex'>
+                          <div className='w-50 d-flex justify-content-between'>
+                            <Button variant="outline-light" className='text-dark w-75 fs-5'>+</Button>
+                            <input type="text" className='border border-light text-center bg-light rounded m-1' style={{ width: '40px' }} readOnly value={0} />
+                            <Button variant="outline-light " className='text-dark w-75 fs-5'>-</Button>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className='w-50 d-flex justify-content-between'>
+                          <Button variant="outline-light" className='text-dark w-75 fs-5'>+</Button>
+                          <input type="text" className='border border-light text-center bg-light rounded m-1' style={{ width: '40px' }} readOnly value={1} />
+                          <Button variant="outline-light " className='text-dark w-75 fs-5'>-</Button>
+                        </div>
+                      </td>
+                      <td>RS. 299</td>
+                      <td className='text-secondary'>
+                        <i className="fa-solid fa-circle-xmark"></i>
+                      </td>
+                    </tr>
+                  </Tooltip>
+                </tbody>
+              ))
+                :
+                <div>no carts</div>
+            }
+
+
+
+
+
           </Table>
         </div>
 

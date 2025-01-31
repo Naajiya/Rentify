@@ -73,6 +73,8 @@ function Auth({ insideRegister }) {
           // to store user and token details to sessionstorage (when the tab close it empty)
           sessionStorage.setItem("user", JSON.stringify(result.data.user))
           sessionStorage.setItem("token", result.data.token)
+          console.log( result.data.token)
+          console.log(JSON.stringify(result.data.user))
           // setIsAuthorizes(true)
           // setIsLogin(true)
 

@@ -13,6 +13,8 @@ import DashBoard from './Admin/pags/DashBoard'
 import Items from './Admin/pags/Items'
 import Address from './pages/Address'
 import BookedItems from './pages/BookedItems'
+import Category from './pages/Category'
+
 // import Login from '../Admin/pags/Login'
 // import Dashboard from '../Admin/pags/Dashboard'
 // import Items from '../Admin/pags/Items'
@@ -32,10 +34,11 @@ function App() {
         <Route element={<LandingPage />} path='/' />
         <Route element ={<Auth/>} path='/login'/>
         <Route element={<Auth insideRegister={true} /> }  path='/register'/>
-        <Route element={<ViewDetails/>} path='/viewdetails'/>
+        <Route element={<ViewDetails/>} path='/:pid/viewdetails'/>
         <Route element={<Cart/> } path='/cart'/>
         <Route element={<Address/>} path='/address'/>
         <Route element={<BookedItems/>} path='/bookedItems'/>
+        <Route element={<Category/>} path='/:category/category'/>
 
 
         <Route element={<Login/>} path='/admin/login'/>
