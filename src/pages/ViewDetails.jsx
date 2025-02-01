@@ -110,13 +110,14 @@ function ViewDetails() {
   //   }
   // };
 
-  const handleCart = async (prod) => {
+  const handleCart = async (prod,price) => {
     if(selectSize){
       const reqBody = {
         productId: prod,
         quantity: 1,
         days: 1,
-        size:selectSize
+        size:selectSize,
+        total:price
       };
       console.log(reqBody)
   
@@ -147,7 +148,7 @@ function ViewDetails() {
               <div className='d-flex border p-1 justify-content-center' key={prod._id}>
                 <Col lg={4} md={12} className='border text-center' style={{ backgroundColor: 'rgb(245, 245, 245)' }}>
                   <div className='img-wrapper'>
-                    <p className='cart-stylw text-light cart-icon'><i onClick={() => handleCart(prod._id)} className="fa-solid fa-cart-plus"></i></p>
+                    <p className='cart-stylw text-light cart-icon'><i onClick={() => handleCart(prod._id,prod.price)} className="fa-solid fa-cart-plus"></i></p>
                     <p style={{ fontSize: '13px' }} className='icon-sty text-success fw-bold w-25'>{prod.availability ? 'available' : 'not available'}</p>
                     <img className='img-fluid' src={`${SERVER_URL}/uploads/${prod.imgOne}`} alt="" style={{ height: '100%' }} />
                   </div>

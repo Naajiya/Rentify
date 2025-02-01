@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import chrdar from '../assets/chrdar2.png';
 import { Button, Col, Row } from 'react-bootstrap';
@@ -8,46 +8,78 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { getCartDetails } from '../../services/allApi';
 import axios from 'axios';
+import { CartContexts } from '../context/CartContext';
 
 
 
 
 function Cart() {
+
+  const { cartDetails, setCartDetails, increament, incrementHandler, decreamentHanldler,daysDecreament,daysIncrement } = useContext(CartContexts)
+
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 768);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [cartDetails, setCartDetails] = useState([])
+  // const [cartDetails, ] = useState([])
   console.log('cartDetails')
   console.log(cartDetails)
 
-  const [addQuantity,setAddQunatity]=useState()
-
-  
-
+  const [addQuantity, setAddQunatity] = useState()
+  const grandTotal = cartDetails.reduce((total, item) => total + (item.totalAmount || 0), 0);
 
 
-  const getCarts = async () => {
 
-    try {
-      const result = await axios.get("http://localhost:3000/get-carts", { headers: { Authorization: sessionStorage.getItem('token') } })
-      // const result = await getCartDetails(reqHeader);
-      console.log("API Response:", result);
 
-      if (result.status === 200) {
-        console.log("Success: Retrieved cart details.");
-        setCartDetails(result.data.cart);
-      } else {
-        console.error("API Error:", result);
+
+  // const getCarts = async () => {
+
+  //   try {
+  //     const result = await axios.get("http://localhost:3000/get-carts", { headers: { Authorization: sessionStorage.getItem('token') } })
+  //     // const result = await getCartDetails(reqHeader);
+  //     console.log("API Response:", result);
+
+  //     if (result.status === 200) {
+  //       console.log("Success: Retrieved cart details.");
+  //       const updatedCart = result.data.cart.map((item) => ({
+  //         ...item,
+  //         quantity: item.quantity || 1, // Initialize quantity from API or default to 1
+  //       }));
+  //       setCartDetails(updatedCart);
+  //     } else {
+  //       console.error("API Error:", result);
+  //     }
+  //   } catch (err) {
+  //     console.error("Error fetching cart data:", err);
+
+  //   };
+  // }
+
+  useEffect(() => {
+    const getCarts = async () => {
+      try {
+        const result = await axios.get("http://localhost:3000/get-carts", {
+          headers: { Authorization: sessionStorage.getItem('token') },
+        });
+
+        if (result.status === 200) {
+          console.log("Success: Retrieved cart details.");
+          const updatedCart = result.data.cart.map((item) => ({
+            ...item,
+            quantity: item.quantity || 1,
+          }));
+          setCartDetails(updatedCart);
+        }
+      } catch (err) {
+        console.error("Error fetching cart data:", err);
       }
-    } catch (err) {
-      console.error("Error fetching cart data:", err);
-
     };
-  }
+
+    getCarts();
+  }, []);
 
 
 
   useEffect(() => {
-    getCarts()
+    // getCarts()
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 768);
     };
@@ -91,8 +123,8 @@ function Cart() {
                 <tbody key={details._id} >
                   <Tooltip title="click" placement="bottom">
 
-                    <tr onClick={() => toggleDrawer(true)} style={{ cursor: 'pointer' }}>
-                      <td className='d-flex h-100 align-items-center'>
+                    <tr style={{ cursor: 'pointer' }}>
+                      <td onClick={() => toggleDrawer(true)} className='d-flex h-100 align-items-center'>
                         <div>
                           <img className='img-fluid' src={chrdar} alt="Placeholder" style={{ width: '10vw', maxWidth: '60px', height: '10vw', maxHeight: '80px', backgroundColor: 'gray' }} />
                         </div>
@@ -105,20 +137,28 @@ function Cart() {
                       <td>
                         <div className=' d-flex'>
                           <div className='w-50 d-flex justify-content-between'>
-                            <Button variant="outline-light" className='text-dark w-75 fs-5'>+</Button>
-                            <input type="text" className='border border-light text-center bg-light rounded m-1' style={{ width: '40px' }} readOnly value={0} />
-                            <Button variant="outline-light " className='text-dark w-75 fs-5'>-</Button>
+                            <Button onClick={() => incrementHandler(details._id)} variant="outline-light" className="text-dark fw-bold">
+                              +
+                            </Button>
+
+                            {/* <input type="text" readOnly value={details.quantity} className="text-center border-light bg-light rounded m-1" style={{ width: "40px" }} /> */}
+                            <input type="text" value={details.quantity} className='border border-secondary text-center bg-light rounded m-1' style={{ width: '40px' }} readOnly  />
+
+                            <Button onClick={() => decreamentHanldler(details._id)} variant="outline-light" className="text-dark fw-bold">
+                              -
+                            </Button>
                           </div>
                         </div>
                       </td>
-                      <td>
+                      <td >
                         <div className='w-50 d-flex justify-content-between'>
-                          <Button variant="outline-light" className='text-dark w-75 fs-5'>+</Button>
-                          <input type="text" className='border border-light text-center bg-light rounded m-1' style={{ width: '40px' }} readOnly value={1} />
-                          <Button variant="outline-light " className='text-dark w-75 fs-5'>-</Button>
+                          <Button onClick={() => daysIncrement(details._id)} variant="outline-light" className='text-dark w-75 fs-5'>+</Button>
+                          <input type="text" value={details.days} className='border border-light text-center bg-light rounded m-1' style={{ width: '40px' }} readOnly  />
+                          <Button onClick={() => daysDecreament(details._id)} variant="outline-light " className='text-dark w-75 fs-5'>-</Button>
                         </div>
                       </td>
-                      <td>RS. 299</td>
+                      <td onClick={() => toggleDrawer(true)}>RS. {details.totalAmount}</td>
+                     
                       <td className='text-secondary'>
                         <i className="fa-solid fa-circle-xmark"></i>
                       </td>
@@ -155,7 +195,7 @@ function Cart() {
                 </div>
                 <hr />
                 <div className='d-flex justify-content-between p-1 '>
-                  <p className='p-2 fw-bold ps-3'>TOTAL</p>
+                  <p className='p-2 fw-bold ps-3'>{grandTotal}</p>
                   <p className='fw-bold pe-4 fw-bold pt-1' style={{ fontSize: '22px' }}>299</p>
                 </div>
               </div>
