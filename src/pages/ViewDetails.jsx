@@ -117,7 +117,7 @@ function ViewDetails() {
         quantity: 1,
         days: 1,
         size:selectSize,
-        total:price
+        // total:price
       };
       console.log(reqBody)
   
@@ -126,7 +126,7 @@ function ViewDetails() {
         console.log("Cart Response:", result.data);
         if (result.status === 200) {
           toast.success(result.data?.message || "Added to cart!");
-          navigate('/cart');
+          // navigate('/cart');
         }
       } catch (err) {
         console.error("Error adding to cart:", err.response?.data || err.message);

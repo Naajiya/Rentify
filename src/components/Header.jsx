@@ -11,6 +11,8 @@ import { Container } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 
 
+
+
 function Header() {
 
     const renderTooltip = (props) => (
@@ -92,7 +94,7 @@ function Header() {
                                     delay={{ show: 250, hide: 400 }}
                                     overlay={renderTooltiwish}
                                 >
-                                    <Link to={'/wishlist'}><div className='ms-3 text-dark'> <i class="fa-solid fa-heart "></i></div></Link>
+                                    <Link to={'/cart'}><div className='ms-3 text-dark'><i class="fa-solid fa-cart-shopping"></i></div></Link>
                                 </OverlayTrigger>
                             </Col>
 

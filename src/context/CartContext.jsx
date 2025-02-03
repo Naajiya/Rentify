@@ -6,37 +6,33 @@ export const CartContexts = createContext();
 function CartContext({ children }) {
   const [cartDetails, setCartDetails] = useState([]); // Store cart data
 
-  // const [totalAmount,setTotalAmount]=useState(cartDetails.price)
-
-  const updateCartDetails = async (cartId, updatedItem) => {
+  const updateCartDetails = async (carId, updatedItem) => {
+    console.log(updatedItem)
     const reqBody = {
       productId: updatedItem._id,
       quantity: updatedItem.quantity,
       days: updatedItem.days,
-      
     };
 
     try {
       const result = await axios.put(
-        `http://localhost:3000/change-cart/${cartId}`,
+        `http://localhost:3000/change-cart/${carId}`,
         reqBody,
         {
           headers: { Authorization: sessionStorage.getItem("token") },
         }
       );
-    
-      console.log('Result of PUT method:', result.data); // Log the response data directly
-      const res = result.data; // No need to parse, Axios already did it
-      console.log('Parsed response:', res);
+
+      console.log('Result of PUT method:', result.data);
     } catch (err) {
-      console.log(err);
+      console.error("Error updating cart details:", err);
     }
   };
+
   const updateTotalAmount = (item) => ({
     ...item,
-    totalAmount: (item.productId?.price || 0) * (item.quantity || 1) * (item.days || 1),
+    total: (item.productId?.price || 0) * (item.quantity || 1) * (item.days || 1),
   });
-
 
   const incrementHandler = (proId) => {
     setCartDetails((prevCart) =>
@@ -46,12 +42,13 @@ function CartContext({ children }) {
           : item
       )
     );
-  
+
     const updatedItem = cartDetails.find((item) => item._id === proId);
-    if (updatedItem)
+    if (updatedItem) {
       updateCartDetails(proId, updateTotalAmount({ ...updatedItem, quantity: updatedItem.quantity + 1 }));
+    }
   };
-  
+
   const decreamentHanldler = (proId) => {
     setCartDetails((prevCart) =>
       prevCart.map((item) =>
@@ -63,12 +60,13 @@ function CartContext({ children }) {
           : item
       )
     );
-  
+
     const updatedItem = cartDetails.find((item) => item._id === proId);
-    if (updatedItem)
+    if (updatedItem) {
       updateCartDetails(proId, updateTotalAmount({ ...updatedItem, quantity: Math.max(updatedItem.quantity - 1, 1) }));
+    }
   };
-  
+
   const daysIncrement = (proId) => {
     setCartDetails((prevCart) =>
       prevCart.map((item) =>
@@ -77,12 +75,13 @@ function CartContext({ children }) {
           : item
       )
     );
-  
+
     const updatedItem = cartDetails.find((item) => item._id === proId);
-    if (updatedItem)
+    if (updatedItem) {
       updateCartDetails(proId, updateTotalAmount({ ...updatedItem, days: updatedItem.days + 1 }));
+    }
   };
-  
+
   const daysDecreament = (proId) => {
     setCartDetails((prevCart) =>
       prevCart.map((item) =>
@@ -94,12 +93,12 @@ function CartContext({ children }) {
           : item
       )
     );
-  
-    const updatedItem = cartDetails.find((item) => item._id === proId);
-    if (updatedItem)
-      updateCartDetails(proId, updateTotalAmount({ ...updatedItem, days: Math.max(updatedItem.days - 1, 1) }));
-  };
 
+    const updatedItem = cartDetails.find((item) => item._id === proId);
+    if (updatedItem) {
+      updateCartDetails(proId, updateTotalAmount({ ...updatedItem, days: Math.max(updatedItem.days - 1, 1) }));
+    }
+  };
 
   return (
     <CartContexts.Provider

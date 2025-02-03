@@ -24,34 +24,11 @@ function Cart() {
   console.log(cartDetails)
 
   const [addQuantity, setAddQunatity] = useState()
-  const grandTotal = cartDetails.reduce((total, item) => total + (item.totalAmount || 0), 0);
+  const grandTotal = cartDetails.reduce((total, item) => total + (item.total || 0), 0);
+
+  const [totlItems,setItems]=useState()
 
 
-
-
-
-  // const getCarts = async () => {
-
-  //   try {
-  //     const result = await axios.get("http://localhost:3000/get-carts", { headers: { Authorization: sessionStorage.getItem('token') } })
-  //     // const result = await getCartDetails(reqHeader);
-  //     console.log("API Response:", result);
-
-  //     if (result.status === 200) {
-  //       console.log("Success: Retrieved cart details.");
-  //       const updatedCart = result.data.cart.map((item) => ({
-  //         ...item,
-  //         quantity: item.quantity || 1, // Initialize quantity from API or default to 1
-  //       }));
-  //       setCartDetails(updatedCart);
-  //     } else {
-  //       console.error("API Error:", result);
-  //     }
-  //   } catch (err) {
-  //     console.error("Error fetching cart data:", err);
-
-  //   };
-  // }
 
   useEffect(() => {
     const getCarts = async () => {
@@ -61,11 +38,16 @@ function Cart() {
         });
 
         if (result.status === 200) {
+          console.log("res", result.data)
           console.log("Success: Retrieved cart details.");
           const updatedCart = result.data.cart.map((item) => ({
             ...item,
             quantity: item.quantity || 1,
+            days: item.days || 1,
+            total: (item.productId?.price || 0) * (item.quantity || 1) * (item.days || 1),
           }));
+          setItems(updatedCart.length)
+         console.log(updatedCart.length)
           setCartDetails(updatedCart);
         }
       } catch (err) {
@@ -157,7 +139,7 @@ function Cart() {
                           <Button onClick={() => daysDecreament(details._id)} variant="outline-light " className='text-dark w-75 fs-5'>-</Button>
                         </div>
                       </td>
-                      <td onClick={() => toggleDrawer(true)}>RS. {details.totalAmount}</td>
+                      <td onClick={() => toggleDrawer(true)}>RS. {details.total}</td>
                      
                       <td className='text-secondary'>
                         <i className="fa-solid fa-circle-xmark"></i>
@@ -180,23 +162,27 @@ function Cart() {
         <Row className='d-flex justify-content-end'>
           <Col className='d-flex justify-content-end m-2' md={12}>
             <div className={isSmallScreen ? 'w-100 m-4 p-4 border' : 'm-4 p-4 border w-50'}>
-              <h4 className=' bg-light w-100 p-3 w-100'>Order summary</h4>
+              <h4 className=' bg-light w-100 p-3 w-100'>Cart summary</h4>
 
               <div className=''>
                 <hr />
                 <div className='d-flex justify-content-between p-1'>
                   <p className='ps-3'>Total Item</p>
-                  <p className='fw-bold pe-4' style={{ fontSize: '20px' }}>2</p>
+                  <p className=' pe-4' style={{ fontSize: '20px' }}>{totlItems}</p>
+                </div>
+                <div className='d-flex justify-content-between p-1'>
+                  <p className='ps-3'>Delivery Charge</p>
+                  <p className='pe-4' style={{ fontSize: '20px', }}>Free</p>
                 </div>
                 <hr />
                 <div className='d-flex justify-content-between p-1'>
                   <p className='ps-3'>Total Price</p>
-                  <p className='fw-bold pe-4' style={{ fontSize: '19px' }}>299</p>
+                  <p className='fw-bold pe-4' style={{ fontSize: '19px' }}>₹{grandTotal}</p>
                 </div>
                 <hr />
                 <div className='d-flex justify-content-between p-1 '>
-                  <p className='p-2 fw-bold ps-3'>{grandTotal}</p>
-                  <p className='fw-bold pe-4 fw-bold pt-1' style={{ fontSize: '22px' }}>299</p>
+                  <p className='p-2 fw-bold ps-3'></p>
+                  <p className='fw-bold pe-4 fw-bold pt-1' style={{ fontSize: '22px' }}></p>
                 </div>
               </div>
             </div>
