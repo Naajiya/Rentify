@@ -10,7 +10,7 @@ function Header() {
           <Container className="d-flex justify-content-between align-items-center">
             <Navbar.Brand className="text-light" href="#home">Rentify</Navbar.Brand>
             <div className="text-light d-flex">
-              <p className='m-2'>Order</p>
+             <Link className='text-decoration-none text-light' to={'/admin/orders'}> <p className='m-2'>Order</p></Link>
               <p className='m-2'>DashBoard</p>
              <Link className='text-decoration-none text-light' to={'/admin/items'}> <p className='m-2'>Items</p></Link>
             </div>

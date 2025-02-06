@@ -9,7 +9,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { Container } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
-
+import Badge from 'react-bootstrap/Badge';
 
 
 
@@ -17,7 +17,7 @@ function Header() {
 
     const renderTooltip = (props) => (
         <Tooltip id="button-tooltip" {...props}>
-            profile
+            orders
         </Tooltip>
     );
 
@@ -74,19 +74,19 @@ function Header() {
 
                             </Col>
                             <Col xs="auto" className='me-5 d-flex mt-1 '>
-                                <OverlayTrigger
+                                {/* <OverlayTrigger
                                     placement="right"
                                     delay={{ show: 250, hide: 400 }}
                                     overlay={renderTooltipa}
                                 >
                                     <div className='me-2'> <i class="fa-solid fa-bag-shopping "></i></div>
-                                </OverlayTrigger>
+                                </OverlayTrigger> */}
                                 <OverlayTrigger
                                     placement="right"
                                     delay={{ show: 250, hide: 400 }}
                                     overlay={renderTooltip}
                                 >
-                                    <div className='ms-2'> <i class="fa-solid fa-user"></i></div>
+                                    <Link to={'/bookedItems'}><div className='ms-2'> <i class="fa-solid fa-box"></i></div></Link>
                                 </OverlayTrigger>
                                 
                                 <OverlayTrigger

@@ -9,7 +9,7 @@ import { useMediaQuery } from '@mui/material';
 
 
 
-function Aadhar() {
+function Aadhar({setAadharNum}) {
 
 
     const [otp, setOtp] = useState('');
@@ -19,7 +19,7 @@ function Aadhar() {
     const handleClose = () => setOpen(false);
 
     const [aadhar,setAadhar]=useState()
-
+    console.log(aadhar)
 
     const isSmallScreen = useMediaQuery('(max-width:600px)');
 
@@ -37,6 +37,7 @@ function Aadhar() {
 
     const handleSave=()=>{
         setAadhar(otp)
+        setAadharNum(otp)
     }
 
     return (

@@ -5,7 +5,7 @@ import SignatureCanvas from 'react-signature-canvas'
 
 
 
-function DigitalSign() {
+function DigitalSign({setDigitalSign}) {
     const sigPad = useRef(null);
     const [currentSign, setCurrentSign] = useState('')
 
@@ -22,6 +22,10 @@ function DigitalSign() {
             console.log(dataUrl)
             setCurrentSign(dataUrl)
 
+            if(dataUrl){
+                setDigitalSign(dataUrl)
+            }
+
         }
 
 
@@ -30,6 +34,7 @@ function DigitalSign() {
     const clearSign=()=>{
         sigPad.current.clear()
         setCurrentSign('')
+        setDigitalSign('')
     }
 
 
@@ -46,8 +51,9 @@ function DigitalSign() {
                                 <SignatureCanvas
                                     ref={sigPad}
                                     penColor='black'
-                                    
-                                    canvasProps={{ width: 300, height: 300, className: 'sigCanvas border shadow border-3'  }} />
+                                
+                                   
+                                    canvasProps={{ width: 300, height: 300, className: 'sigCanvas border shadow border-1',willReadFrequently: true  }} />
                                 <div className=''>
     
                                     <Button variant='dark' size='sm' className='m-2 bold' style={{fontSize:'14px'}} onClick={saveSignature}>Save</Button>

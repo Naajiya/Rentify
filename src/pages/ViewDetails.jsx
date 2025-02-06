@@ -18,20 +18,21 @@ function ViewDetails() {
   const navigate = useNavigate();
   const { pid } = useParams();
   const [products, setProducts] = useState([]);
+  console.log(products)
   const [categoryDetails, setCategoryDetails] = useState([]);
   const [size, setSizes] = useState({ S: "", M: "", L: "" })
   console.log(size)
-  const [cartSize,setCartSize]=useState()
+  const [cartSize, setCartSize] = useState()
   // console.log("cartsize",cartSize)
 
-  const [selectSize,setSelectSize]=useState('')
+  const [selectSize, setSelectSize] = useState('')
   console.log(selectSize)
 
-  const setHandle=(sizeVal)=>{
-    
-      setSelectSize(sizeVal)
-      // toast.success(`selected Size ${sizeVal}`)
-   
+  const setHandle = (sizeVal) => {
+
+    setSelectSize(sizeVal)
+    // toast.success(`selected Size ${sizeVal}`)
+
   }
 
   const getButtonStyle = (sizeValue) => {
@@ -42,7 +43,7 @@ function ViewDetails() {
 
   useEffect(() => {
     getDetails();
-    
+
   }, []);
 
   const getDetails = async () => {
@@ -72,70 +73,65 @@ function ViewDetails() {
       freeSize && setSelectSize('Freeize')
     }
   }, [products]); // Runs every time `products` changes
-  
+
   const sizeste = () => {
     if (products.length > 0) {
       console.log(products[0].size);
       const sizes = products[0].size;
       console.log("s");
       console.log(sizes);
-  
+
       if (sizes.includes("Freeize")) {
         setFreeSize("Freesize");
       } else {
         // Update sizes dynamically
         const updatedSizes = {};
-  
+
         if (sizes.includes("S")) updatedSizes.S = "S";
         if (sizes.includes("M")) updatedSizes.M = "M";
         if (sizes.includes("L")) updatedSizes.L = "L";
-  
+
         setSizes((prevSizes) => ({ ...prevSizes, ...updatedSizes }));
       }
     }
   };
 
 
-  // const handleCategory = async () => {
-  //   console.log('handle');
-  //   try {
-  //     console.log('rr');
-  //     const result = await selectCategory(category);
-  //     console.log(result);
-  //     if (result.status === 200) {
-  //       setCategoryDetails(result.data);
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
 
-  const handleCart = async (prod,price) => {
-    if(selectSize){
-      const reqBody = {
-        productId: prod,
-        quantity: 1,
-        days: 1,
-        size:selectSize,
-        // total:price
-      };
-      console.log(reqBody)
-  
-      try {
-        const result = await axios.post('http://localhost:3000/add-to-cart', reqBody, { headers: { Authorization: sessionStorage.getItem('token') } });
-        console.log("Cart Response:", result.data);
-        if (result.status === 200) {
-          toast.success(result.data?.message || "Added to cart!");
-          // navigate('/cart');
+
+  const handleCart = async (prod, price, availability) => {
+    if (availability == false) {
+      toast.error('outofstock Product')
+    }
+    if (availability == true) {
+      if (selectSize) {
+        const reqBody = {
+          productId: prod,
+          quantity: 1,
+          days: 1,
+          size: selectSize,
+          // total:price
+        };
+        console.log(reqBody)
+
+        try {
+          const result = await axios.post('http://localhost:3000/add-to-cart', reqBody, { headers: { Authorization: sessionStorage.getItem('token') } });
+          console.log("Cart Response:", result.data);
+          if (result.status === 200) {
+            toast.success(result.data?.message || "Added to cart!");
+            // navigate('/cart');
+          }
+        } catch (err) {
+          toast.error('please login')
+          console.error("Error adding to cart:", err.response?.data || err.message);
         }
-      } catch (err) {
-        console.error("Error adding to cart:", err.response?.data || err.message);
+      } else {
+        toast.error('select a size')
       }
-    }else{
-      toast.error('select a size')
     }
 
-    
+
+
   };
 
   return (
@@ -148,7 +144,7 @@ function ViewDetails() {
               <div className='d-flex border p-1 justify-content-center' key={prod._id}>
                 <Col lg={4} md={12} className='border text-center' style={{ backgroundColor: 'rgb(245, 245, 245)' }}>
                   <div className='img-wrapper'>
-                    <p className='cart-stylw text-light cart-icon'><i onClick={() => handleCart(prod._id,prod.price)} className="fa-solid fa-cart-plus"></i></p>
+                    <p className='cart-stylw text-light cart-icon'><i onClick={() => handleCart(prod._id, prod.price, prod.availability)} className="fa-solid fa-cart-plus"></i></p>
                     <p style={{ fontSize: '13px' }} className='icon-sty text-success fw-bold w-25'>{prod.availability ? 'available' : 'not available'}</p>
                     <img className='img-fluid' src={`${SERVER_URL}/uploads/${prod.imgOne}`} alt="" style={{ height: '100%' }} />
                   </div>
@@ -162,25 +158,25 @@ function ViewDetails() {
                         <p className='fs-3'> {prod.price}<span>/day</span></p>
                       </div>
                       <div className='p-2'>
-                        <Button variant="secondary">Day</Button>
+                        {/* <Button variant="secondary">Day</Button> */}
                       </div>
                     </div>
                   </div>
                   <div className='border rounded pt-2 p-2 ps-2 m-1'>
                     <p className='fw-bold'>Select Size</p>
                     <div>
-                    
-                     
+
+
                       {freeSize && <Button className='ms-2' style={{ backgroundColor: 'white', borderColor: 'black', color: 'black' }}>FreeSize</Button>}
-                      
 
 
 
-                    
+
+
                       {size.S && <Button onClick={() => setHandle('S')} className='ms-2' style={getButtonStyle('S')}>S</Button>}
                       {size.M && <Button onClick={() => setHandle('M')} className='ms-2' style={getButtonStyle('M')}>M</Button>}
                       {size.L && <Button onClick={() => setHandle('L')} className='ms-2' style={getButtonStyle('L')}>L</Button>}
-                     
+
                     </div>
                   </div>
                   <div className='border rounded pt-2 p-2 ps-2 m-1'>

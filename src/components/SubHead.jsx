@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import menWomen from '../assets/menwomen.jpg'
 import furniture from '../assets/furnitures.jpg'
 import { selectCategory } from '../../services/allApi';
+import womenFash from '../assets/fashionWomen.jpg'
 
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -19,6 +20,7 @@ function SubHead() {
 
   const [men,setMen]=useState('Men')
   const [furnitures,setFurniture]=useState('Furniture')
+  const [women,setWomen]=useState('Women')
   return (
     <>
       <Row className='w-100 sub-head mt-1 '>
@@ -52,8 +54,14 @@ function SubHead() {
             </Button>
          </Link>
 
-          <Button className='border border-light fw-bold hover-button  m-1' style={{ fontSize: '11px' }}
-            variant="">VEHICLES</Button>
+         <Link to={`/${women}/category`} className='text-decoration-none'>
+            <Button className='d-flex flex-column justify-content-center align-items-center fw-bold hover-button m-1' style={{ fontSize: '11px' }}
+              variant="">
+              <img className='sub-img img-fluid border shadow' src={womenFash} alt="" />
+              <p className='text-center'>Women</p>
+  
+            </Button>
+         </Link>
 
 
           <Button className='border border-light fw-bold m-1' style={{ fontSize: '11px' }}

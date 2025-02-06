@@ -14,6 +14,7 @@ import Items from './Admin/pags/Items'
 import Address from './pages/Address'
 import BookedItems from './pages/BookedItems'
 import Category from './pages/Category'
+import Orders from './Admin/pags/Orders'
 
 // import Login from '../Admin/pags/Login'
 // import Dashboard from '../Admin/pags/Dashboard'
@@ -36,7 +37,7 @@ function App() {
         <Route element={<Auth insideRegister={true} /> }  path='/register'/>
         <Route element={<ViewDetails/>} path='/:pid/viewdetails'/>
         <Route element={<Cart/> } path='/cart'/>
-        <Route element={<Address/>} path='/address'/>
+        <Route element={<Address/>} path='/address/:cartDetails'/>
         <Route element={<BookedItems/>} path='/bookedItems'/>
         <Route element={<Category/>} path='/:category/category'/>
 
@@ -44,10 +45,11 @@ function App() {
         <Route element={<Login/>} path='/admin/login'/>
         <Route element={<DashBoard/>} path='/admin/dashBoard'/>
         <Route element={<Items/>} path='/admin/items'/>
+        <Route element={<Orders/>} path='/admin/orders'/>
         
       </Routes>
 
-      {/* <Footer/> */}
+      <Footer/>
 
 
 

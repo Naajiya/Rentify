@@ -9,6 +9,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { getCartDetails } from '../../services/allApi';
 import axios from 'axios';
 import { CartContexts } from '../context/CartContext';
+import { Link } from 'react-router-dom';
 
 
 
@@ -27,6 +28,35 @@ function Cart() {
   const grandTotal = cartDetails.reduce((total, item) => total + (item.total || 0), 0);
 
   const [totlItems,setItems]=useState()
+  const [deletCart,setDeleteCart]=useState()
+
+
+
+  const handleDeleteCart=async(cartId)=>{
+
+    try{
+
+      const result = await axios.delete(
+        `http://localhost:3000/delete-cartItem/${cartId}`,
+       
+        {
+          headers: { Authorization: sessionStorage.getItem("token") },
+        }
+      );
+
+      console.log(result.data)
+      if(result.status==200){
+        setDeleteCart(result.data)
+      }
+
+    }catch(err){
+      console.log(err)
+    }
+
+  }
+
+
+ 
 
 
 
@@ -56,7 +86,7 @@ function Cart() {
     };
 
     getCarts();
-  }, []);
+  }, [deletCart]);
 
 
 
@@ -87,7 +117,8 @@ function Cart() {
           <div className='mt-5'>Your cart</div>
         </h2>
 
-        <div className='m-3 mb-2'>
+        <div className='m-3 mb-2 '>
+        
           <Table responsive className={`table ${isSmallScreen ? 'table-bordered' : ''}`}>
             <thead>
               <tr>
@@ -102,6 +133,7 @@ function Cart() {
             </thead>
             {
               cartDetails ? cartDetails.map(details => (
+           
                 <tbody key={details._id} >
                   <Tooltip title="click" placement="bottom">
 
@@ -142,21 +174,22 @@ function Cart() {
                       <td onClick={() => toggleDrawer(true)}>RS. {details.total}</td>
                      
                       <td className='text-secondary'>
-                        <i className="fa-solid fa-circle-xmark"></i>
+                        <i onClick={()=>handleDeleteCart(details._id)} className="fa-solid fa-circle-xmark"></i>
                       </td>
                     </tr>
                   </Tooltip>
                 </tbody>
-              ))
-                :
-                <div>no carts</div>
-            }
-
+              
+            ))
+            :
+            <div className='mt-5'>no carts</div>
+        }
 
 
 
 
           </Table>
+        
         </div>
 
         <Row className='d-flex justify-content-end'>
@@ -180,8 +213,8 @@ function Cart() {
                   <p className='fw-bold pe-4' style={{ fontSize: '19px' }}>₹{grandTotal}</p>
                 </div>
                 <hr />
-                <div className='d-flex justify-content-between p-1 '>
-                  <p className='p-2 fw-bold ps-3'></p>
+                <div className='d-flex justify-content-center p-1 w-100'>
+                  <Link to={`/address/${cartDetails}`}><button className='btn btn-success w-100 ps-5 pe-5 text-center'>checkout</button></Link>
                   <p className='fw-bold pe-4 fw-bold pt-1' style={{ fontSize: '22px' }}></p>
                 </div>
               </div>

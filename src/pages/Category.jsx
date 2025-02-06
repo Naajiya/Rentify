@@ -98,13 +98,13 @@ function Category() {
                                         </div>
                                         <Card.Body >
                                             <Card.Title >
-                                                <div className='d-flex'><p className='text-center' style={{ fontSize: '15px', fontFamily: 'cursive' }}>{prod.name}</p></div>
+                                                <div className='d-flex justify-content-center'><p className='text-center' style={{ fontSize: '15px', fontFamily: 'cursive' }}>{prod.name}</p></div>
                                             </Card.Title>
-                                            <Card.Text className='d-flex justify-content-between'>
+                                            <Card.Text className='d-flex justify-content-center'>
 
                                                 <p style={{ fontFamily: 'cursive', fontSize: '13px' }} className='fw-bold'>${prod.price}/day</p>
                                                 
-                                                <p className='cart-icon'><i onClick={() => handleCart(prod._id)} class="fa-solid fa-cart-shopping"></i></p>
+                                               
                                             </Card.Text>
 
                                         </Card.Body>
