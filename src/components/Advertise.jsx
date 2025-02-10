@@ -14,7 +14,7 @@ function Advertise() {
             <div className='body-color p-3 border shadow mb-2'>
                 <div className='d-flex text-center  '>
                     <Row lg={12}>
-                        <Col className='container ps-3 d-flex justify-content-center mt-3 p-2' style={{ width: '50%' }}>
+                        <Col lg={6} className='container ps-3 d-flex justify-content-center mt-3 p-2' style={{ width: '50%' }}>
                             <div className='box-card first border border-2'>
                                 <img className='img-style img-fluid' src={chair} alt="" />
                             </div>
@@ -26,7 +26,7 @@ function Advertise() {
                             </div>
                         </Col>
 
-                        <Col lg={6} md={12}>
+                        <Col lg={6} md={12} style={{width:'50%'}}>
                             <div className='p-5'>
                                 <h4 style={{ fontFamily: 'cursive' }} className=''>Start renting smarter. Sign up and explore!</h4>
                                 <p style={{ fontFamily: 'cursive' }}>Why buy when you can rent? Get started now!  </p>

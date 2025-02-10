@@ -1,45 +1,25 @@
 import axios from 'axios'
 import React, { useContext } from 'react'
+import { toast, ToastContainer } from 'react-toastify'
 
 
-import { CartContexts } from '../context/CartContext';
 
-function SelectPymt() {
 
-    const { cartDetails } = useContext(CartContexts)
+function SelectPymt({cartDetails,selcAddress}) {
+
+    
     console.log(cartDetails)
 
-    const handleOrder = async () => {
-
-        const orderPayload = {
-            items: cartDetails.map(item => ({
-                product: item.productId._id,
-                quantity: item.quantity,
-                days: item.days,
-                size: item.size,
-                total: item.total
-            }))
-        }
-
-        try {
-
-
-            const result = await axios.post(
-                `http://localhost:3000/create-order`,orderPayload,
-
-                {
-                    headers: { Authorization: sessionStorage.getItem("token") },
-                }
-            );
-            console.log(result)
-            if (result.status == 201) {
-                alert('Order placed successfully!');
-
-            }
-        } catch (err) {
-            console.log(err)
-        }
+   const  handleOrder=()=>{
+    if(selcAddress){
+        console.log(selcAddress)
+        console.log('clicked details order',cartDetails)
+    }else{
+        toast.error('address required')
     }
+        
+    }
+
 
     return (
         <>

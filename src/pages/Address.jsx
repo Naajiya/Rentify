@@ -22,11 +22,18 @@ import Aadhar from '../components/Aadhar';
 import axios from 'axios';
 import SelectPymt from '../components/SelectPymt';
 import Toast from 'react-bootstrap/Toast';
+import SelectAddress from '../components/SelectAddress';
+import { toast } from 'react-toastify';
+import { useLocation } from 'react-router-dom';
 
 
 // import { Button as BootstrapButton } from 'react-bootstrap';
 
 function Address() {
+
+  const location = useLocation(); // Initialize useLocation
+  const { cartDetails } = location.state || {}; // Access the passed state
+  console.log('Cart Details:', cartDetails);
 
   const navigate = useNavigate()
   // const inputRef = React.useRef(null);
@@ -39,6 +46,12 @@ function Address() {
   console.log('dig', digSign)
   const [aadharNumber, setAadharNum] = useState('')
   console.log('adar', aadharNumber)
+
+  const [address, setAddress] = useState([])
+  const [selcAddress,setSelcAddress]=useState(null)
+  console.log('selcAddress', selcAddress)
+  console.log('addres')
+  console.log(address)
 
 
   const [otp, setOtp] = useState('');
@@ -53,6 +66,8 @@ function Address() {
 
   useEffect(() => {
     today()
+    getAddress()
+   
   }, [])
 
   const today = () => {
@@ -84,60 +99,135 @@ function Address() {
   }
 
 
+  const getAddress = async () => {
+    try {
+      const result = await axios.get('http://localhost:3000/get-address', {
+        headers: {
+          Authorization: sessionStorage.getItem('token')
+        }
+      })
+      setAddress(result.data.addresses)
+      console.log(result)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+
 
   const handleAddressDetails = async () => {
     const { name, phone, pincode, addresses, date, city, acceptPolicy } = addresDetails;
+    console.log('clik')
 
-    if (digSign && aadharNumber && name && phone && pincode && addresses && date && city) {
-      console.log(aadharNumber, name, phone, pincode, addresses, date, city, acceptPolicy)
-      const reqBody = new FormData();
-      reqBody.append("name", name);
-      reqBody.append("phone", phone);
-      reqBody.append("pincode", pincode);
-      reqBody.append("addresses", addresses);
-      reqBody.append("date", date);
-      reqBody.append("city", city);
-      reqBody.append("acceptPolicy", acceptPolicy.toString());
-      reqBody.append("aadharNumber", aadharNumber);
+    if (address.length == 0) {
+      if (digSign && aadharNumber && name && phone && pincode && addresses && date && city) {
+        console.log(aadharNumber, name, phone, pincode, addresses, date, city, acceptPolicy)
+        const reqBody = new FormData();
+        reqBody.append("name", name);
+        reqBody.append("phone", phone);
+        reqBody.append("pincode", pincode);
+        reqBody.append("addresses", addresses);
+        reqBody.append("date", date);
+        reqBody.append("city", city);
+        reqBody.append("acceptPolicy", acceptPolicy.toString());
+        reqBody.append("aadharNumber", aadharNumber);
 
-      // Convert data URL to a File object
-      const blob = await fetch(digSign).then(res => res.blob());
-      const file = new File([blob], "signature.png", { type: "image/png" });
-      reqBody.append("digSign", file);
+        // Convert data URL to a File object
+        const blob = await fetch(digSign).then(res => res.blob());
+        const file = new File([blob], "signature.png", { type: "image/png" });
+        reqBody.append("digSign", file);
 
-      try {
-        const result = await axios.post('http://localhost:3000/add-address', reqBody, {
-          headers: {
-            Authorization: sessionStorage.getItem('token'),
-            'Content-Type': 'multipart/form-data'
+        try {
+          const result = await axios.post('http://localhost:3000/add-address', reqBody, {
+            headers: {
+              Authorization: sessionStorage.getItem('token'),
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+
+          if (result.status === 200) {
+            toast.success('added')
+            console.log(result.data)
+            setSelcAddress(result.data._id)
+            getAddress()
+          
+            // navigate('/bookedItems')
           }
-        });
-
-        if (result.status === 200) {
-          <Toast>
-            
-            <Toast.Body>address added</Toast.Body>
-          </Toast>
-          // navigate('/bookedItems')
+        } catch (err) {
+          console.log(err);
         }
-      } catch (err) {
-        console.log(err);
+      }
+
+
+    }else{
+      if( name && phone && pincode && addresses && date && city){
+        const reqBody = new FormData();
+        reqBody.append("name", name);
+        reqBody.append("phone", phone);
+        reqBody.append("pincode", pincode);
+        reqBody.append("addresses", addresses);
+        reqBody.append("date", date);
+        reqBody.append("city", city);
+        reqBody.append("acceptPolicy", acceptPolicy.toString());
+
+        try {
+          const result = await axios.post('http://localhost:3000/add-address', reqBody, {
+            headers: {
+              Authorization: sessionStorage.getItem('token'),
+             
+            }
+          });
+
+          console.log(result)
+
+          if (result.status === 200) {
+            const data = result.data
+            console.log(data._id)
+            getAddress()
+            setSelcAddress(result.data._id)
+            toast.success('added new address')
+           
+            // navigate('/bookedItems')
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      
       }
     }
+
   };
 
   return (
     <>
       <div className=''>
-        <div className='p-5'>
-          <div className='text-center'>
+        <div className='p-1'>
+          <div className='p-3 fw-bold text-center bg-secondary'>
             Address Details
+
           </div>
-          <div className='pt-5 '>
+
+          <div>
+            {
+              address.length !== 0 &&
+              <div>
+                <div className='m-2 '>
+                  <SelectAddress address={address} setSelcAddress={setSelcAddress}/>
+                </div>
+                <div className='fw-bold text-info'>
+                  +Add New
+                </div>
+              </div>
+            }
+
+
+          </div>
+
+          <div className='pt-2 '>
 
 
 
-            <Row className='d-flex border justify-content-between align-items-between p-3'>
+            <Row className='d-flex border m-3 justify-content-center align-items-between p-3'>
               <Col lg={7}>
                 <div className='border p-2 rounded shadow'>
 
@@ -286,26 +376,29 @@ function Address() {
 
               </Col>
 
+              {
+                address.length == 0 &&
+                <Col lg={5} className='text-center d-flex flex-column justify-content-center align-items-center '>
 
-              <Col lg={5} className='text-center d-flex flex-column justify-content-center align-items-center '>
+                  <div className='border rounded w-100 mt-2'><Aadhar setAadharNum={setAadharNum} /></div>
+                  <div className='text-center d-flex flex-column rounded border w-100 justify-content-center align-items-center mt-2 '>
+                    <div>
+                      Draw your sign
+                    </div>
+                    <DigitalSign setDigitalSign={setDigitalSign} />
 
-                <div className='border w-100 mt-2'><Aadhar setAadharNum={setAadharNum} /></div>
-                <div className='text-center d-flex flex-column border w-100 justify-content-center align-items-center mt-2 '>
-                  <div>
-                    Draw your sign
                   </div>
-                  <DigitalSign setDigitalSign={setDigitalSign} />
 
-                </div>
+                </Col>
 
-              </Col>
+              }
 
 
             </Row>
 
 
             <div>
-              <SelectPymt />
+              <SelectPymt cartDetails={cartDetails} selcAddress={selcAddress}/>
             </div>
 
 

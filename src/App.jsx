@@ -37,7 +37,8 @@ function App() {
         <Route element={<Auth insideRegister={true} /> }  path='/register'/>
         <Route element={<ViewDetails/>} path='/:pid/viewdetails'/>
         <Route element={<Cart/> } path='/cart'/>
-        <Route element={<Address/>} path='/address/:cartDetails'/>
+        <Route element={<Address />} path="/address" />
+
         <Route element={<BookedItems/>} path='/bookedItems'/>
         <Route element={<Category/>} path='/:category/category'/>
 

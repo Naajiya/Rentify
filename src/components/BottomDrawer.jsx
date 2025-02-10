@@ -2,11 +2,27 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 import chrdar from '../assets/chrdar2.png'
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
-export default function BottomDrawer({ isOpen, toggleDrawer }) {
+export default function BottomDrawer({ isOpen, toggleDrawer,dtls }) {
+  console.log(dtls)
+  const [cartDetails,setcartDetails]=useState([])
+
+  useEffect(()=>{
+    setcartDetails(Array.isArray(dtls) ? dtls : [dtls]);
+  },[dtls])
+
+   const navigate = useNavigate();
+
+   const handleCheckout = () => {
+    // Navigate to the Address page and pass cartDetails as state
+    navigate('/address', { state: { cartDetails } });
+  };
+
   return (
     <div>
       <Drawer anchor="bottom" open={isOpen} onClose={() => toggleDrawer(false)}>
@@ -25,7 +41,7 @@ export default function BottomDrawer({ isOpen, toggleDrawer }) {
           </div>
 
           <div className='m-2'>
-            <Link to='/address'><Button color="secondary" className='fw-bold w-25'>Continue</Button></Link>
+            <Button onClick={handleCheckout} color="secondary" className='fw-bold w-25'>Continue</Button>
           </div>
         </div>
       </Drawer>

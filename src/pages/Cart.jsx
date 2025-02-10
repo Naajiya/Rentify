@@ -9,56 +9,40 @@ import Tooltip from '@mui/material/Tooltip';
 import { getCartDetails } from '../../services/allApi';
 import axios from 'axios';
 import { CartContexts } from '../context/CartContext';
-import { Link } from 'react-router-dom';
-
-
-
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 function Cart() {
-
-  const { cartDetails, setCartDetails, increament, incrementHandler, decreamentHanldler,daysDecreament,daysIncrement } = useContext(CartContexts)
-
+  const { cartDetails, setCartDetails, incrementHandler, decreamentHanldler, daysDecreament, daysIncrement } = useContext(CartContexts);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 768);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  // const [cartDetails, ] = useState([])
-  console.log('cartDetails')
+  const [totlItems, setItems] = useState();
+  const [deletCart, setDeleteCart] = useState();
+  const navigate = useNavigate(); // Initialize useNavigate
   console.log(cartDetails)
 
-  const [addQuantity, setAddQunatity] = useState()
   const grandTotal = cartDetails.reduce((total, item) => total + (item.total || 0), 0);
 
-  const [totlItems,setItems]=useState()
-  const [deletCart,setDeleteCart]=useState()
-
-
-
-  const handleDeleteCart=async(cartId)=>{
-
-    try{
-
+  const handleDeleteCart = async (cartId) => {
+    try {
       const result = await axios.delete(
         `http://localhost:3000/delete-cartItem/${cartId}`,
-       
         {
           headers: { Authorization: sessionStorage.getItem("token") },
         }
       );
 
-      console.log(result.data)
-      if(result.status==200){
-        setDeleteCart(result.data)
+      if (result.status === 200) {
+        setDeleteCart(result.data);
       }
-
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
+  };
 
-  }
-
-
- 
-
-
+  const handleCheckout = () => {
+    // Navigate to the Address page and pass cartDetails as state
+    navigate('/address', { state: { cartDetails } });
+  };
 
   useEffect(() => {
     const getCarts = async () => {
@@ -68,16 +52,13 @@ function Cart() {
         });
 
         if (result.status === 200) {
-          console.log("res", result.data)
-          console.log("Success: Retrieved cart details.");
           const updatedCart = result.data.cart.map((item) => ({
             ...item,
             quantity: item.quantity || 1,
             days: item.days || 1,
             total: (item.productId?.price || 0) * (item.quantity || 1) * (item.days || 1),
           }));
-          setItems(updatedCart.length)
-         console.log(updatedCart.length)
+          setItems(updatedCart.length);
           setCartDetails(updatedCart);
         }
       } catch (err) {
@@ -88,10 +69,7 @@ function Cart() {
     getCarts();
   }, [deletCart]);
 
-
-
   useEffect(() => {
-    // getCarts()
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 768);
     };
@@ -107,7 +85,11 @@ function Cart() {
     setIsDrawerOpen(open);
   };
 
+  const [dtls,seDetls]=useState([])
 
+
+
+  
 
 
   return (
@@ -118,7 +100,6 @@ function Cart() {
         </h2>
 
         <div className='m-3 mb-2 '>
-        
           <Table responsive className={`table ${isSmallScreen ? 'table-bordered' : ''}`}>
             <thead>
               <tr>
@@ -131,65 +112,51 @@ function Cart() {
                 </th>
               </tr>
             </thead>
-            {
-              cartDetails ? cartDetails.map(details => (
-           
-                <tbody key={details._id} >
-                  <Tooltip title="click" placement="bottom">
-
-                    <tr style={{ cursor: 'pointer' }}>
-                      <td onClick={() => toggleDrawer(true)} className='d-flex h-100 align-items-center'>
-                        <div>
-                          <img className='img-fluid' src={chrdar} alt="Placeholder" style={{ width: '10vw', maxWidth: '60px', height: '10vw', maxHeight: '80px', backgroundColor: 'gray' }} />
-                        </div>
-                        <div className='ms-3'>
-                          <span className='fw-bold'>{details.productId.name}</span><br />
-                          <span style={{ marginTop: '-10px' }}>{details.productId.price}/Day</span><br />
-                          <span>Size : {details.size}</span>
-                        </div>
-                      </td>
-                      <td>
-                        <div className=' d-flex'>
-                          <div className='w-50 d-flex justify-content-between'>
-                            <Button onClick={() => incrementHandler(details._id)} variant="outline-light" className="text-dark fw-bold">
-                              +
-                            </Button>
-
-                            {/* <input type="text" readOnly value={details.quantity} className="text-center border-light bg-light rounded m-1" style={{ width: "40px" }} /> */}
-                            <input type="text" value={details.quantity} className='border border-secondary text-center bg-light rounded m-1' style={{ width: '40px' }} readOnly  />
-
-                            <Button onClick={() => decreamentHanldler(details._id)} variant="outline-light" className="text-dark fw-bold">
-                              -
-                            </Button>
-                          </div>
-                        </div>
-                      </td>
-                      <td >
+            {cartDetails ? cartDetails.map(details => (
+              <tbody key={details._id}>
+                <Tooltip title="click" placement="bottom">
+                  <tr style={{ cursor: 'pointer' }}>
+                    <td onClick={() =>{ toggleDrawer(true);seDetls([details])}} className='d-flex h-100 align-items-center'>
+                      <div>
+                        <img className='img-fluid' src={chrdar} alt="Placeholder" style={{ width: '10vw', maxWidth: '60px', height: '10vw', maxHeight: '80px', backgroundColor: 'gray' }} />
+                      </div>
+                      <div className='ms-3'>
+                        <span className='fw-bold'>{details.productId.name}</span><br />
+                        <span style={{ marginTop: '-10px' }}>{details.productId.price}/Day</span><br />
+                        <span>Size : {details.size}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div className=' d-flex'>
                         <div className='w-50 d-flex justify-content-between'>
-                          <Button onClick={() => daysIncrement(details._id)} variant="outline-light" className='text-dark w-75 fs-5'>+</Button>
-                          <input type="text" value={details.days} className='border border-light text-center bg-light rounded m-1' style={{ width: '40px' }} readOnly  />
-                          <Button onClick={() => daysDecreament(details._id)} variant="outline-light " className='text-dark w-75 fs-5'>-</Button>
+                          <Button onClick={() => incrementHandler(details._id)} variant="outline-light" className="text-dark fw-bold">
+                            +
+                          </Button>
+                          <input type="text" value={details.quantity} className='border border-secondary text-center bg-light rounded m-1' style={{ width: '40px' }} readOnly />
+                          <Button onClick={() => decreamentHanldler(details._id)} variant="outline-light" className="text-dark fw-bold">
+                            -
+                          </Button>
                         </div>
-                      </td>
-                      <td onClick={() => toggleDrawer(true)}>RS. {details.total}</td>
-                     
-                      <td className='text-secondary'>
-                        <i onClick={()=>handleDeleteCart(details._id)} className="fa-solid fa-circle-xmark"></i>
-                      </td>
-                    </tr>
-                  </Tooltip>
-                </tbody>
-              
-            ))
-            :
-            <div className='mt-5'>no carts</div>
-        }
-
-
-
-
+                      </div>
+                    </td>
+                    <td>
+                      <div className='w-50 d-flex justify-content-between'>
+                        <Button onClick={() => daysIncrement(details._id)} variant="outline-light" className='text-dark w-75 fs-5'>+</Button>
+                        <input type="text" value={details.days} className='border border-light text-center bg-light rounded m-1' style={{ width: '40px' }} readOnly />
+                        <Button onClick={() => daysDecreament(details._id)} variant="outline-light " className='text-dark w-75 fs-5'>-</Button>
+                      </div>
+                    </td>
+                    <td onClick={() => toggleDrawer(true)}>RS. {details.total}</td>
+                    <td className='text-secondary'>
+                      <i onClick={() => handleDeleteCart(details._id)} className="fa-solid fa-circle-xmark"></i>
+                    </td>
+                  </tr>
+                </Tooltip>
+              </tbody>
+            )) :
+              <div className='mt-5'>No carts</div>
+            }
           </Table>
-        
         </div>
 
         <Row className='d-flex justify-content-end'>
@@ -214,15 +181,16 @@ function Cart() {
                 </div>
                 <hr />
                 <div className='d-flex justify-content-center p-1 w-100'>
-                  <Link to={`/address/${cartDetails}`}><button className='btn btn-success w-100 ps-5 pe-5 text-center'>checkout</button></Link>
-                  <p className='fw-bold pe-4 fw-bold pt-1' style={{ fontSize: '22px' }}></p>
+                  <button onClick={handleCheckout} className='btn btn-success w-100 ps-5 pe-5 text-center'>
+                    Checkout
+                  </button>
                 </div>
               </div>
             </div>
           </Col>
         </Row>
 
-        <BottomDrawer isOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />
+        <BottomDrawer isOpen={isDrawerOpen} toggleDrawer={toggleDrawer} dtls={dtls}/>
       </div>
     </>
   );

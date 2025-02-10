@@ -53,7 +53,7 @@ function DigitalSign({setDigitalSign}) {
                                     penColor='black'
                                 
                                    
-                                    canvasProps={{ width: 300, height: 300, className: 'sigCanvas border shadow border-1',willReadFrequently: true  }} />
+                                    canvasProps={{ width: 300, height: 300, className: 'sigCanvas border shadow rounded-3 border-1',willReadFrequently: true  }} />
                                 <div className=''>
     
                                     <Button variant='dark' size='sm' className='m-2 bold' style={{fontSize:'14px'}} onClick={saveSignature}>Save</Button>
