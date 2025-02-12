@@ -37,6 +37,7 @@ function Aadhar({setAadharNum}) {
 
     const handleSave=()=>{
         setAadhar(otp)
+        handleClose()
         setAadharNum(otp)
     }
 

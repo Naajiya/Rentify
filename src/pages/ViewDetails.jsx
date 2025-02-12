@@ -108,7 +108,7 @@ function ViewDetails() {
         const reqBody = {
           productId: prod,
           quantity: 1,
-          days: 1,
+          days: 2,
           size: selectSize,
           // total:price
         };

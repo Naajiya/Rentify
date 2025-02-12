@@ -10,6 +10,10 @@ import { getCartDetails } from '../../services/allApi';
 import axios from 'axios';
 import { CartContexts } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import SERVER_URL from '../../services/serverUrl';
+
+
+
 
 function Cart() {
   const { cartDetails, setCartDetails, incrementHandler, decreamentHanldler, daysDecreament, daysIncrement } = useContext(CartContexts);
@@ -118,7 +122,7 @@ function Cart() {
                   <tr style={{ cursor: 'pointer' }}>
                     <td onClick={() =>{ toggleDrawer(true);seDetls([details])}} className='d-flex h-100 align-items-center'>
                       <div>
-                        <img className='img-fluid' src={chrdar} alt="Placeholder" style={{ width: '10vw', maxWidth: '60px', height: '10vw', maxHeight: '80px', backgroundColor: 'gray' }} />
+                        <img className='img-fluid' src={`${SERVER_URL}/uploads/${details.productId.imgOne}`} alt="Placeholder" style={{ width: '10vw', maxWidth: '60px', height: '10vw', maxHeight: '80px', backgroundColor: 'gray' }} />
                       </div>
                       <div className='ms-3'>
                         <span className='fw-bold'>{details.productId.name}</span><br />

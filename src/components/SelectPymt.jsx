@@ -5,19 +5,50 @@ import { toast, ToastContainer } from 'react-toastify'
 
 
 
-function SelectPymt({cartDetails,selcAddress}) {
+function SelectPymt({ cartDetails, selcAddress }) {
 
-    
+
     console.log(cartDetails)
 
-   const  handleOrder=()=>{
-    if(selcAddress){
-        console.log(selcAddress)
-        console.log('clicked details order',cartDetails)
-    }else{
-        toast.error('address required')
-    }
-        
+    const handleOrder = async () => {
+
+        if (!selcAddress) {
+            toast.error('Please select an address');
+            return;
+        }
+
+        if (cartDetails.length === 0) {
+            toast.error('No items in the cart');
+            return;
+        }
+
+
+        if (selcAddress && cartDetails) {
+
+            try {
+                const response = await axios.post('http://localhost:3000/create-order',
+                    {
+                        selectedAddressId:selcAddress,
+                        items:cartDetails
+                    },
+                    {
+                        headers: {
+                            Authorization: sessionStorage.getItem('token')
+                        }
+                    })
+
+                    if (response.status === 200) {
+                        toast.success('Order created successfully');
+                        console.log(response.data)
+                        // navigate('/orders'); // Redirect to orders page
+                      }
+
+
+            } catch (err) {
+                console.log(err)
+            }
+        }
+
     }
 
 

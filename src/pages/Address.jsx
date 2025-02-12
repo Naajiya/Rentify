@@ -23,8 +23,9 @@ import axios from 'axios';
 import SelectPymt from '../components/SelectPymt';
 import Toast from 'react-bootstrap/Toast';
 import SelectAddress from '../components/SelectAddress';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
+
 
 
 // import { Button as BootstrapButton } from 'react-bootstrap';
@@ -156,6 +157,8 @@ function Address() {
         } catch (err) {
           console.log(err);
         }
+      }else{
+        toast.error('complete all fields includes sign and aadhar')
       }
 
 
@@ -432,6 +435,11 @@ function Address() {
 
         </Modal>
 
+<ToastContainer
+          // position="top-center"
+          autoClose={2000}
+          // theme=""
+        />
       </div>
     </>
   )
