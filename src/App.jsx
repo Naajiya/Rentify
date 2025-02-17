@@ -15,6 +15,7 @@ import Address from './pages/Address'
 import BookedItems from './pages/BookedItems'
 import Category from './pages/Category'
 import Orders from './Admin/pags/Orders'
+import SearchProducts from './pages/SearchProducts'
 
 // import Login from '../Admin/pags/Login'
 // import Dashboard from '../Admin/pags/Dashboard'
@@ -38,9 +39,9 @@ function App() {
         <Route element={<ViewDetails/>} path='/:pid/viewdetails'/>
         <Route element={<Cart/> } path='/cart'/>
         <Route element={<Address />} path="/address" />
-
         <Route element={<BookedItems/>} path='/bookedItems'/>
         <Route element={<Category/>} path='/:category/category'/>
+        <Route element={<SearchProducts/>} path='/SearchProducts/products'/>
 
 
         <Route element={<Login/>} path='/admin/login'/>

@@ -36,6 +36,16 @@ function Address() {
   const { cartDetails } = location.state || {}; // Access the passed state
   console.log('Cart Details:', cartDetails);
 
+  const [totalAmount,setTotalAmount]=useState(0)
+  console.log('total amount',totalAmount)
+
+  useEffect(()=>{
+    const totalAmount = cartDetails.reduce((accumulator, item) => {
+      return accumulator + item.total;
+    }, 0);
+    setTotalAmount(totalAmount)
+  }, [cartDetails])
+
   const navigate = useNavigate()
   // const inputRef = React.useRef(null);
   const [dates, setDates] = useState({ day: null, month: null, year: null })
@@ -49,7 +59,7 @@ function Address() {
   console.log('adar', aadharNumber)
 
   const [address, setAddress] = useState([])
-  const [selcAddress,setSelcAddress]=useState(null)
+  const [selcAddress, setSelcAddress] = useState(null)
   console.log('selcAddress', selcAddress)
   console.log('addres')
   console.log(address)
@@ -68,7 +78,8 @@ function Address() {
   useEffect(() => {
     today()
     getAddress()
-   
+
+
   }, [])
 
   const today = () => {
@@ -151,19 +162,19 @@ function Address() {
             console.log(result.data)
             setSelcAddress(result.data._id)
             getAddress()
-          
+
             // navigate('/bookedItems')
           }
         } catch (err) {
           console.log(err);
         }
-      }else{
+      } else {
         toast.error('complete all fields includes sign and aadhar')
       }
 
 
-    }else{
-      if( name && phone && pincode && addresses && date && city){
+    } else {
+      if (name && phone && pincode && addresses && date && city) {
         const reqBody = new FormData();
         reqBody.append("name", name);
         reqBody.append("phone", phone);
@@ -177,7 +188,7 @@ function Address() {
           const result = await axios.post('http://localhost:3000/add-address', reqBody, {
             headers: {
               Authorization: sessionStorage.getItem('token'),
-             
+
             }
           });
 
@@ -189,13 +200,15 @@ function Address() {
             getAddress()
             setSelcAddress(result.data._id)
             toast.success('added new address')
-           
+          setAddresDetails({ name: "", phone: "", pincode: "", addresses: "", date: "", city: "", acceptPolicy: false })
+
+
             // navigate('/bookedItems')
           }
         } catch (err) {
           console.log(err);
         }
-      
+
       }
     }
 
@@ -215,7 +228,7 @@ function Address() {
               address.length !== 0 &&
               <div>
                 <div className='m-2 '>
-                  <SelectAddress address={address} setSelcAddress={setSelcAddress}/>
+                  <SelectAddress address={address} setSelcAddress={setSelcAddress} />
                 </div>
                 <div className='fw-bold text-info'>
                   +Add New
@@ -369,7 +382,7 @@ function Address() {
 
                     {/* <Link to={'/bookedItems'}> */}
                     <Button onClick={handleAddressDetails} variant="outline-danger m-2 bg-dark text-light" size='sm'>Save</Button>
-                    <p className='text-center' style={{ fontSize: '12px' }}>*only cash on delivery</p>
+                   
                     {/* </Link> */}
 
                   </div>
@@ -401,7 +414,7 @@ function Address() {
 
 
             <div>
-              <SelectPymt cartDetails={cartDetails} selcAddress={selcAddress}/>
+              <SelectPymt totalAmount={totalAmount} cartDetails={cartDetails} selcAddress={selcAddress} />
             </div>
 
 
@@ -435,10 +448,10 @@ function Address() {
 
         </Modal>
 
-<ToastContainer
+        <ToastContainer
           // position="top-center"
           autoClose={2000}
-          // theme=""
+        // theme=""
         />
       </div>
     </>

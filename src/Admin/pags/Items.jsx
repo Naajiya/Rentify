@@ -86,7 +86,7 @@ function Items() {
                         <tbody>
                             {filteredProducts.map(pro => (
                                 <tr key={pro._id}>
-                                    <td>{pro._id}</td>
+                                    <td></td>
                                     <td>{pro.name}</td>
                                     <td>{pro.price}</td>
                                     <td>{Array.isArray(pro.category) ? pro.category.join(", ") : "No category available"}</td>

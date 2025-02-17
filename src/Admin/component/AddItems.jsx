@@ -16,7 +16,7 @@ import axios from 'axios';
 
 
 
-function AddItems({setProductChanged}) {
+function AddItems({ setProductChanged }) {
 
     const [show, setShow] = useState(false);
 
@@ -25,7 +25,7 @@ function AddItems({setProductChanged}) {
     const [items, setItems] = useState({ name: "", description: "", category: "", price: "", size: [], availability: false, imgOne: "", imgTwo: "" })
     // console.log('itsm')
     console.log(items)
-    const [image_one,setImageOne] = useState()
+    const [image_one, setImageOne] = useState()
     const [image_two, setImageTwo] = useState()
 
 
@@ -47,7 +47,7 @@ function AddItems({setProductChanged}) {
             // setItems(prev => ({ ...prev, imgOne: "" }));
             setPreviewOne(img);
         }
-    
+
         if (image_two && ["image/png", "image/jpg", "image/jpeg"].includes(image_two.type)) {
             setIsValidTwo(true);
             setPreviewTwo(URL.createObjectURL(image_two));
@@ -57,13 +57,19 @@ function AddItems({setProductChanged}) {
             setPreviewTwo(img2);
         }
     }, [image_one, image_two]);
-    
 
 
-    const handleClose = () =>{
+
+    const handleClose = () => {
         setShow(false);
         setItems({ name: "", description: "", category: "", price: "", size: [], availability: false, imgOne: "", imgTwo: "" })
-
+        setPreviewOne(img);  // Reset to default image
+        setPreviewTwo(img2); // Reset to default image
+        setImageOne(null);  // Clear the image file
+        setImageTwo(null);  // Clear the image file
+        setIsValidOne(false); // Reset validation state
+        setIsValidTwo(false); // Reset validation state
+        setFreeSizeBtn(true);
     }
     const handleShow = () => setShow(true);
 
@@ -79,15 +85,22 @@ function AddItems({setProductChanged}) {
 
     // freesize change
     const handleSize = () => {
-        setFreeSizeBtn(false);
-        setItems(prevItems => {
-          // Only append 'Freeize' directly, instead of an array ['Freeize']
-          const newSize = prevItems.size.includes('Freeize') ? prevItems.size.filter(size => size !== 'Freeize') : [...prevItems.size, 'Freeize'];
-      
-          return { ...prevItems, size: newSize };
+        setFreeSizeBtn((prev) => {
+            const newFreeSizeBtn = !prev; // Toggle freeSizeBtn state
+            setItems((prevItems) => {
+                let newSize;
+                if (!newFreeSizeBtn) {
+                    // If freeSizeBtn is false, add 'Freeize' and remove other sizes
+                    newSize = ['Freeize'];
+                } else {
+                    // If freeSizeBtn is true, remove 'Freeize' and keep other sizes
+                    newSize = prevItems.size.filter((size) => size !== 'Freeize');
+                }
+                return { ...prevItems, size: newSize };
+            });
+            return newFreeSizeBtn;
         });
-      };
-      
+    };
 
     const handleAvailable = (e) => {
         const { checked } = e.target;
@@ -100,54 +113,56 @@ function AddItems({setProductChanged}) {
     }
 
 
- 
 
-const handleAddProduct = async () => {
-    const { name, description, category, price, size, availability } = items;
 
-    if (!name || !description || !category || !price || size.length === 0) {
-        toast.error('Please fill all required fields');
-        return;
-    }
+    const handleAddProduct = async () => {
+        const { name, description, category, price, size, availability } = items;
 
-    const reqBody = new FormData();
-    reqBody.append("name", name);
-    reqBody.append("description", description);
-    reqBody.append("category", category);
-    reqBody.append("price", price);
-    reqBody.append("size", JSON.stringify(size)); // Send as JSON string
-    reqBody.append("availability", availability.toString()); // Convert to string
-    
-    if (image_one) reqBody.append("imgOne", image_one);
-    if (image_two) reqBody.append("imgTwo", image_two);
+        if (!name || !description || !category || !price || size.length === 0) {
+            toast.error('Please fill all required fields');
+            return;
+        }
 
-    // const token_string = sessionStorage.getItem("token");
-    
-    // // if (!token) {
-    // //     toast.error('Authentication token not found');
-    // //     return;
-    // // }
-    
-        
-    //     if(token_string){
-    //         const reqHeader = {
-    //         "Authorization": token_string
-            
-    
-            
-    //     };
+        const reqBody = new FormData();
+        reqBody.append("name", name);
+        reqBody.append("description", description);
+        reqBody.append("category", category);
+        reqBody.append("price", price);
+        reqBody.append("size", JSON.stringify(size)); // Send as JSON string
+        reqBody.append("availability", availability.toString()); // Convert to string
+
+        if (image_one) reqBody.append("imgOne", image_one);
+        // if (image_two) reqBody.append("imgTwo", image_two);
+
+        // const token_string = sessionStorage.getItem("token");
+
+        // // if (!token) {
+        // //     toast.error('Authentication token not found');
+        // //     return;
+        // // }
+
+
+        //     if(token_string){
+        //         const reqHeader = {
+        //         "Authorization": token_string
+
+
+
+        //     };
         try {
             // const result = await addProduct(reqBody, reqHeader);
-            const result =await axios.post('http://localhost:3000/addProducts',reqBody,{ headers: { Authorization: sessionStorage.getItem('token') } })
+            const result = await axios.post('http://localhost:3000/addProducts', reqBody, { headers: { Authorization: sessionStorage.getItem('token') } })
             if (result.status === 200) {
                 console.log(result.status)
                 toast.success("Product added successfully");
                 setProductChanged(result.data)
                 handleClose();
                 setItems({ name: "", description: "", category: "", price: "", size: [], availability: false, imgOne: "", imgTwo: "" });
+                setPreviewOne(img)
+                setIsValidOne(false)
                 setFreeSizeBtn(true);
             } else {
-                
+
                 toast.error('Failed to add product');
             }
         } catch (err) {
@@ -155,13 +170,13 @@ const handleAddProduct = async () => {
             toast.error('An error occurred while adding the product');
         }
 
-    
 
 
-    
-  
-    
-};
+
+
+
+
+    };
 
 
 
@@ -184,14 +199,15 @@ const handleAddProduct = async () => {
 
 
                             {/* image One */}
-                            <div className='bg-dark border rounded m-3' style={{ height: '6rem', width: '6rem' }}>
-                                <label>
+                            <div className='bg-dark border rounded m-3 img-fluid' style={{ height: '6rem', width: '6rem' }}>
+                                <label className='img-fluid'>
                                     <input
                                         type="file"
                                         style={{ display: 'none' }}
-                                        onChange={(e)=>setImageOne(e.target.files[0])}
+                                        onChange={(e) => setImageOne(e.target.files[0])}
+                                        className='img-fluid'
                                     />
-                                    <img className='img-fluid' style={{ height: '100%' }} src={previewOne} alt="" />
+                                    <img className='img-fluid' src={previewOne} alt="" />
                                 </label>
                                 {
                                     !isValidOne &&
@@ -246,6 +262,11 @@ const handleAddProduct = async () => {
                                 <option value="Men">Men</option>
                                 <option value="Women">Women</option>
                                 <option value="Furniture">Furniture</option>
+                                <option value="Construction Equipment">Construction Equipment</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Book">Book</option>
+                                <option value="Musical Instruments">Musical Instruments</option>
+                                {/* 'Men', 'Women', 'Furniture','Construction Equipment ','Electronics', ' Book', 'Musical Instruments' */}
                             </Form.Select>
 
                             <FloatingLabel
@@ -271,12 +292,14 @@ const handleAddProduct = async () => {
                         </div>
 
                         <div className='m-2'>
-
                             <p className='fw-bold m-1'>Select Size</p>
                             <div className='d-flex align-items-center'>
-                                <div className=''><button className='btn btn-light m-1' onClick={handleSize}>free size</button></div>
-                                {
-                                    freeSizeBtn &&
+                                <div>
+                                    <button className='btn btn-light m-1' onClick={handleSize}>
+                                        {freeSizeBtn ? 'Free Size' : 'Remove Free Size'}
+                                    </button>
+                                </div>
+                                {freeSizeBtn && (
                                     <div>
                                         <Form.Check
                                             inline
@@ -285,6 +308,7 @@ const handleAddProduct = async () => {
                                             type='checkbox'
                                             value="S"
                                             onChange={handleSizeChange}
+                                            checked={items.size.includes('S')}
                                         />
                                         <Form.Check
                                             inline
@@ -293,6 +317,7 @@ const handleAddProduct = async () => {
                                             type='checkbox'
                                             value="M"
                                             onChange={handleSizeChange}
+                                            checked={items.size.includes('M')}
                                         />
                                         <Form.Check
                                             inline
@@ -301,13 +326,12 @@ const handleAddProduct = async () => {
                                             type='checkbox'
                                             value="L"
                                             onChange={handleSizeChange}
+                                            checked={items.size.includes('L')}
                                         />
                                     </div>
-                                }
+                                )}
                             </div>
-
                         </div>
-
 
                     </Modal.Body>
                     <Modal.Footer>

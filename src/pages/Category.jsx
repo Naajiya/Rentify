@@ -88,7 +88,7 @@ function Category() {
                             {categoryDetails ? categoryDetails.map(prod => (
                                 <Col lg={3} md={6} sm={6} className=''>
                                     <Link to={`/${prod._id}/viewdetails`} className='text-decoration-none'>
-                                    <Card style={{ width: '13rem', height: '20rem', }} className='p-1 mb-2 border-none' >
+                                    <Card style={{ width: '13rem', height: '20rem', }} className=' mb-2 border-none' >
                                         
 
                                         <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>

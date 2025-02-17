@@ -6,9 +6,7 @@ import CountdownTimer from '../component/CountDowm';
 
 function Orders() {
     const [allOrders, setAllOrders] = useState([]);
-    console.log(allOrders)
-    const today= new Date().toISOString()
-    console.log(today)
+    const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
 
     useEffect(() => {
         getAllOrders();
@@ -33,14 +31,29 @@ function Orders() {
         }))
     );
 
-     const startDate = '2025-02-10T00:00:00'; // Replace with your start date
-  const endDate = '2025-02-15T23:59:59'
+    const handleStatusChange = async (orderId, newStatus) => {
+        try {
+            const response = await axios.put(`http://localhost:3000/update-status/${orderId}`, {
+                status: newStatus,
+            });
+
+            if (response.status === 200) {
+                // Update the local state to reflect the new status
+                const updatedOrders = allOrders.map((order) =>
+                    order._id === orderId ? { ...order, status: newStatus } : order
+                );
+                setAllOrders(updatedOrders);
+                alert('Order status updated successfully!');
+            }
+        } catch (error) {
+            console.error('Error updating order status:', error);
+            alert('Failed to update order status.');
+        }
+    };
 
     return (
         <>
-
             <Header />
-            
             <div className='w-100'>
                 <div className='text-center p-4 bg-dark w-100'>
                     <h4 className='text-light'>Orders</h4>
@@ -57,10 +70,6 @@ function Orders() {
                                                 <p className='text-secondary'>Username</p>
                                                 <p>{booking.user?.username || "N/A"}</p>
                                             </div>
-                                            
-                                            {/* <div className='border  p-2 rounded w-50'>
-                                           
-                                            </div> */}
                                             <div>
                                                 <p className='text-secondary'>Order Date</p>
                                                 <p>{new Date(booking.createdAt).toLocaleDateString()}</p>
@@ -70,22 +79,26 @@ function Orders() {
                                         <hr />
 
                                         <div className='d-flex flex-column'>
+                                            <div>
+                                                <p>Payment Method : <span>{booking?.paymentMethod}</span></p>
+                                            </div>
                                             <p className='text-secondary'>Product Details</p>
                                             {booking.items.map((item, idx) => (
                                                 <div key={idx} className='mb-3'>
-                                                    <div>
-                                                        {
-                                                            today == item.startingDate &&
-                                                            <CountdownTimer  endDate={item.endingDate} />
-                                                        }
-                                                    </div>
+                                                    {/* Display CountdownTimer only if status is 'delivered' and startingDate is today */}
+                                                    {booking.status === 'delivered' && 
+                                                        <div className='border p-3 m-2 bg-info text-light '>
+                                                            <CountdownTimer endDate={item.endingDate} />
+                                                        </div>
+                                                    }
+
                                                     <p><strong>Product Name:</strong> {item.product?.name || "N/A"}</p>
                                                     <p><strong>Quantity:</strong> {item.quantity || "N/A"}</p>
                                                     <p><strong>Days:</strong> {item.days || "N/A"}</p>
                                                     <p><strong>Size:</strong> {item.size || "N/A"}</p>
                                                     <p><strong>Total:</strong> {item.total || "0"}/-</p>
-                                                    <p><strong>Total:</strong> {new Date(item.startingDate).toLocaleDateString() || "0"}</p>
-                                                    <p><strong>endingDate:</strong> {new Date(item.endingDate).toLocaleDateString() || "0"}/-</p>
+                                                    <p><strong>Starting Date:</strong> {new Date(item.startingDate).toLocaleDateString() || "N/A"}</p>
+                                                    <p><strong>Ending Date:</strong> {new Date(item.endingDate).toLocaleDateString() || "N/A"}</p>
                                                 </div>
                                             ))}
                                         </div>
@@ -94,9 +107,16 @@ function Orders() {
 
                                         <div>
                                             <p className='text-secondary'>Status</p>
-                                            <p className={booking.status === "shipped" ? "text-success" : "text-warning"}>
-                                                {booking.status || "Pending"}
-                                            </p>
+                                            <select
+                                                value={booking.status}
+                                                onChange={(e) => handleStatusChange(booking._id, e.target.value)}
+                                                className='p-1 border rounded border-dark'
+                                            >
+                                                <option disabled value="">{booking.status}</option>
+                                                <option value="pending">Pending</option>
+                                                <option value="delivered">Delivered</option>
+                                                <option value="returned">Returned</option>
+                                            </select>
                                         </div>
                                     </Card.Body>
                                 </Card>
@@ -106,8 +126,6 @@ function Orders() {
                         <div>No orders found</div>
                     )}
                 </div>
-
-                
             </div>
         </>
     );

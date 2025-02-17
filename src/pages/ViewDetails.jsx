@@ -144,12 +144,12 @@ function ViewDetails() {
               <div className='d-flex border p-1 justify-content-center' key={prod._id}>
                 <Col lg={4} md={12} className='border text-center' style={{ backgroundColor: 'rgb(245, 245, 245)' }}>
                   <div className='img-wrapper'>
-                    <p className='cart-stylw text-light cart-icon'><i onClick={() => handleCart(prod._id, prod.price, prod.availability)} className="fa-solid fa-cart-plus"></i></p>
+                    <p className='cart-stylw text-light cart-icon ps-4'><i onClick={() => handleCart(prod._id, prod.price, prod.availability)} className="fa-solid fa-cart-plus"></i></p>
                     <p style={{ fontSize: '13px' }} className='icon-sty text-success fw-bold w-25'>{prod.availability ? 'available' : 'not available'}</p>
-                    <img className='img-fluid' src={`${SERVER_URL}/uploads/${prod.imgOne}`} alt="" style={{ height: '100%' }} />
+                    <img className='img-fluid' src={`${SERVER_URL}/uploads/${prod.imgOne}`} alt="" style={{ height: '90%' }} />
                   </div>
                 </Col>
-                <Col className='ms-1' lg={7} md={12} style={{ backgroundColor: 'white' }}>
+                <Col className='ms-1 d-flex  flex-column justify-content-center' lg={7} md={12} style={{ backgroundColor: 'white' }} >
                   <div className='border rounded pt-2 ps-2 m-1'>
                     <p className='fs-3 fw-bold'>{prod.name}</p>
                     <div className='d-flex justify-content-between'>
