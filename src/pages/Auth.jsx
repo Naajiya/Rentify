@@ -51,27 +51,32 @@ function Auth({ insideRegister }) {
     e.preventDefault();
     const { username, email, password } = userDetails;
     if (username && email && password) {
-      try {
-        const result = await userRegister(userDetails);
-        console.log(result);
-
-        if (result.status === 200) {
-          // Reset state
-          setUserDetails({ username: "", email: "", password: "" });
-          toast.success('Registered Successfully');
-
-          // Delay navigation to allow state update to reflect
-          setTimeout(() => {
-            navigate('/login');
-          }, 500);
-        } else if (result.status === 400) {
-          toast.warning(result.response.data);
-          setUserDetails({ username: "", email: "", password: "" });
+      if(email.endsWith("@gmail.com")){
+        try {
+          const result = await userRegister(userDetails);
+          console.log(result);
+  
+          if (result.status === 200) {
+            // Reset state
+            setUserDetails({ username: "", email: "", password: "" });
+            toast.success('Registered Successfully');
+  
+            // Delay navigation to allow state update to reflect
+            setTimeout(() => {
+              navigate('/login');
+            }, 500);
+          } else if (result.status === 400) {
+            toast.warning(result.response.data);
+            setUserDetails({ username: "", email: "", password: "" });
+          }
+        } catch (err) {
+          console.error('Error during registration:', err);
+          toast.error('Registration failed. Please try again.');
         }
-      } catch (err) {
-        console.error('Error during registration:', err);
-        toast.error('Registration failed. Please try again.');
+      }else{
+        toast.error('enter valid email');
       }
+     
     } else {
       toast.error('Please fill all fields');
     }
@@ -204,11 +209,7 @@ function Auth({ insideRegister }) {
           </div>
         </div>
       </div>
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        theme="colored"
-      />
+     
     </div>
   );
 }

@@ -1,8 +1,15 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
+import { BadgeContext } from '../context/BadgeContext';
+
+
+
 
 function SelectPymt({ cartDetails, selcAddress, totalAmount }) {
+
+    const {countBadge, setBadge, incrementBadge, orderBadge, toggleOrderBadge}=useContext(BadgeContext)
+
     const [paymentMethod, setPaymentMethod] = useState('');
 
     console.log('Payment Method:', paymentMethod);
@@ -46,6 +53,7 @@ function SelectPymt({ cartDetails, selcAddress, totalAmount }) {
             if (response.status === 200) {
                 toast.success('Order created successfully');
                 console.log(response.data);
+                toggleOrderBadge()
                 // navigate('/orders'); // Redirect to orders page
             }
         } catch (err) {
@@ -77,7 +85,7 @@ function SelectPymt({ cartDetails, selcAddress, totalAmount }) {
                 "key": "rzp_test_g4AKnxr16tAjx5",
                 "amount": totalAmount * 100, // Amount in paise
                 "currency": "INR",
-                "name": "Acme Corp",
+                "name": "NajiyaBinthMajeed",
                 "description": "Test Transaction",
                 "image": "https://example.com/your_logo",
                 "order_id": order?.id || '', 
@@ -134,6 +142,7 @@ function SelectPymt({ cartDetails, selcAddress, totalAmount }) {
 
     return (
         <>
+        
             <div className='m-2'>
                 <div className='text-center'>
                     <p className='p-2'>PAYMENT METHOD</p>

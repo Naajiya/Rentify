@@ -16,6 +16,9 @@ import BookedItems from './pages/BookedItems'
 import Category from './pages/Category'
 import Orders from './Admin/pags/Orders'
 import SearchProducts from './pages/SearchProducts'
+import { toast, ToastContainer } from 'react-toastify'
+
+
 
 // import Login from '../Admin/pags/Login'
 // import Dashboard from '../Admin/pags/Dashboard'
@@ -29,29 +32,34 @@ function App() {
 
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        theme="light"
 
+      />
       {/* <Header /> */}
 
       <Routes>
         <Route element={<LandingPage />} path='/' />
-        <Route element ={<Auth/>} path='/login'/>
-        <Route element={<Auth insideRegister={true} /> }  path='/register'/>
-        <Route element={<ViewDetails/>} path='/:pid/viewdetails'/>
-        <Route element={<Cart/> } path='/cart'/>
+        <Route element={<Auth />} path='/login' />
+        <Route element={<Auth insideRegister={true} />} path='/register' />
+        <Route element={<ViewDetails />} path='/:pid/viewdetails' />
+        <Route element={<Cart />} path='/cart' />
         <Route element={<Address />} path="/address" />
-        <Route element={<BookedItems/>} path='/bookedItems'/>
-        <Route element={<Category/>} path='/:category/category'/>
-        <Route element={<SearchProducts/>} path='/SearchProducts/products'/>
+        <Route element={<BookedItems />} path='/bookedItems' />
+        <Route element={<Category />} path='/:category/category' />
+        <Route element={<SearchProducts />} path='/SearchProducts/products' />
 
 
-        <Route element={<Login/>} path='/admin/login'/>
-        <Route element={<DashBoard/>} path='/admin/dashBoard'/>
-        <Route element={<Items/>} path='/admin/items'/>
-        <Route element={<Orders/>} path='/admin/orders'/>
-        
+        <Route element={<Login />} path='/admin/login' />
+        <Route element={<DashBoard />} path='/admin/dashBoard' />
+        <Route element={<Items />} path='/admin/items' />
+        <Route element={<Orders />} path='/admin/orders' />
+
       </Routes>
 
-      <Footer/>
+      <Footer />
 
 
 

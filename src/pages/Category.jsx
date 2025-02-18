@@ -83,12 +83,13 @@ function Category() {
             <Header />
             <div className='pt-5'>
                 <div className='pt-5'>
-                    <div className='p-5'>
+                    <p className='text-secondary text-center fs-3'>{category}</p>
+                    <div className='p-1 m-2'>
                         <Row className='d-flex justify-content-center'>
                             {categoryDetails ? categoryDetails.map(prod => (
-                                <Col lg={3} md={6} sm={6} className=''>
+                                <Col lg={3} md={12} sm={12} className=''>
                                     <Link to={`/${prod._id}/viewdetails`} className='text-decoration-none'>
-                                    <Card style={{ width: '13rem', height: '20rem', }} className=' mb-2 border-none' >
+                                    <Card style={{ width: '13rem', height: '20rem', }} className=' mb-2 border-none m-3' >
                                         
 
                                         <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>
@@ -119,13 +120,7 @@ function Category() {
                         </Row>
                     </div>
                 </div>
-                <ToastContainer
-                    position="top-center"
-                    autoClose={1000}
-
-                    theme="colored"
-
-                />
+                
 
             </div>
         </>

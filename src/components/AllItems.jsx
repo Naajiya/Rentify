@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import chrdar from '../assets/chridar1.png'
@@ -9,10 +9,31 @@ import moveOne from '../assets/moveOne.png'
 import { Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import '../css/AllItemStyle.css'
+import axios from 'axios';
+import SERVER_URL from '../../services/serverUrl'
 
 
 
 function AllItems() {
+
+    useEffect(() => {
+        getRandoms()
+    }, [])
+
+    const [randomItem, setRandomItem] = useState([])
+
+
+    const getRandoms = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/random-product')
+            if (response.status == 200) {
+                console.log('alltimen random ', response.data)
+                setRandomItem(response.data)
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
 
 
@@ -25,168 +46,33 @@ function AllItems() {
                         <h3 style={{ fontFamily: 'cursive' }}>Execlusive Product</h3>
                     </div>
                     <Row lg={4}>
-                        <Col lg={3} md={6} sm={6}>
-                            <Card style={{ width: '13rem', height: '19rem', }} className='p-1 mb-2 border-none' >
-                                <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>
+                        {
+                            randomItem.length > 0 && randomItem.map(prod => (
+                                <Col lg={3} md={6} sm={6} className='mb-3'>
+                                    <Link to={`/${prod._id}/viewdetails`} className='text-decoration-none'>
+                                        <Card style={{ width: '13rem', height: '20rem', }} className='p-1' >
+                                            <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>
+                                                <Card.Img className='card-img img-fluid ' variant="top" src={`${SERVER_URL}/uploads/${prod.imgOne}`} />
+                                            </div>
+                                            <Card.Body >
+                                                <Card.Title >
+                                                    <p className='text-center' style={{ fontSize: '15px', fontFamily: 'cursive' }}>{prod.name}</p>
+                                                </Card.Title>
+                                                <Card.Text className=''>
 
-                                    {/* <div className='icon-sty mt-1' style={{color:wishlist?'black':'gray'}} ><i onClick={()=>setWishlist(true)} class="fa-solid fa-heart"></i></div> */}
-                                    <Card.Img className='card-img img-fluid ' variant="top" src={chrdar2} />
-                                </div>
-                                <Card.Body >
-                                    <Card.Title >
-                                        <p className='text-center' style={{ fontSize: '15px', fontFamily: 'cursive' }}>Pakistani salwar</p>
-                                    </Card.Title>
-                                    <Card.Text className='d-flex justify-content-between'>
+                                                    <p style={{ fontFamily: 'cursive', fontSize: '13px' }} className='fw-bold text-center'> ₹{prod.price}/day</p>
+                                                    {/* <p><i class="fa-solid fa-cart-shopping"></i></p> */}
+                                                </Card.Text>
 
-                                        <p style={{ fontFamily: 'cursive', fontSize: '13px' }} className='fw-bold'>$200/day</p>
-                                        <p className=''><i class="fa-solid fa-cart-shopping"></i></p>
-                                    </Card.Text>
+                                            </Card.Body>
+                                        </Card>
+                                    </Link>
+                                </Col>
 
-                                </Card.Body>    
-                            </Card>
-                        </Col>
+                            ))
+                        }
 
-                        <Col lg={3} md={6} sm={6}>
-                            <Link to={'/viewdetails'} className='text-decoration-none'>
-                                <Card style={{ width: '13rem', height: '19rem', }} className='p-1  shadow' >
-                                    <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>
-                                        <div className='icon-sty text-secondary mt-1'><i class="fa-solid fa-heart"></i></div>
-                                        <Card.Img className='card-img img-fluid ' variant="top" src={chrdar} />
-                                    </div>
-                                    <Card.Body >
-                                        <Card.Title >
-                                            <p className='text-center' style={{ fontSize: '15px', fontFamily: 'cursive' }}>Pakistani salwar</p>
-                                        </Card.Title>
-                                        <Card.Text className='d-flex justify-content-between'>
-    
-                                            <p style={{ fontFamily: 'cursive', fontSize: '13px' }} className='fw-bold'>$200/day</p>
-                                            <p><i class="fa-solid fa-cart-shopping"></i></p>
-                                        </Card.Text>
-    
-                                    </Card.Body>
-                                </Card>
-                            </Link>
-                        </Col>
 
-                        <Col lg={3} md={6}>
-                            <Card style={{ width: '13rem', height: '19rem', }} className='p-1' >
-                                <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>
-                                    <div className='icon-sty text-secondary mt-1'><i class="fa-solid fa-heart"></i></div>
-                                    <Card.Img className='card-img img-fluid ' variant="top" src={moveOne} />
-                                </div>
-                                <Card.Body >
-                                    <Card.Title >
-                                        <p className='text-center' style={{ fontSize: '15px', fontFamily: 'cursive' }}>Pakistani salwar</p>
-                                    </Card.Title>
-                                    <Card.Text className='d-flex  justify-content-between'>
-
-                                        <p style={{ fontFamily: 'cursive', fontSize: '13px' }} className='fw-normal'>$200/day</p>
-                                        <p><i class="fa-solid fa-cart-shopping"></i></p>
-                                    </Card.Text>
-
-                                </Card.Body>
-                            </Card>
-                        </Col>
-
-                        <Col lg={3} md={6}>
-                            <Card style={{ width: '13rem', height: '19rem', }} className='p-1' >
-                                <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>
-                                    <div className='icon-sty text-secondary mt-1'><i class="fa-solid fa-heart"></i></div>
-                                    <Card.Img className='card-img img-fluid ' variant="top" src={men1} />
-                                </div>
-                                <Card.Body >
-                                    <Card.Title >
-                                        <p className='text-center' style={{ fontSize: '15px', fontFamily: 'cursive' }}>Pakistani salwar</p>
-                                    </Card.Title>
-                                    <Card.Text className='d-flex justify-content-between'>
-
-                                        <p style={{ fontFamily: 'cursive', fontSize: '13px' }} className='fw-bold'>$200/day</p>
-                                        <p><i class="fa-solid fa-cart-shopping"></i></p>
-                                    </Card.Text>
-
-                                </Card.Body>
-                            </Card>
-                        </Col>
-
-                        <Col lg={3} md={6}>
-                            <Card style={{ width: '13rem', height: '19rem', }} className='p-1' >
-                                <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>
-                                    <div className='icon-sty text-secondary mt-1'><i class="fa-solid fa-heart"></i></div>
-                                    <Card.Img className='card-img img-fluid ' variant="top" src={chrdar2} />
-                                </div>
-                                <Card.Body >
-                                    <Card.Title >
-                                        <p className='text-center' style={{ fontSize: '15px', fontFamily: 'cursive' }}>Pakistani salwar</p>
-                                    </Card.Title>
-                                    <Card.Text className='d-flex justify-content-between'>
-
-                                        <p style={{ fontFamily: 'cursive', fontSize: '13px' }} className='fw-bold'>$200/day</p>
-                                        <p><i class="fa-solid fa-cart-shopping"></i></p>
-                                    </Card.Text>
-
-                                </Card.Body>
-                            </Card>
-                        </Col>
-
-                        <Col lg={3} md={6}>
-                            <Card style={{ width: '13rem', height: '19rem', }} className='p-1' >
-                                <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>
-                                    <div className='icon-sty text-secondary mt-1'><i class="fa-solid fa-heart"></i></div>
-                                    <Card.Img className='card-img img-fluid ' variant="top" src={chrdar} />
-                                </div>
-                                <Card.Body >
-                                    <Card.Title >
-                                        <p className='text-center' style={{ fontSize: '15px', fontFamily: 'cursive' }}>Pakistani salwar</p>
-                                    </Card.Title>
-                                    <Card.Text className='d-flex justify-content-between'>
-
-                                        <p style={{ fontFamily: 'cursive', fontSize: '13px' }} className='fw-bold'>$200/day</p>
-                                        <p><i class="fa-solid fa-cart-shopping"></i></p>
-                                    </Card.Text>
-
-                                </Card.Body>
-                            </Card>
-                        </Col>
-
-                        <Col lg={3} md={6}>
-                            <Card style={{ width: '13rem', height: '19rem', }} className='p-1' >
-                                <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>
-                                    <div className='icon-sty text-secondary mt-1'><i class="fa-solid fa-heart"></i></div>
-                                    <Card.Img className='card-img img-fluid ' variant="top" src={chrdar2} />
-                                </div>
-                                <Card.Body >
-                                    <Card.Title >
-                                        <p className='text-center' style={{ fontSize: '15px', fontFamily: 'cursive' }}>Pakistani salwar</p>
-                                    </Card.Title>
-                                    <Card.Text className='d-flex justify-content-between'>
-
-                                        <p style={{ fontFamily: 'cursive', fontSize: '13px' }} className='fw-bold'>$200/day</p>
-                                        <p><i class="fa-solid fa-cart-shopping"></i></p>
-                                    </Card.Text>
-
-                                </Card.Body>
-                            </Card>
-                        </Col>
-
-                        <Col lg={3} md={6}>
-                            <Card style={{ width: '13rem', height: '19rem', }} className='p-1' >
-                                <div className='img-wrapper img-fluid w-100  d-flex text-center justify-content-center align-items-center '>
-                                    <div className='icon-sty text-secondary mt-1'><i class="fa-solid fa-heart"></i></div>
-                                    <Card.Img className='card-img img-fluid ' variant="top" src={chrdar} />
-                                </div>
-                                <Card.Body >
-                                    <Card.Title >
-                                        <p className='text-center' style={{ fontSize: '15px', fontFamily: 'cursive' }}>Pakistani salwar</p>
-                                    </Card.Title>
-                                    <Card.Text className='d-flex justify-content-between'>
-
-                                        <p style={{ fontFamily: 'cursive', fontSize: '13px' }} className='fw-bold'>$200/day</p>
-                                        <p><i class="fa-solid fa-cart-shopping"></i></p>
-                                    </Card.Text>
-
-                                </Card.Body>
-                            </Card>
-                        </Col>
 
 
                     </Row>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import moveOne from '../assets/chrdar2.png'
 import Button from 'react-bootstrap/Button';
@@ -9,11 +9,13 @@ import SERVER_URL from '../../services/serverUrl';
 import { toast, ToastContainer } from 'react-toastify';
 import Header from '../components/Header';
 import axios from 'axios';
+import { BadgeContext } from '../context/BadgeContext';
 
 
 
 
 function ViewDetails() {
+  const { countBadge, setBadge,incrementBadge } = useContext(BadgeContext);
 
   const navigate = useNavigate();
   const { pid } = useParams();
@@ -98,58 +100,76 @@ function ViewDetails() {
 
 
 
+  const [cartItems,setCartItems]=useState([])
 
   const handleCart = async (prod, price, availability) => {
-    if (availability == false) {
-      toast.error('outofstock Product')
+    const token= sessionStorage.getItem('token')
+    if(!token){
+      toast.error('please login')
     }
-    if (availability == true) {
-      if (selectSize) {
-        const reqBody = {
-          productId: prod,
-          quantity: 1,
-          days: 2,
-          size: selectSize,
-          // total:price
-        };
-        console.log(reqBody)
+    if (!availability) {
+      toast.error('Out of stock Product');
+      return;
+    }
 
-        try {
-          const result = await axios.post('http://localhost:3000/add-to-cart', reqBody, { headers: { Authorization: sessionStorage.getItem('token') } });
-          console.log("Cart Response:", result.data);
-          if (result.status === 200) {
-            toast.success(result.data?.message || "Added to cart!");
-            // navigate('/cart');
-          }
-        } catch (err) {
-          toast.error('please login')
-          console.error("Error adding to cart:", err.response?.data || err.message);
-        }
-      } else {
-        toast.error('select a size')
+    if(token){
+      if (!selectSize) {
+        toast.error('Please select a size');
+        return;
       }
     }
-
-
-
-  };
+  
+    
+  
+    const reqBody = {
+      productId: prod,
+      quantity: 1,
+      days: 2,
+      size: selectSize,
+    };
+  
+    // Check if product already exists in cart
+    // const exists = cart.some((item) => item.productId === prod && item.size === selectSize);
+  
+    // console.log("Adding to cart:", newProduct);
+  
+    try {
+      const result = await axios.post('http://localhost:3000/add-to-cart', reqBody, { 
+        headers: { Authorization: sessionStorage.getItem('token') } 
+      });
+  
+      console.log("Cart Response:", result.data);
+  
+      if (result.status === 200) {
+        toast.success(result.data?.message || "Added to cart!");
+       
+        if(result.data.existsInCart==false){
+          console.log('its new cart item')
+          incrementBadge()
+        }
+      }
+    } catch (err) {
+      // toast.error('Please login');
+      console.error("Error adding to cart:", err.response?.data || err.message);
+    }
+  }
 
   return (
     <>
       <Header />
-      <div>
-        <div className='p-5 mb-5'>
+      <div className='pt-5'>
+        <div className='p-5 mb-5 pt-3'>
           <Row className='d-flex justify-content-center mt-5'>
             {products ? products.map(prod => (
-              <div className='d-flex border p-1 justify-content-center' key={prod._id}>
-                <Col lg={4} md={12} className='border text-center' style={{ backgroundColor: 'rgb(245, 245, 245)' }}>
+              <Row className='d-flex border p-1 mt-5 justify-content-center' key={prod._id}>
+                <Col lg={4} md={12} sm={12} className='border text-center' style={{ backgroundColor: 'rgb(245, 245, 245)', height:'25rem' }} >
                   <div className='img-wrapper'>
-                    <p className='cart-stylw text-light cart-icon ps-4'><i onClick={() => handleCart(prod._id, prod.price, prod.availability)} className="fa-solid fa-cart-plus"></i></p>
+                    <p className='cart-stylw text-light cart-icon rounded-2 bg-dark border m-1'><i onClick={() => handleCart(prod._id, prod.price, prod.availability)} className="fa-solid fa-cart-plus"></i></p>
                     <p style={{ fontSize: '13px' }} className='icon-sty text-success fw-bold w-25'>{prod.availability ? 'available' : 'not available'}</p>
                     <img className='img-fluid' src={`${SERVER_URL}/uploads/${prod.imgOne}`} alt="" style={{ height: '90%' }} />
                   </div>
                 </Col>
-                <Col className='ms-1 d-flex  flex-column justify-content-center' lg={7} md={12} style={{ backgroundColor: 'white' }} >
+                <Col className='ms-1 d-flex  flex-column justify-content-center' lg={7} md={12} sm={12} style={{ backgroundColor: 'white' }} >
                   <div className='border rounded pt-2 ps-2 m-1'>
                     <p className='fs-3 fw-bold'>{prod.name}</p>
                     <div className='d-flex justify-content-between'>
@@ -186,17 +206,13 @@ function ViewDetails() {
                     </div>
                   </div>
                 </Col>
-              </div>
+              </Row>
             )) : <div>no details</div>}
 
 
           </Row>
         </div>
-        <ToastContainer
-          position="top-center"
-          autoClose={1000}
-          theme="colored"
-        />
+      
       </div>
     </>
   );

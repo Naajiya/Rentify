@@ -6,6 +6,7 @@ import './bootstrap.min.css'
 import { BrowserRouter } from 'react-router-dom'
 import CartContext from './context/CartContext.jsx'
 import AuthContext from './context/AuthContext.jsx'
+import BadgeContext from './context/BadgeContext.jsx'
 
 
 
@@ -14,15 +15,17 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
 
    <AuthContext>
-      <CartContext>
-  
-        <BrowserRouter>
-  
-          <App />
-  
-        </BrowserRouter>
-  
-      </CartContext>
+      <BadgeContext>
+        <CartContext>
+    
+          <BrowserRouter>
+    
+            <App />
+    
+          </BrowserRouter>
+    
+        </CartContext>
+      </BadgeContext>
    </AuthContext>
 
   </StrictMode>,

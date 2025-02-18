@@ -3,65 +3,99 @@ import axios from 'axios';
 import { Form, InputGroup, Navbar, Container, Row, Col } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthenticationContext } from '../context/AuthContext';
+import { Button, Badge } from "react-bootstrap";
+import { BadgeContext } from '../context/BadgeContext';
+import { toast, ToastContainer } from 'react-toastify';
+
+
 
 
 function Header() {
+  const { countBadge, setBadge, incrementBadge, orderBadge, toggleOrderBadge } = useContext(BadgeContext)
 
-  const { isAuthorizes, setIsAuthorizes } = useContext(AuthenticationContext)
+  const { isAuthorizes, setIsAuthorizes } = useContext(AuthenticationContext);
 
-  const handleLogout =()=>{
-    sessionStorage.clear()
-    setIsAuthorizes(false)
-    navigate('/')
-  }
 
 
   const [searchKey, setSearchKey] = useState('');
-  console.log("Search Key:", searchKey);
   const navigate = useNavigate();
 
-  // Function to handle search input change
+  const handleLogout = () => {
+    sessionStorage.clear();
+    setBadge(0)
+    setIsAuthorizes(false);
+    navigate('/');
+  };
+
   const handleSearchChange = (e) => {
     e.persist();
     setSearchKey(e.target.value);
-    console.log("Search Input Changed:", e.target.value);
   };
 
-  // Function to handle the "Enter" key press to navigate to search results
   const handleKeyPress = (e) => {
     e.persist();
-    // e.preventDefault()
     const value = e.target.value.trim();
-    console.log("Enter Pressed with Value:", value);
     if (e.key === 'Enter' && value !== '') {
-      // Include the search query parameter in the URL
-      e.preventDefault()
+      e.preventDefault();
       navigate(`/SearchProducts/products?search=${value}`);
-      e.preventDefault()
     }
   };
 
+
+
+  const handleBadge = () => {
+    console.log('clicked badge')
+    setBadge(0)
+
+    const token = sessionStorage.getItem('token')
+    if (!token) {
+      toast('please login')
+    } else {
+      navigate('/cart')
+    }
+  }
+
+
+  const handleOrderBadge=()=>{
+    console.log('d')
+    toggleOrderBadge()
+    const token= sessionStorage.getItem('token')
+    if(!token){
+      toast('please login')
+    }else{
+      navigate('/bookedItems')
+    }
+      
+    
+  }
+
+
   return (
     <Navbar className="bg-body-tertiary w-100" style={{ overflowX: 'hidden', position: 'fixed', zIndex: 100 }}>
-      <Container>
-        <div>
-          <h2 className="fw-bold logo" style={{ fontFamily: 'cursive' }}>RENTIFY</h2>
-        </div>
-        <Form>
-          <Row>
-            <Col xs="auto">
-              <InputGroup className="w-100">
+      <Container fluid>
+        <Row className="w-100 align-items-center d-flex align-items-center justify-content-center">
+          {/* Logo */}
+          <Col xs={6} md={3} className="ms-1d-flex align-items-center">
+            <Link to={'/'} className="text-decoration-none">
+              <h2 className="fw-bold logo ms-5 fs-2" style={{ fontFamily: 'cursive' }}>RENTIFY</h2>
+            </Link>
+          </Col>
+
+          {/* Search Bar */}
+          <Col xs={12} md={6} className="mt-2 mt-md-0">
+            <Form>
+              <InputGroup>
                 <Form.Control
                   type="text"
-                  placeholder="Search rentify"
+                  placeholder="Search..."
                   className="rounded"
                   style={{
                     fontSize: "14px",
-                    paddingLeft: "30px", // Adds space for the icon
+                    paddingLeft: "30px",
                   }}
-                  value={searchKey} // Controlled input
-                  onChange={handleSearchChange} // Call handleSearchChange on input change
-                  onKeyDown={handleKeyPress} // Capture Enter key press
+                  value={searchKey}
+                  onChange={handleSearchChange}
+                  onKeyDown={handleKeyPress}
                 />
                 <i
                   className="fa-solid fa-magnifying-glass fa-1x"
@@ -74,22 +108,67 @@ function Header() {
                   }}
                 ></i>
               </InputGroup>
-            </Col>
-            <Col xs="auto" className="me-5 d-flex mt-1">
-              <div className='d-flex'>
-                <Link to="/cart">
-                  <div className="ms-3 text-dark mt-2">
-                    <i className="fa-solid fa-cart-shopping"></i>
-                  </div>
-                </Link>
-                <div className=''>
-                  <div onClick={handleLogout} className='border rounded p-1 ms-3 bg-info text-light'>Logout</div>
-                </div>
+            </Form>
+          </Col>
+
+          {/* Cart and Logout */}
+          <Col xs={6} md={3} className="d-flex p-2 justify-content-end align-items-center">
+            <div className="d-flex ">
+              {/* Cart Icon */}
+
+              <div onClick={handleBadge} className=' p-1  rounded-2' variant="primary">
+                <i className="fa-solid fa-cart-shopping"></i>
+                <Badge
+                  bg="dark"
+                  text="light"
+                  style={{
+                    fontSize: "0.6rem", // Adjust font size
+                    padding: "2px 5px", // Adjust padding
+                  }}
+                >
+                  {countBadge > 0 &&
+                    countBadge
+                  }
+                </Badge>
               </div>
-            </Col>
-          </Row>
-        </Form>
+
+            
+                <div onClick={handleOrderBadge} className=' p-1 ms-2 rounded-2 text-decoration-none' >
+                  <i class="fa-solid fa-box-archive"></i>
+                  {
+                    orderBadge &&
+                    <Badge
+                    bg="danger"
+                    text="danger"
+                    style={{
+                      fontSize: "0.6rem", // Adjust font size
+                      padding: "1px 2px", // Adjust padding
+                      marginLeft: '-5px',
+                      paddingTop: '1px',
+                      backgroundColor: 'red',
+                      color: 'red'
+                    }}
+
+                  >0
+                  </Badge>
+                  }
+                  
+                </div>
+            
+
+
+              {/* Logout Button */}
+              <div onClick={handleLogout} className="border rounded p-1 ms-3 text-dark cursor-pointer">
+                Logout
+              </div>
+            </div>
+
+          </Col>
+        </Row>
       </Container>
+
+
+
     </Navbar>
   );
 }
