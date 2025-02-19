@@ -132,26 +132,13 @@ function AddItems({ setProductChanged }) {
         reqBody.append("availability", availability.toString()); // Convert to string
 
         if (image_one) reqBody.append("imgOne", image_one);
-        // if (image_two) reqBody.append("imgTwo", image_two);
-
-        // const token_string = sessionStorage.getItem("token");
-
-        // // if (!token) {
-        // //     toast.error('Authentication token not found');
-        // //     return;
-        // // }
-
-
-        //     if(token_string){
-        //         const reqHeader = {
-        //         "Authorization": token_string
-
-
-
-        //     };
         try {
             // const result = await addProduct(reqBody, reqHeader);
-            const result = await axios.post('http://localhost:3000/addProducts', reqBody, { headers: { Authorization: sessionStorage.getItem('token') } })
+            const result = await axios.post('http://localhost:3000/addProducts', reqBody, { 
+            headers: { 
+                Authorization: sessionStorage.getItem('token'),
+                'Content-Type': 'multipart/form-data',
+             } })
             if (result.status === 200) {
                 console.log(result.status)
                 toast.success("Product added successfully");
@@ -169,13 +156,6 @@ function AddItems({ setProductChanged }) {
             console.error('Error adding product:', err);
             toast.error('An error occurred while adding the product');
         }
-
-
-
-
-
-
-
     };
 
 

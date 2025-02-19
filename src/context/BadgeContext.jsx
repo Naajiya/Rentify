@@ -29,7 +29,7 @@ function BadgeProvider({ children }) {
   };
 
   return (
-    <BadgeContext.Provider value={{ countBadge, setBadge, incrementBadge, orderBadge, toggleOrderBadge }}>
+    <BadgeContext.Provider value={{ countBadge, setBadge,setOrderBadge, incrementBadge, orderBadge, toggleOrderBadge }}>
       {children}
     </BadgeContext.Provider>
   );

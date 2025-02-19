@@ -83,20 +83,39 @@ function EditItem({ pro }) {
     };
 
 
+    // const handleSize = () => {
+    //     setProductDetails((prev) => {
+    //         const newSize = prev.size.includes("Freeize") ? [] : ["Freeize"];
+    //         return { ...prev, size: newSize };
+    //     });
+    //     setFreeSizeBtn(true);
+
+    // }
     const handleSize = () => {
         setProductDetails((prev) => {
-            const newSize = prev.size.includes("Freeize") ? [] : ["Freeize"];
+            const newSize = prev.size.includes("Free size") ? [] : ["Free size"];
             return { ...prev, size: newSize };
         });
-        setFreeSizeBtn(true);
+        setFreeSizeBtn(prev => !prev);
+    };
+    
 
-    }
-
+    // const handleSizeChange = (e) => {
+    //     const { value, checked } = e.target;
+    //     setProductDetails(prevDetails => {
+    //         const updatedSizes = checked 
+    //             ? [...prevDetails.size, value] 
+    //             : prevDetails.size.filter(size => size !== value);
+    
+    //         return { ...prevDetails, size: updatedSizes };
+    //     });
+    // };
+    
     const handleSizeChange = (e) => {
         const { value, checked } = e.target;
         setProductDetails(prevDetails => {
             const updatedSizes = checked 
-                ? [...prevDetails.size, value] 
+                ? [...prevDetails.size.filter(size => size !== "Free size"), value] 
                 : prevDetails.size.filter(size => size !== value);
     
             return { ...prevDetails, size: updatedSizes };
@@ -108,57 +127,48 @@ function EditItem({ pro }) {
 
     const handleUpdates = async () => {
         const { id, name, description, category, price, size, availability, imgOne, imgTwo } = productDetails;
-        console.log("Update Payload:", id, name, description, category, price, size, availability, imgOne, imgTwo);
-
+        console.log(size)
+    
         if (name && description && category && price && size) {
-            console.log('inside if');
-            console.log("inside if", category, size)
-
-            // const categoryString = typeof category === 'object' ? JSON.stringify(Object.keys(category).filter(key => category[key])) : category;
             const sizeArray = Array.isArray(size) ? size : Object.keys(size).filter(key => size[key]);
-
+    
             const reqBody = new FormData();
             reqBody.append("name", name);
             reqBody.append("description", description);
-            reqBody.append("category", category); // Convert category object to string
+            reqBody.append("category", category);
             reqBody.append("price", price);
-            reqBody.append("size", JSON.stringify(sizeArray));  // Convert size object to string
+            reqBody.append("size", JSON.stringify(sizeArray));
             reqBody.append("availability", availability);
-
+    
             if (imgOne instanceof File) {
                 reqBody.append("imgOne", imgOne);
             } else {
-                reqBody.append("imgOne", img_one);
+                reqBody.append("imgOne", img_one); // Use existing image if no new file is uploaded
             }
-
-            console.log("reqBody",reqBody)
-
+    
             if (imgTwo instanceof File) {
-                reqBody.append("imgOne", imgTwo);
+                reqBody.append("imgTwo", imgTwo);
             } else {
-                reqBody.append("imgOne", img_two);
+                reqBody.append("imgTwo", img_two); // Use existing image if no new file is uploaded
             }
-
-            // const token = sessionStorage.getItem("token");
-            // if (token) {
-            // const reqHeader = {
-            //     "Content-Type": (previewOne || previewTwo) ? "multipart/form-data" : "application/json",
-            //     "Authorization": `Bearer ${token}`
-            // };
+    
             try {
-                console.log("Product ID:", id);
-                // Make sure the id is correctly used in the URL
-                const result = await axios.put(`http://localhost:3000/update-product/${id}`, reqBody, { headers: { Authorization: sessionStorage.getItem('token') } })
-
-
-                // const result = await updateProduct(id, reqBody, { headers: reqHeader });
-                console.log(result.data)
-                // handleResponse(result.data);
-                alert('Success');
+                const result = await axios.put(`http://localhost:3000/update-product/${id}`, reqBody, {
+                    headers: {
+                        Authorization: sessionStorage.getItem('token'),
+                        'Content-Type': 'multipart/form-data', // Ensure correct content type for file uploads
+                    },
+                });
+    
+                if (result.status === 200) {
+                    alert('Product updated successfully');
+                    handleClose(); // Close the modal after successful update
+                }
             } catch (err) {
                 console.error('Update failed:', err.response?.data || err.message);
             }
-            // }
+        } else {
+            alert('Please fill all required fields');
         }
     };
 

@@ -8,6 +8,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Ensure CSS is imported
 import { userLogin, userRegister } from '../../services/allApi';
 import { AuthenticationContext } from '../context/AuthContext';
+import Header from '../components/Header';
 
 
 function Auth({ insideRegister }) {
@@ -116,7 +117,10 @@ function Auth({ insideRegister }) {
   };
 
   return (
+    <>
+    <Header/>
     <div style={{ overflow: 'hidden' }} className='pt-5'>
+      
       <div className="pt-4">
         <div className='ms-5 me-5 mt-4 mb-3 p-1 shadow' style={{ backgroundColor: 'rgb(243, 243, 243)' }}>
           <div className=''>
@@ -211,6 +215,7 @@ function Auth({ insideRegister }) {
       </div>
      
     </div>
+    </>
   );
 }
 

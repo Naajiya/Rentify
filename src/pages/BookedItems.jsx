@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import axios from 'axios';
 import { Col, Row } from 'react-bootstrap';
+import SERVER_URL from '../../services/serverUrl';
+import CountdownTimer from '../Admin/component/CountDowm';
+
+
+
 
 function BookedItems() {
   const [userBookings, setUserBookings] = useState([]);
@@ -68,19 +73,32 @@ function BookedItems() {
                 <Col lg={8}>
                   <div className="p-3 border rounded">
                     <div className="d-flex justify-content-between">
+                      <img className='img-fluid' src={`${SERVER_URL}/uploads/${item.product.imgOne}`} alt="" style={{height:'5rem', width:'5rem'}}/>
+                     
                       <div>
                         <p className="mt-2 fw-bold fs-5">{item.product.name}</p>
                         <p>{booking.address[0]?.date ? new Date(booking.address[0].date).toLocaleDateString() : "No Date Available"}</p>
+                        
                       </div>
                       <div className="btn fw-bold  mt-2 border h-25 p-2 ps-3 text-light pe-3 bg-info ">{booking.status}</div>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <div className="d-flex">
-                        <p className="text-secondary">Quantity: </p>{item.quantity}
+                      <div className="d-flex flex-column">
+                        <p className="text-secondary">Quantity: <span className='text-dark'>{item.quantity}</span>  </p>
+                        <p className="text-secondary">days: <span className='text-dark'>{item.days}</span>  </p>
                       </div>
                       <div className="d-flex">
                         <p className="text-secondary">Price: </p>₹ {item.total}
                       </div>
+                    </div>
+                    <div>
+                      
+                      <p>{booking.status == 'delivered' && 
+                        <div className='border p-3 m-2 bg-secondary text-center text-light fw-bold '>
+                        <CountdownTimer endDate={item.endingDate} />
+                    </div>
+                          }</p>
+                    
                     </div>
                   </div>
                 </Col>

@@ -116,7 +116,7 @@ function Address() {
     const { name, phone, pincode, addresses, date, city, acceptPolicy } = addresDetails;
     console.log('clik');
 
-    if (address.length === 0) {
+    if (address.length == 0) {
       if (digSign && aadharNumber && name && phone && pincode && addresses && date && city) {
         console.log(aadharNumber, name, phone, pincode, addresses, date, city, acceptPolicy);
         const reqBody = new FormData();

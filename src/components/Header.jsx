@@ -11,7 +11,7 @@ import { toast, ToastContainer } from 'react-toastify';
 
 
 function Header() {
-  const { countBadge, setBadge, incrementBadge, orderBadge, toggleOrderBadge } = useContext(BadgeContext)
+  const { countBadge, setBadge, setOrderBadge, incrementBadge, orderBadge, toggleOrderBadge } = useContext(BadgeContext)
 
   const { isAuthorizes, setIsAuthorizes } = useContext(AuthenticationContext);
 
@@ -23,6 +23,7 @@ function Header() {
   const handleLogout = () => {
     sessionStorage.clear();
     setBadge(0)
+    setOrderBadge(false)
     setIsAuthorizes(false);
     navigate('/');
   };
@@ -56,17 +57,25 @@ function Header() {
   }
 
 
-  const handleOrderBadge=()=>{
+  const handleOrderBadge = () => {
     console.log('d')
-    toggleOrderBadge()
-    const token= sessionStorage.getItem('token')
-    if(!token){
+
+    const token = sessionStorage.getItem('token')
+    if (!token) {
       toast('please login')
-    }else{
+    } else {
+      // toggleOrderBadge()
+      setOrderBadge(false)
       navigate('/bookedItems')
     }
-      
-    
+
+
+  }
+
+
+  const handleLogin=()=>{
+    navigate('/login')
+    window.scroll.to(0,0)
   }
 
 
@@ -132,12 +141,12 @@ function Header() {
                 </Badge>
               </div>
 
-            
-                <div onClick={handleOrderBadge} className=' p-1 ms-2 rounded-2 text-decoration-none' >
-                  <i class="fa-solid fa-box-archive"></i>
-                  {
-                    orderBadge &&
-                    <Badge
+
+              <div onClick={handleOrderBadge} className=' p-1 ms-2 rounded-2 text-decoration-none' >
+                <i class="fa-solid fa-box-archive"></i>
+                {
+                  orderBadge &&
+                  <Badge
                     bg="danger"
                     text="danger"
                     style={{
@@ -151,16 +160,27 @@ function Header() {
 
                   >0
                   </Badge>
-                  }
-                  
-                </div>
-            
+                }
+
+              </div>
+
 
 
               {/* Logout Button */}
-              <div onClick={handleLogout} className="border rounded p-1 ms-3 text-dark cursor-pointer">
-                Logout
-              </div>
+
+              {
+                isAuthorizes ?
+                  <div onClick={handleLogout} className="border rounded p-1 ms-3 text-dark cursor-pointer">
+                    Logout
+                  </div>
+                  :
+                  <div onClick={handleLogin} className="border rounded p-1 ms-3 text-dark cursor-pointer">
+                    Login
+                  </div>
+              }
+
+
+
             </div>
 
           </Col>
