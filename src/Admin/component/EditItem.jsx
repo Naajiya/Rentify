@@ -11,12 +11,14 @@ import { useEffect } from 'react';
 import SERVER_URL from '../../../services/serverUrl';
 import { updateProduct } from '../../../services/allApi';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
 // import { preview } from 'vite';
 
 
 
 
-function EditItem({ pro }) {
+
+function EditItem({ pro,setUpdateSucc }) {
     console.log(pro)
 
     const [show, setShow] = useState(false);
@@ -35,13 +37,13 @@ function EditItem({ pro }) {
 
     const [productDetails, setProductDetails] = useState({ id: pro?._id, name: pro?.name, description: pro?.description, category: pro?.category || "", price: pro?.price, size: pro?.size ? pro.size : [], availability: pro?.availability || false, imgOne: pro?.imgOne, imgTwo: pro?.imgTwo })
 
-    const [img_one,setImageOne]=useState('')
-    const [img_two, setImgTwo]=useState('')
+    const [img_one, setImageOne] = useState('')
+    const [img_two, setImgTwo] = useState('')
     useEffect(() => {
         setImageOne(productDetails.imgOne);
         setImgTwo(productDetails.imgTwo);
     }, [productDetails.imgOne, productDetails.imgTwo]);
-    // free size
+    // free size    
     const [freeSizeBtn, setFreeSizeBtn] = useState(true)
 
     // image updation
@@ -70,74 +72,81 @@ function EditItem({ pro }) {
     // modal open
     const handleShow = () => {
         console.log(productDetails);
-        const { Freeize, S, M, L } = productDetails.size;
-        if (S) {
-            setSizeS(true)
-        }
-        // setSizeS(S || false); // Set checkbox state based on productDetails
-        setSizeM(M || false);
-        setSizeL(L || false);
-        setSizeFreeize(Freeize || false);
 
-        setShow(true);
+        // Initialize size states based on productDetails.size
+        setSizeS(productDetails.size.includes("S"));
+        setSizeM(productDetails.size.includes("M"));
+        setSizeL(productDetails.size.includes("L"));
+        setSizeFreeize(productDetails.size.includes("Freeize"));
+
+        // Set freeSizeBtn based on whether "Free size" is selected
+        setFreeSizeBtn(!productDetails.size.includes("Freeize"));
+
+        setShow(true); // Open the modal
     };
 
 
-    // const handleSize = () => {
-    //     setProductDetails((prev) => {
-    //         const newSize = prev.size.includes("Freeize") ? [] : ["Freeize"];
-    //         return { ...prev, size: newSize };
-    //     });
-    //     setFreeSizeBtn(true);
 
-    // }
     const handleSize = () => {
-        setProductDetails((prev) => {
-            const newSize = prev.size.includes("Free size") ? [] : ["Free size"];
-            return { ...prev, size: newSize };
-        });
-        setFreeSizeBtn(prev => !prev);
-    };
-    
+        setProductDetails((prevDetails) => {
+            let newSize = prevDetails.size.includes("Freeize")
+                ? prevDetails.size.filter((size) => size !== "Freeize") // Remove "Free size"
+                : ["Freeize"]; // Add "Free size" and remove other sizes
 
-    // const handleSizeChange = (e) => {
-    //     const { value, checked } = e.target;
-    //     setProductDetails(prevDetails => {
-    //         const updatedSizes = checked 
-    //             ? [...prevDetails.size, value] 
-    //             : prevDetails.size.filter(size => size !== value);
-    
-    //         return { ...prevDetails, size: updatedSizes };
-    //     });
-    // };
-    
+            return { ...prevDetails, size: newSize };
+        });
+
+        // Update the Free Size state for UI
+        setSizeFreeize((prev) => !prev);
+
+        // Disable other sizes when Free Size is selected
+        if (!sizeFreeize) {
+            setSizeS(false);
+            setSizeM(false);
+            setSizeL(false);
+        }
+    };
+
+
+   
+
     const handleSizeChange = (e) => {
         const { value, checked } = e.target;
-        setProductDetails(prevDetails => {
-            const updatedSizes = checked 
-                ? [...prevDetails.size.filter(size => size !== "Free size"), value] 
-                : prevDetails.size.filter(size => size !== value);
-    
+
+        setProductDetails((prevDetails) => {
+            let updatedSizes = [...prevDetails.size];
+
+            if (checked) {
+                // Add the new size if checked
+                updatedSizes.push(value);
+            } else {
+                // Remove the size if unchecked
+                updatedSizes = updatedSizes.filter((size) => size !== value);
+            }
+
             return { ...prevDetails, size: updatedSizes };
         });
+
+        // Update the individual size states for UI
+        if (value === "S") setSizeS(checked);
+        if (value === "M") setSizeM(checked);
+        if (value === "L") setSizeL(checked);
     };
-    
+
+
 
 
 
     const handleUpdates = async () => {
         const { id, name, description, category, price, size, availability, imgOne, imgTwo } = productDetails;
-        console.log(size)
     
         if (name && description && category && price && size) {
-            const sizeArray = Array.isArray(size) ? size : Object.keys(size).filter(key => size[key]);
-    
             const reqBody = new FormData();
             reqBody.append("name", name);
             reqBody.append("description", description);
             reqBody.append("category", category);
             reqBody.append("price", price);
-            reqBody.append("size", JSON.stringify(sizeArray));
+            reqBody.append("size", JSON.stringify(size)); // Send size array as JSON string
             reqBody.append("availability", availability);
     
             if (imgOne instanceof File) {
@@ -156,12 +165,13 @@ function EditItem({ pro }) {
                 const result = await axios.put(`http://localhost:3000/update-product/${id}`, reqBody, {
                     headers: {
                         Authorization: sessionStorage.getItem('token'),
-                        'Content-Type': 'multipart/form-data', // Ensure correct content type for file uploads
+                        'Content-Type': 'multipart/form-data',
                     },
                 });
     
                 if (result.status === 200) {
-                    alert('Product updated successfully');
+                    toast('Product updated successfully');
+                    setUpdateSucc(result.data)
                     handleClose(); // Close the modal after successful update
                 }
             } catch (err) {
@@ -172,24 +182,6 @@ function EditItem({ pro }) {
         }
     };
 
-    // Ensure the updateProduct function is correctly defined to accept id, reqBody, and reqHeader.
-
-    const handleResponse = (data) => {
-        // Parse the JSON string fields back into objects
-        data.category = JSON.parse(data.category);
-        data.size = JSON.parse(data.size);
-
-        console.log("Parsed Category:", data.category);
-        console.log("Parsed Size:", data.size);
-
-        // Now you can work with the parsed objects
-        // Example: Updating the product details state with the parsed data
-        setProductDetails((prevDetails) => ({
-            ...prevDetails,
-            category: data.category,
-            size: data.size
-        }));
-    };
 
 
 
@@ -270,6 +262,10 @@ function EditItem({ pro }) {
                             <option value="Men">Men</option>
                             <option value="Women">Women</option>
                             <option value="Furniture">Furniture</option>
+                            <option value="Construction Equipment">Construction Equipment</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Book">Book</option>
+                            <option value="Musical Instruments">Musical Instruments</option>
                         </Form.Select>
 
 
@@ -300,16 +296,19 @@ function EditItem({ pro }) {
                     <div className='m-2'>
                         <p className='fw-bold'>Select Size</p>
                         <div className='d-flex m-2 align-items-center'>
-                            <div className=''><button className='btn btn-light m-1' onClick={handleSize} >free size</button></div>
-                            {
-                                freeSizeBtn &&
+                            <div>
+                                <button className='btn btn-light m-1' onClick={handleSize}>
+                                    Free size
+                                </button>
+                            </div>
+                            {freeSizeBtn && (
                                 <div>
                                     <Form.Check
                                         inline
                                         label="S"
                                         name="size"
-                                        type='checkbox'
-                                        checked={sizeS}
+                                        type="checkbox"
+                                        checked={sizeS} // Reflect the state of sizeS
                                         value="S"
                                         onChange={handleSizeChange}
                                     />
@@ -317,23 +316,22 @@ function EditItem({ pro }) {
                                         inline
                                         label="M"
                                         name="size"
-                                        type='checkbox'
+                                        type="checkbox"
+                                        checked={sizeM} // Reflect the state of sizeM
                                         value="M"
-                                        checked={sizeM}
                                         onChange={handleSizeChange}
                                     />
                                     <Form.Check
                                         inline
                                         label="L"
                                         name="size"
-                                        type='checkbox'
+                                        type="checkbox"
+                                        checked={sizeL} // Reflect the state of sizeL
                                         value="L"
-                                        checked={sizeL}
                                         onChange={handleSizeChange}
                                     />
                                 </div>
-                            }
-
+                            )}
                         </div>
                     </div>
 

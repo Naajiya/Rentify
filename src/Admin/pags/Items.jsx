@@ -11,6 +11,9 @@ function Items() {
     const [allproduct, setAllproduct] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
 
+
+    const[updateSucc,setUpdateSucc]=useState('')
+
     const [productChanged,setProductChanged]=useState('')
     useEffect(()=>{
         getAllProductTable();
@@ -18,7 +21,7 @@ function Items() {
 
     useEffect(()=>{
         getAllProductTable()
-    },[productChanged])
+    },[productChanged,updateSucc])
 
     // useEffect(() => {
     //     getAllProductTable();
@@ -46,9 +49,14 @@ function Items() {
         }
     };
 
-    const filteredProducts = allproduct.filter(pro =>
-        pro.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredProducts = allproduct.filter(pro => {
+        const nameMatch = pro.name.toLowerCase().includes(searchQuery.toLowerCase());
+        const categoryMatch = Array.isArray(pro.category)
+            ? pro.category.some(cat => cat.toLowerCase().includes(searchQuery.toLowerCase()))
+            : pro.category.toLowerCase().includes(searchQuery.toLowerCase());
+
+        return nameMatch || categoryMatch;
+    });
 
     return (
         <>
@@ -56,10 +64,10 @@ function Items() {
             <div className="p-3">
                 <div className="d-flex justify-content-between align-items-end bg-light p-4 w-100">
                     <div className="w-50">
-                        <input 
+                    <input 
                             type="search" 
                             className="form-control w-100" 
-                            placeholder="search by product name" 
+                            placeholder="Search by product name or category" 
                             style={{ fontSize: '12px' }} 
                             onChange={(e) => setSearchQuery(e.target.value)} 
                         />
@@ -95,7 +103,7 @@ function Items() {
                                     <td><img src={`${SERVER_URL}/uploads/${pro.imgOne}`} alt="" style={{ height: '80px', width: '100px' }} /></td>
                                     <td>{pro.availability ? 'Available' : 'Not Available'}</td>
                                     <td><i onClick={() => handleDelete(pro._id)} className="fa-solid fa-xmark"></i></td>
-                                    <td><EditItem pro={pro} /></td>
+                                    <td><EditItem pro={pro} setUpdateSucc={setUpdateSucc} /></td>
                                 </tr>
                             ))}
                         </tbody>
