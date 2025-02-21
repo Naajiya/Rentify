@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import SubHead from '../components/SubHead'
 import BgImg from '../assets/bg-rental.png'
 import '../css/LandingStyle.css'
@@ -10,10 +10,12 @@ import { TypeAnimation } from 'react-type-animation';
 import AllItems from '../components/AllItems'
 import Advertise from '../components/Advertise'
 import Header from '../components/Header'
+import { AuthenticationContext } from '../context/AuthContext'
 
 
 
 function LandingPage() {
+  const { isAuthorizes, setIsAuthorizes } = useContext(AuthenticationContext);
 
   // const images=[
   //   move,men1,chrdar2
@@ -31,8 +33,8 @@ function LandingPage() {
 
   return (
     <>
-    <Header/>
-    
+      <Header />
+
       {/* <SubHead /> */}
       <div className='parallax'>
 
@@ -40,7 +42,7 @@ function LandingPage() {
 
           <Col lg={6} md={12}>
             <div className='d-flex flex-column justify-content-center text-center align-items-center' style={{ top: '5rem' }}>
-              <h1 className='home-logo  ' style={{ marginTop: '5rem',fontFamily: 'cursive' }}> RENTIFY
+              <h1 className='home-logo  ' style={{ marginTop: '5rem', fontFamily: 'cursive' }}> RENTIFY
 
               </h1>
               <span style={{ fontFamily: 'cursive', fontSize: '10px' }}>
@@ -48,18 +50,15 @@ function LandingPage() {
                   sequence={[
                     'rent',
                     500,
-                    'rent the', //  Continuing previous Text
-                    500,
-                    'rent the product you need',
-                    500,
                     'rent the',
                     500,
-                    'rent',
-                    500,
+                    'rent the product you need',
+                    1000,
                     '',
                     500,
                   ]}
-                  style={{ fontSize: '2em',fontFamily: 'cursive' }}
+                  speed={50}
+                  style={{ fontSize: '2em', fontFamily: 'cursive' }}
                   repeat={Infinity}
                 />
               </span>
@@ -74,24 +73,24 @@ function LandingPage() {
 
           </Col>
 
-           
+
 
           <Col lg={6} md={12}>
             <div className='d-flex text-center justify-content-center'>
               <div className='style-card'>
                 <div className='m-1'>
-                   {/* <img className='img-sty' src={currentImg} alt="" /> */}
-                    <marquee>
-                      <img className='img-sty m-1' src={move} alt="" />
-                      <img className='img-sty m-1' src={men1} alt="" />
-                      <img className='img-sty m-1' src={chrdar2} alt="" />
-                      <img className='img-sty m-1' src={move} alt="" />
-                      <img className='img-sty m-1' src={men1} alt="" />
-                      <img className='img-sty m-1' src={chrdar2} alt="" />
-                    </marquee>
+                  {/* <img className='img-sty' src={currentImg} alt="" /> */}
+                  <marquee>
+                    <img className='img-sty m-1' src={move} alt="" />
+                    <img className='img-sty m-1' src={men1} alt="" />
+                    <img className='img-sty m-1' src={chrdar2} alt="" />
+                    <img className='img-sty m-1' src={move} alt="" />
+                    <img className='img-sty m-1' src={men1} alt="" />
+                    <img className='img-sty m-1' src={chrdar2} alt="" />
+                  </marquee>
                 </div>
               </div>
-             
+
             </div>
             {/* <TypeAnimation
               sequence={[
@@ -106,7 +105,11 @@ function LandingPage() {
         </Row>
       </div>
       {/* <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt ipsum voluptate corrupti explicabo qui quia rem eligendi esse. Atque, pariatur nihil perspiciatis saepe ab similique inventore earum expedita eos voluptatibus!</h3> */}
-      <Advertise />
+
+      {isAuthorizes === false && <Advertise />}
+
+
+
       <SubHead />
       <AllItems />
 

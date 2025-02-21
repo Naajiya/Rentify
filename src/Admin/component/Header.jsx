@@ -8,10 +8,13 @@ function Header() {
       <div className="bg-dark">
         <Navbar className="bg-body-dark text-light">
           <Container className="d-flex justify-content-between align-items-center">
-            <Navbar.Brand className="text-light" href="#home">Rentify</Navbar.Brand>
+            <Navbar.Brand className="text-light" href="#home">
+            <Link className='text-decoration-none text-light' to={'/'}> <p className='m-2'>Rentify</p></Link>
+
+              </Navbar.Brand>
             <div className="text-light d-flex">
              <Link className='text-decoration-none text-light' to={'/admin/orders'}> <p className='m-2'>Order</p></Link>
-              <p className='m-2'>DashBoard</p>
+             <Link className='text-decoration-none text-light' to={'/admin/dashBoard'}> <p className='m-2'>DashBoard</p></Link>
              <Link className='text-decoration-none text-light' to={'/admin/items'}> <p className='m-2'>Items</p></Link>
             </div>
             <div>

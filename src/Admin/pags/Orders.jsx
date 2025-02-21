@@ -3,10 +3,32 @@ import Header from '../component/Header';
 import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 import CountdownTimer from '../component/CountDowm';
+import Modal from 'react-bootstrap/Modal';
+import SERVER_URL from '../../../services/serverUrl';
+
+
+
 
 function Orders() {
     const [allOrders, setAllOrders] = useState([]);
+    console.log(allOrders)
     const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+
+    const [selectedUser, setSelectedUSer] = useState({ userDetails: '', userAddress: '' })
+    console.log(selectedUser)
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => {
+        setSelectedUSer({ userDetails: '', userAddress: '' })
+        setShow(false)
+    };
+
+    const handleShow = (userDet, userAddres) => {
+        setSelectedUSer({ userDetails: userDet, userAddress: userAddres })
+        setShow(true)
+    };
+
 
     useEffect(() => {
         getAllOrders();
@@ -67,8 +89,8 @@ function Orders() {
                                     <Card.Body>
                                         <div className='d-flex justify-content-between align-items-center'>
                                             <div>
-                                                <p className='text-secondary'>Username</p>
-                                                <p>{booking.user?.username || "N/A"}</p>
+                                                <p className='text-secondary'>Customer</p>
+                                                <div className='border pt-2 rounded-4 bg-dark text-light ps-2 pe-2'><p style={{ cursor: 'pointer' }} onClick={() => handleShow(booking.user, booking.address)}>{booking.user?.username || "N/A"}</p></div>
                                             </div>
                                             <div>
                                                 <p className='text-secondary'>Order Date</p>
@@ -78,7 +100,7 @@ function Orders() {
 
                                         <hr />
 
-                                        <div className='d-flex flex-column'>
+                                        <div className='d-flex flex-column '>
                                             <div>
                                                 <p>Payment Method : <span>{booking?.paymentMethod}</span></p>
                                             </div>
@@ -86,8 +108,8 @@ function Orders() {
                                             {booking.items.map((item, idx) => (
                                                 <div key={idx} className='mb-3'>
                                                     {/* Display CountdownTimer only if status is 'delivered' and startingDate is today */}
-                                                    {booking.status === 'delivered' && 
-                                                        <div className='border p-3 m-2 bg-info text-light '>
+                                                    {booking.status === 'delivered' &&
+                                                        <div className='border p-3 m-2 bg-dark text-light '>
                                                             <CountdownTimer endDate={item.endingDate} />
                                                         </div>
                                                     }
@@ -126,8 +148,36 @@ function Orders() {
                         <div>No orders found</div>
                     )}
                 </div>
+
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Customer Details</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className='d-flex flex-column align-items-start justify-content-center'>
+                            <p className='fw-bold'>
+                                Customer Name :
+                                {selectedUser?.userDetails?.username}
+                            </p>
+                            <p><span className='fw-bold'>Name in address :</span> {selectedUser?.userAddress?.[0]?.name}</p>
+                            <p><span className='fw-bold'>Deliver address :</span>{selectedUser?.userAddress?.[0]?.addresses}</p>
+                            <p><span className='fw-bold'>Deliver Phone :</span>{selectedUser?.userAddress?.[0]?.phone}</p>
+                            <p><span className='fw-bold'>Pincode :</span>{selectedUser?.userAddress?.[0]?.pincode}</p>
+                            <p><span className='fw-bold'>AadharNumber :</span>{selectedUser?.userAddress?.[0]?.aadharNumber}</p>
+
+                            <div className='d-flex '>
+                            <span className='fw-bold'>DigtalSign:</span>
+                                <img src={`${SERVER_URL}/uploads/${selectedUser?.userAddress?.[0]?.digSign}`} style={{ height: '7rem', width: '7rem' }} alt="" />
+                            </div>
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+
+                    </Modal.Footer>
+                </Modal>
+
             </div>
-        </> 
+        </>
     );
 }
 

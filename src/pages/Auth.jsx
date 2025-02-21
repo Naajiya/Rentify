@@ -102,6 +102,7 @@ function Auth({ insideRegister }) {
             setUserDetails({ username: "", email: "", password: "" });
             toast.success('successfully logined')
             navigate('/');
+            window.scroll.to(0,0)
            
           }, 500);
         } else if (result.status === 404) {
@@ -179,26 +180,29 @@ function Auth({ insideRegister }) {
 
                   <FloatingLabel
                     controlId="password"
-                    // label="Password"
+                    // label="Password  "
                     className="mb-3 w-100 text-center"
                     style={{ fontSize: "12px", backgroundColor: "white !important" }}
                   >
-                    <div className="password-container">
+                    <div className="password-container ">
                       <Form.Control
                         type={isPasswordVisible ? "text" : "password"}
                         value={userDetails.password}
                         onChange={(e) => setUserDetails({ ...userDetails, password: e.target.value })}
                         placeholder="Password"
+                        className='p-3 text-dark'
                         style={{
                           backgroundColor: "rgb(243, 243, 243)",
                           border: "none",
                           borderRadius: "1rem",
                           paddingRight: "40 px", // Ensure space for the eye icon
+                          fontSize: "12px",
+                          color:'black'
                         }}
 
                       />
                       <button className="eye-button" onClick={togglePasswordVisibility}>
-                        {isPasswordVisible ? "🔒" : "👁️"}
+                        {isPasswordVisible ? "🔒" : "👁️‍🗨️"}
                       </button>
                     </div>
                   </FloatingLabel>

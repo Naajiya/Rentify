@@ -119,52 +119,57 @@ function Address() {
     if (address.length == 0) {
       if (digSign && aadharNumber && name && phone && pincode && addresses && date && city) {
         console.log(aadharNumber, name, phone, pincode, addresses, date, city, acceptPolicy);
-        const reqBody = new FormData();
-        reqBody.append("name", name);
-        reqBody.append("phone", phone);
-        reqBody.append("pincode", pincode);
-        reqBody.append("addresses", addresses);
-        reqBody.append("date", date);
-        reqBody.append("city", city);
-        reqBody.append("acceptPolicy", acceptPolicy.toString());
-        reqBody.append("aadharNumber", aadharNumber);
+        if (acceptPolicy) {
+          const reqBody = new FormData();
+          reqBody.append("name", name);
+          reqBody.append("phone", phone);
+          reqBody.append("pincode", pincode);
+          reqBody.append("addresses", addresses);
+          reqBody.append("date", date);
+          reqBody.append("city", city);
+          reqBody.append("acceptPolicy", acceptPolicy.toString());
+          reqBody.append("aadharNumber", aadharNumber);
 
-        // Convert data URL to a File object
-        const blob = await fetch(digSign).then((res) => res.blob());
-        const file = new File([blob], "signature.png", { type: "image/png" });
-        reqBody.append("digSign", file);
+          // Convert data URL to a File object
+          const blob = await fetch(digSign).then((res) => res.blob());
+          const file = new File([blob], "signature.png", { type: "image/png" });
+          reqBody.append("digSign", file);
 
-        try {
-          const result = await axios.post('http://localhost:3000/add-address', reqBody, {
-            headers: {
-              Authorization: sessionStorage.getItem('token'),
-              'Content-Type': 'multipart/form-data',
-            },
-          });
-
-          if (result.status === 200) {
-            toast.success('Address added successfully');
-            console.log(result.data);
-            setSelcAddress(result.data._id);
-            getAddress();
-
-            // Reset form fields
-            setAddresDetails({
-              name: "",
-              phone: "",
-              pincode: "",
-              addresses: "",
-              date: "",
-              city: "",
-              acceptPolicy: false,
+          try {
+            const result = await axios.post('http://localhost:3000/add-address', reqBody, {
+              headers: {
+                Authorization: sessionStorage.getItem('token'),
+                'Content-Type': 'multipart/form-data',
+              },
             });
-            setDigitalSign('');
-            setAadharNum('');
-            console.log('Form fields reset:', addresDetails); // Log to verify reset
+
+            if (result.status === 200) {
+              toast.success('Address added successfully');
+              console.log(result.data);
+              setSelcAddress(result.data._id);
+              getAddress();
+
+              // Reset form fields
+              setAddresDetails({
+                name: "",
+                phone: "",
+                pincode: "",
+                addresses: "",
+                date: "",
+                city: "",
+                acceptPolicy: false,
+              });
+              setDigitalSign('');
+              setAadharNum('');
+              console.log('Form fields reset:', addresDetails); // Log to verify reset
+            }
+          } catch (err) {
+            console.log(err);
           }
-        } catch (err) {
-          console.log(err);
+        } else {
+          toast.error('accept policy is requird')
         }
+
       } else {
         toast.error('Please complete all fields, including signature and Aadhar');
       }
@@ -217,7 +222,7 @@ function Address() {
   return (
     <>
       <div className="">
-        <Header/>
+        <Header />
         <div className="p-1">
           <div className="p-3 fw-bold text-center bg-secondary">Address Details</div>
 
@@ -237,17 +242,20 @@ function Address() {
               <Col lg={7}>
                 <div className="border p-2 rounded shadow">
                   {/* Phone number verification */}
-                  <div className="d-flex border p-2 border-dark rounded">
+                  {/* <div className="d-flex border p-2 border-dark rounded">
                     <Input
                       disabled={false}
                       placeholder="Mobile number"
                       variant="outlined"
                       className="w-50 m-2 mt-3"
                     />
-                    {/* Get OTP */}
+                
                     <Button onClick={handleShow} variant="plain" className="h-25 mt-3" size="sm">
                       Get OTP
                     </Button>
+                  </div> */}
+                  <div>
+                    <p style={{ fontSize: '12px' }} className='text-muted bg-light'>*only availables in kozhikode*</p>
                   </div>
 
                   <div className="d-flex m-2">
@@ -268,12 +276,15 @@ function Address() {
                       variant="soft"
                       className="w-50 m-1"
                       type="number"
-                      maxLength={10}
                       value={addresDetails.phone} // Bind to state
                       onChange={(e) => {
-                        setAddresDetails({ ...addresDetails, phone: e.target.value });
+                        const value = e.target.value;
+                        if (value.length <= 10) { // Ensure the length does not exceed 10
+                          setAddresDetails({ ...addresDetails, phone: value });
+                        }
                       }}
                     />
+
                   </div>
 
                   <Row className="d-flex">
@@ -315,6 +326,7 @@ function Address() {
                       placeholder="Pincode"
                       size="sm"
                       variant="soft"
+                      type="number"
                       className="w-50 m-2"
                       value={addresDetails.pincode} // Bind to state
                       onChange={(e) => {
@@ -409,7 +421,7 @@ function Address() {
           </Modal.Body>
         </Modal>
 
-       
+
       </div>
     </>
   );

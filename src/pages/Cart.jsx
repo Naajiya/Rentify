@@ -11,7 +11,7 @@ import axios from 'axios';
 import { CartContexts } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import SERVER_URL from '../../services/serverUrl';
-
+import Header from '../components/Header'
 
 
 
@@ -98,6 +98,7 @@ function Cart() {
 
   return (
     <>
+    <Header/>
       <div className='' style={{ overflow: 'hidden' }}>
         <h2 className='text-center p-5' style={{ backgroundColor: 'rgb(232, 233, 232)', fontFamily: 'cursive', backgroundAttachment: 'fixed' }}>
           <div className='mt-5'>Your cart</div>
