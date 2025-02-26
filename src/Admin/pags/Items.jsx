@@ -101,7 +101,7 @@ function Items() {
                                     <td>{pro.description}</td>
                                     <td>{Array.isArray(pro.size) ? pro.size.join(", ") : "No size available"}</td>
                                     <td><img src={`${SERVER_URL}/uploads/${pro.imgOne}`} alt="" style={{ height: '80px', width: '100px' }} /></td>
-                                    <td>{pro.availability ? 'Available' : 'Not Available'}</td>
+                                    <td>{pro.instock}</td>
                                     <td><i onClick={() => handleDelete(pro._id)} className="fa-solid fa-xmark"></i></td>
                                     <td><EditItem pro={pro} setUpdateSucc={setUpdateSucc} /></td>
                                 </tr>

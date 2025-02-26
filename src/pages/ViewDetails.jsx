@@ -15,7 +15,7 @@ import { BadgeContext } from '../context/BadgeContext';
 
 
 function ViewDetails() {
-  const { countBadge, setBadge,incrementBadge } = useContext(BadgeContext);
+  const { countBadge, setBadge, incrementBadge } = useContext(BadgeContext);
 
   const navigate = useNavigate();
   const { pid } = useParams();
@@ -100,50 +100,49 @@ function ViewDetails() {
 
 
 
-  const [cartItems,setCartItems]=useState([])
+  const [cartItems, setCartItems] = useState([])
 
-  const handleCart = async (prod, price, availability) => {
-    const token= sessionStorage.getItem('token')
-    if(!token){
+  const handleCart = async (prod, price) => {
+    const token = sessionStorage.getItem('token')
+    if (!token) {
       toast.error('please login')
     }
-    if (!availability) {
-      toast.error('Out of stock Product');
-      return;
-    }
+   
 
-    if(token){
+    if (token) {
       if (!selectSize) {
         toast.error('Please select a size');
         return;
       }
     }
-  
-    
-  
+
+
+
     const reqBody = {
       productId: prod,
       quantity: 1,
       days: 2,
       size: selectSize,
     };
-  
+
     // Check if product already exists in cart
     // const exists = cart.some((item) => item.productId === prod && item.size === selectSize);
-  
+
     // console.log("Adding to cart:", newProduct);
-  
+
     try {
-      const result = await axios.post('http://localhost:3000/add-to-cart', reqBody, { 
-        headers: { Authorization: sessionStorage.getItem('token') } 
+      const result = await axios.post('http://localhost:3000/add-to-cart', reqBody, {
+        headers: { Authorization: sessionStorage.getItem('token') }
       });
-  
+
       console.log("Cart Response:", result.data);
-  
+
       if (result.status === 200) {
         toast.success(result.data?.message || "Added to cart!");
-       
-        if(result.data.existsInCart==false){
+
+        // hanldeChangeStock(prod)
+
+        if (result.data.existsInCart == false) {
           console.log('its new cart item')
           incrementBadge()
         }
@@ -154,6 +153,24 @@ function ViewDetails() {
     }
   }
 
+
+
+
+
+
+  const viewDet = (prod) => {
+    console.log('yessssssssssssss')
+    console.log(prod)
+    // onClick={() => handleCart(prod._id, prod.price, prod.availability)}
+    if (prod.instock > 0) {
+      // toast.error('erefedg')
+      handleCart(prod._id, prod.price)
+    } else {
+      toast.error('outofStock Product')
+    }
+  }
+
+
   return (
     <>
       <Header />
@@ -162,10 +179,10 @@ function ViewDetails() {
           <Row className='d-flex justify-content-center mt-5'>
             {products ? products.map(prod => (
               <Row className='d-flex border p-1 mt-5 justify-content-center' key={prod._id}>
-                <Col lg={4} md={12} sm={12} className='border text-center' style={{ backgroundColor: 'rgb(245, 245, 245)', height:'25rem' }} >
+                <Col lg={4} md={12} sm={12} className='border text-center' style={{ backgroundColor: 'rgb(245, 245, 245)', height: '25rem' }} >
                   <div className='img-wrapper'>
-                    <p className='cart-stylw text-light cart-icon rounded-2 bg-dark border m-1'><i onClick={() => handleCart(prod._id, prod.price, prod.availability)} className="fa-solid fa-cart-plus"></i></p>
-                    <p style={{ fontSize: '13px' }} className='icon-sty text-success fw-bold w-25'>{prod.availability ? 'available' : 'not available'}</p>
+                    <p className='cart-stylw text-light cart-icon rounded-2 bg-dark border m-1'><i onClick={(e) => viewDet(prod)} className="fa-solid fa-cart-plus"></i></p>
+                    <p style={{ fontSize: '13px' }} className='icon-sty text-success p-2 fw-bold w-25'>{prod.instock > 0 ? 'Instock' : 'Out Of Stock'}</p>
                     <img className='img-fluid' src={`${SERVER_URL}/uploads/${prod.imgOne}`} alt="" style={{ height: '90%' }} />
                   </div>
                 </Col>
@@ -212,7 +229,7 @@ function ViewDetails() {
 
           </Row>
         </div>
-      
+
       </div>
     </>
   );

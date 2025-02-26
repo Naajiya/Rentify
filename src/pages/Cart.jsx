@@ -44,8 +44,17 @@ function Cart() {
   };
 
   const handleCheckout = () => {
-    // Navigate to the Address page and pass cartDetails as state
-    navigate('/address', { state: { cartDetails } });
+    // Filter out the out-of-stock products
+    const inStockProducts = cartDetails.filter(item => Number(item.productId.instock) > 0);
+
+    // Check if there are any in-stock products left
+    if (inStockProducts.length > 0) {
+      // Navigate to the Address page and pass only the in-stock products as state
+      navigate('/address', { state: { cartDetails: inStockProducts } });
+    } else {
+      // Optionally, you can show a message to the user indicating that all products are out of stock
+      alert("All products in your cafrt are out of stock.");
+    }
   };
 
   useEffect(() => {
@@ -89,16 +98,16 @@ function Cart() {
     setIsDrawerOpen(open);
   };
 
-  const [dtls,seDetls]=useState([])
+  const [dtls, seDetls] = useState([])
 
 
 
-  
+
 
 
   return (
     <>
-    <Header/>
+      <Header />
       <div className='' style={{ overflow: 'hidden' }}>
         <h2 className='text-center p-5' style={{ backgroundColor: 'rgb(232, 233, 232)', fontFamily: 'cursive', backgroundAttachment: 'fixed' }}>
           <div className='mt-5'>Your cart</div>
@@ -121,7 +130,7 @@ function Cart() {
               <tbody key={details._id}>
                 <Tooltip title="click" placement="bottom">
                   <tr style={{ cursor: 'pointer' }}>
-                    <td onClick={() =>{ toggleDrawer(true);seDetls([details])}} className='d-flex h-100 align-items-center'>
+                    <td onClick={() => { toggleDrawer(true); seDetls([details]) }} className='d-flex h-100 align-items-center'>
                       <div>
                         <img className='img-fluid' src={`${SERVER_URL}/uploads/${details.productId.imgOne}`} alt="Placeholder" style={{ width: '10vw', maxWidth: '60px', height: '10vw', maxHeight: '80px', backgroundColor: 'gray' }} />
                       </div>
@@ -195,7 +204,7 @@ function Cart() {
           </Col>
         </Row>
 
-        <BottomDrawer isOpen={isDrawerOpen} toggleDrawer={toggleDrawer} dtls={dtls}/>
+        <BottomDrawer isOpen={isDrawerOpen} toggleDrawer={toggleDrawer} dtls={dtls} />
       </div>
     </>
   );

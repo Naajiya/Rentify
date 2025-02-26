@@ -8,14 +8,30 @@ import { BadgeContext } from '../context/BadgeContext';
 
 function SelectPymt({ cartDetails, selcAddress, totalAmount }) {
 
-    const {countBadge, setBadge, incrementBadge, orderBadge, toggleOrderBadge}=useContext(BadgeContext)
+    const { countBadge, setBadge, incrementBadge, orderBadge, toggleOrderBadge } = useContext(BadgeContext)
 
     const [paymentMethod, setPaymentMethod] = useState('');
 
     console.log('Payment Method:', paymentMethod);
     console.log(cartDetails);
 
-    const handleOrder = async () => {
+    const handleOrderOne = async () => {
+        const inStockProducts = cartDetails.filter(item => Number(item.productId.instock) > 0);
+
+        // Check if there are any in-stock products left
+        if (inStockProducts.length > 0) {
+            // Navigate to the Address page and pass only the in-stock products as state
+            // navigate('/address', { state: { cartDetails: inStockProducts } });
+            handleOrder(inStockProducts)
+        } else {
+            // Optionally, you can show a message to the user indicating that all products are out of stock
+            alert("All products in your cart are out of stock.");
+        }
+        
+    }
+
+    const handleOrder = async (inStockProducts) => {
+
         if (!paymentMethod) {
             toast.error('Please select a payment mode');
             return;
@@ -40,7 +56,7 @@ function SelectPymt({ cartDetails, selcAddress, totalAmount }) {
                 'http://localhost:3000/create-order',
                 {
                     selectedAddressId: selcAddress,
-                    items: cartDetails,
+                    items: inStockProducts,
                     paymentMethod
                 },
                 {
@@ -53,7 +69,13 @@ function SelectPymt({ cartDetails, selcAddress, totalAmount }) {
             if (response.status === 200) {
                 toast.success('Order created successfully');
                 console.log(response.data);
-                toggleOrderBadge()
+
+                inStockProducts.forEach(items=>{
+                    hanldeChangeStock(items.productId._id)
+                })
+
+                // hanldeChangeStock()
+                toggleOrderBadge()  
                 // navigate('/orders'); // Redirect to orders page
             }
         } catch (err) {
@@ -61,26 +83,37 @@ function SelectPymt({ cartDetails, selcAddress, totalAmount }) {
         }
     };
 
-    const [onlinePy,setOnlinePy]=useState(false)
-    console.log('onlinePy',onlinePy)
+    const hanldeChangeStock = async (prod) => {
+        try {
+            const chagestock = await axios.get(`http://localhost:3000/chang-stock/${prod}`)
+            if (chagestock.status == 200) {
+                console.log(chagestock.data)
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const [onlinePy, setOnlinePy] = useState(false)
+    console.log('onlinePy', onlinePy)
 
     const paymentHandler = async (e) => {
         e.preventDefault(); // Prevent default behavior
-    
+
         try {
             const reqBody = {
                 amount: totalAmount * 100, // Convert to paise
                 currency: "INR",
                 receipt: 'qwsaql'
             };
-    
+
             const response = await axios.post('http://localhost:3000/order', reqBody, {
                 headers: { "Content-Type": "application/json" }
             });
-    
+
             const order = response.data;
             console.log('Order created:', order);
-    
+
             var options = {
                 "key": "rzp_test_g4AKnxr16tAjx5",
                 "amount": totalAmount * 100, // Amount in paise
@@ -88,21 +121,21 @@ function SelectPymt({ cartDetails, selcAddress, totalAmount }) {
                 "name": "NajiyaBinthMajeed",
                 "description": "Test Transaction",
                 "image": "https://example.com/your_logo",
-                "order_id": order?.id || '', 
-                "handler":async function (response) {
-                   const reqBody={
-                    ...response,
-                   }
-                   
-                  const validateres =await axios.post('http://localhost:3000/order/validate',reqBody,{
-                    headers:{ "Content-Type": "application/json" }
-                   })
-                   console.log(validateres)
+                "order_id": order?.id || '',
+                "handler": async function (response) {
+                    const reqBody = {
+                        ...response,
+                    }
 
-                   if(validateres.status==200){
-                    setOnlinePy(true)
-                    setPaymentMethod('online payment')
-                   }
+                    const validateres = await axios.post('http://localhost:3000/order/validate', reqBody, {
+                        headers: { "Content-Type": "application/json" }
+                    })
+                    console.log(validateres)
+
+                    if (validateres.status == 200) {
+                        setOnlinePy(true)
+                        setPaymentMethod('online payment')
+                    }
                 },
                 "prefill": {
                     "name": "web dev",
@@ -116,7 +149,7 @@ function SelectPymt({ cartDetails, selcAddress, totalAmount }) {
                     "color": "#3399cc"
                 }
             };
-    
+
             var rzp1 = new window.Razorpay(options);
             rzp1.on('payment.failed', function (response) {
                 alert(response.error.description);
@@ -138,11 +171,11 @@ function SelectPymt({ cartDetails, selcAddress, totalAmount }) {
             }
         }
     };
-    
+
 
     return (
         <>
-        
+
             <div className='m-2'>
                 <div className='text-center'>
                     <p className='p-2'>PAYMENT METHOD</p>
@@ -151,16 +184,16 @@ function SelectPymt({ cartDetails, selcAddress, totalAmount }) {
                             <button onClick={() => setPaymentMethod('cash on delivery')} className='btn btn-light' style={{ fontSize: '15px' }}>
                                 Cash on Delivery
                             </button>
-                            <button onClick={async (e) => { 
-                                 
-                                paymentHandler(e); 
+                            <button onClick={async (e) => {
+
+                                paymentHandler(e);
                             }} className='btn btn-light' style={{ fontSize: '15px' }}>
                                 Pay Now
                             </button>
                         </div>
                     </div>
                     <div className='m-3'>
-                        <button onClick={handleOrder} className='btn btn-success'>Place Order</button>
+                        <button onClick={handleOrderOne} className='btn btn-success'>Place Order</button>
                     </div>
                 </div>
             </div>

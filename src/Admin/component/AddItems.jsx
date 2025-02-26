@@ -22,7 +22,7 @@ function AddItems({ setProductChanged }) {
 
     const [freeSizeBtn, setFreeSizeBtn] = useState(true)
 
-    const [items, setItems] = useState({ name: "", description: "", category: "", price: "", size: [], availability: false, imgOne: "", imgTwo: "" })
+    const [items, setItems] = useState({ name: "", description: "", category: "", price: "", size: [], instock: "", imgOne: "", imgTwo: "" })
     // console.log('itsm')
     console.log(items)
     const [image_one, setImageOne] = useState()
@@ -62,7 +62,7 @@ function AddItems({ setProductChanged }) {
 
     const handleClose = () => {
         setShow(false);
-        setItems({ name: "", description: "", category: "", price: "", size: [], availability: false, imgOne: "", imgTwo: "" })
+        setItems({ name: "", description: "", category: "", price: "", size: [], instock: '', imgOne: "", imgTwo: "" })
         setPreviewOne(img);  // Reset to default image
         setPreviewTwo(img2); // Reset to default image
         setImageOne(null);  // Clear the image file
@@ -102,21 +102,21 @@ function AddItems({ setProductChanged }) {
         });
     };
 
-    const handleAvailable = (e) => {
-        const { checked } = e.target;
-        console.log(checked)
-        if (checked) {
-            setItems({ ...items, availability: true })
-        } else {
-            setItems({ ...items, availability: false })
-        }
-    }
+    // const handleAvailable = (e) => {
+    //     const { checked } = e.target;
+    //     console.log(checked)
+    //     if (checked) {
+    //         setItems({ ...items, availability: true })
+    //     } else {
+    //         setItems({ ...items, availability: false })
+    //     }
+    // }
 
 
 
 
     const handleAddProduct = async () => {
-        const { name, description, category, price, size, availability } = items;
+        const { name, description, category, price, size, instock } = items;
 
         if (!name || !description || !category || !price || size.length === 0) {
             toast.error('Please fill all required fields');
@@ -129,7 +129,7 @@ function AddItems({ setProductChanged }) {
         reqBody.append("category", category);
         reqBody.append("price", price);
         reqBody.append("size", JSON.stringify(size)); // Send as JSON string
-        reqBody.append("availability", availability.toString()); // Convert to string
+        reqBody.append("instock", instock); // Convert to string
 
         if (image_one) reqBody.append("imgOne", image_one);
         try {
@@ -144,7 +144,7 @@ function AddItems({ setProductChanged }) {
                 toast.success("Product added successfully");
                 setProductChanged(result.data)
                 handleClose();
-                setItems({ name: "", description: "", category: "", price: "", size: [], availability: false, imgOne: "", imgTwo: "" });
+                setItems({ name: "", description: "", category: "", price: "", size: [], instock: "", imgOne: "", imgTwo: "" });
                 setPreviewOne(img)
                 setIsValidOne(false)
                 setFreeSizeBtn(true);
@@ -260,15 +260,23 @@ function AddItems({ setProductChanged }) {
 
                         <div className='m-2'>
 
-                            <Form.Check
+                        <FloatingLabel
+                                controlId="floatingInput3"
+                                label="Price"
+                                className="mb-3 w-50 m-2"
+                            >
+                                <Form.Control  onChange={(e) => setItems({ ...items, instock: e.target.value })} type="number" placeholder="Price" />
+                            </FloatingLabel>
+
+                            {/* <Form.Check
                                 inline
                                 label="Available"
                                 name="size"
                                 type='checkbox'
                                 value="availabilty"
-                                onChange={handleAvailable}
+                               
                             // onChange={(e)=>setItems({...items,availability:e.target.value})}
-                            />
+                            /> */}
                         </div>
 
                         <div className='m-2'>
