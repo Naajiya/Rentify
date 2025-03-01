@@ -17,6 +17,7 @@ import Category from './pages/Category'
 import Orders from './Admin/pags/Orders'
 import SearchProducts from './pages/SearchProducts'
 import { toast, ToastContainer } from 'react-toastify'
+import DeliverdPrdcts from './Admin/pags/DeliverdPrdcts'
 
 
 
@@ -56,6 +57,7 @@ function App() {
         <Route element={<DashBoard />} path='/admin/dashBoard' />
         <Route element={<Items />} path='/admin/items' />
         <Route element={<Orders />} path='/admin/orders' />
+        <Route element={<DeliverdPrdcts/>} path='/admin/deliverds'/>
 
       </Routes>
 

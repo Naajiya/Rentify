@@ -230,7 +230,9 @@ function Address() {
             {address.length !== 0 && (
               <div>
                 <div className="m-2">
-                  <SelectAddress address={address} setSelcAddress={setSelcAddress} />
+                 <div> <SelectAddress address={address} setSelcAddress={setSelcAddress} />
+                 </div>
+                 
                 </div>
                 <div className="fw-bold text-info">+Add New</div>
               </div>
@@ -334,6 +336,7 @@ function Address() {
                       }}
                     />
                   </div>
+                  
                   <p className="ms-3 text-info" style={{ fontSize: '12px' }}>
                     Select date when you want to deliver (order before 5 days)
                   </p>
