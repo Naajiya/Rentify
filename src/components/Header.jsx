@@ -164,6 +164,10 @@ function Header() {
 
               </div>
 
+              <div className=' p-1 ms-2 rounded-2 text-decoration-none'>
+              <i class="fa-solid fa-user"></i>
+              </div>
+
 
 
               {/* Logout Button */}

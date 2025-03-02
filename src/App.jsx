@@ -42,6 +42,7 @@ function App() {
       {/* <Header /> */}
 
       <Routes>
+        {/* user */}
         <Route element={<LandingPage />} path='/' />
         <Route element={<Auth />} path='/login' />
         <Route element={<Auth insideRegister={true} />} path='/register' />
@@ -53,11 +54,13 @@ function App() {
         <Route element={<SearchProducts />} path='/SearchProducts/products' />
 
 
+        {/* admin */}
+
         <Route element={<Login />} path='/admin/login' />
         <Route element={<DashBoard />} path='/admin/dashBoard' />
         <Route element={<Items />} path='/admin/items' />
         <Route element={<Orders />} path='/admin/orders' />
-        <Route element={<DeliverdPrdcts/>} path='/admin/deliverds'/>
+        <Route element={<DeliverdPrdcts />} path='/admin/deliverds' />
 
       </Routes>
 
