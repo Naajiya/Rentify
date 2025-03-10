@@ -64,11 +64,31 @@ input[type=number] {
 
 
 
-.sub-img{
-  height: 6rem !important;
-  width: 6rem;
+
+
+@media (min-width:768px){
+  .sub-img{
+    height: 6rem !important;
+    width: 6rem;
+    border-radius: 50%;
+    background-color: rgb(161, 3, 3);
+  }
+}
+
+
+
+
+@media (max-width:768px){
+  .sub-img{
+    height: 5rem !important;
+  width: 5rem !important ;
   border-radius: 50%;
-  background-color: rgb(161, 3, 3);
+    background-color: rgb(161, 3, 3);
+  }
+
+  card{
+width: 24rem;
+  }
 }
 
 

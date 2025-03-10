@@ -16,7 +16,7 @@ function SelectAddress({ address, setSelcAddress }) {
         setSelcAddress(id); // Update selcAddress only when the button is clicked
     };
 
-    const [datess,setDatess]=useState("")
+    const [datess, setDatess] = useState("")
 
     const [dates, setDates] = useState({ day: null, month: null, year: null });
 
@@ -41,35 +41,35 @@ function SelectAddress({ address, setSelcAddress }) {
     };
 
 
-    const updateDate=async(adId,datess)=>{
-        console.log("dates",datess)
-        console.log("adId",adId)
-        if(!datess){
+    const updateDate = async (adId, datess) => {
+        console.log("dates", datess)
+        console.log("adId", adId)
+        if (!datess) {
             toast.error('eror')
         }
-        try{    
+        try {
 
-           const response = await axios.put(`http://localhost:3000/change-date/${adId}`,
-           {date:datess},
-           {headers: { Authorization: sessionStorage.getItem('token') }}
+            const response = await axios.put(`http://localhost:3000/change-date/${adId}`,
+                { date: datess },
+                { headers: { Authorization: sessionStorage.getItem('token') } }
             )
 
-            if(response.status==200){
+            if (response.status == 200) {
                 console.log(response.data)
                 setDatess("")
             }
 
-        }catch(err){
+        } catch (err) {
             console.log(err)
         }
     }
 
 
-    return (    
+    return (
         <>
             <div>
                 {address.map((add) => (
-                    <div key={add._id} className='m-3 row border rounded'>
+                    <div key={add._id} className='m-3 row border rounded p-3'>
                         <Col lg={10} className='p-2'>
                             <div>
                                 <p className='fw-bold'>{add.name}</p>
@@ -77,31 +77,36 @@ function SelectAddress({ address, setSelcAddress }) {
                                 <span>Phone : {add.phone}</span> <br />
                                 <span>Date : {new Date(add.date).toISOString().split('T')[0] || "N/A"}</span>
                             </div>
-                           <Row>
-                                <div className='border text-center rounded w-75 mt-2'>
-                                    <div className='d-flex text-center align-items-center justify-content-center'>
-                                        <p className='mt-3'>Change Date : </p>
-                                        <Stack spacing={1.5} sx={{ minWidth: 259 }}>
-                                            <Input
-                                                type="date"
-                                                className="ms-1 m-2 w-75 text-secondary"
-                                                // value={new Date(add.date).toISOString().split('T')[0] || "N/A"} // Bind to state, format as YYYY-MM-DD
-                                                onChange={(e) => {
-                                                    setDatess(e.target.value)
-                                                }}
-                                                variant="soft"
-                                                slotProps={{
-                                                    input: {
-                                                        min: `${dates.year}-${String(dates.month + 1).padStart(2, '0')}-${String(dates.day).padStart(2, '0')}`,
-                                                    },
-                                                }}
-                                            />
-                                        </Stack>
-                                        <button onClick={()=>updateDate(add._id,datess)} className='btn btn-light fw-bold'>change</button>
-    
-                                    </div>
-                                </div>
-                           </Row>
+                            <Row className="">
+                                <Col lg={8} className="border text-center rounded mt-2 p-3">
+                                    <Row className="align-items-center">
+                                        <Col lg={4} sm={12}>
+                                            <p className="mt-3">Change Date :</p>
+                                        </Col>
+                                        <Col lg={4} sm={12} className="d-flex justify-content-center">
+                                            <Stack spacing={1.5} sx={{ minWidth: 259 }}>
+                                                <Input
+                                                    type="date"
+                                                    className="ms-1 m-2 w-100 text-secondary"
+                                                    onChange={(e) => setDatess(e.target.value)}
+                                                    variant="soft"
+                                                    slotProps={{
+                                                        input: {
+                                                            min: `${dates.year}-${String(dates.month + 1).padStart(2, '0')}-${String(dates.day).padStart(2, '0')}`,
+                                                        },
+                                                    }}
+                                                />
+                                            </Stack>
+                                        </Col>
+                                        <Col lg={3} sm={12} className="d-flex justify-content-center">
+                                            <button onClick={() => updateDate(add._id, datess)} className="btn btn-light fw-bold">
+                                                Change
+                                            </button>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            </Row>
+
                         </Col>
                         <Col className='d-flex justify-content-center align-items-center'>
                             {/* Pass handleAdres as a callback */}

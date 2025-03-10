@@ -18,6 +18,7 @@ import Orders from './Admin/pags/Orders'
 import SearchProducts from './pages/SearchProducts'
 import { toast, ToastContainer } from 'react-toastify'
 import DeliverdPrdcts from './Admin/pags/DeliverdPrdcts'
+import ProfilePage from './pages/ProfilePage'
 
 
 
@@ -52,6 +53,7 @@ function App() {
         <Route element={<BookedItems />} path='/bookedItems' />
         <Route element={<Category />} path='/:category/category' />
         <Route element={<SearchProducts />} path='/SearchProducts/products' />
+        <Route element={<ProfilePage/>} path='/profile'/>
 
 
         {/* admin */}

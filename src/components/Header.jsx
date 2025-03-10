@@ -1,40 +1,39 @@
 import React, { useContext, useState } from 'react';
-import axios from 'axios';
-import { Form, InputGroup, Navbar, Container, Row, Col } from 'react-bootstrap';
+import { Form, InputGroup, Navbar, Container, Nav, Badge, Row, Col } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthenticationContext } from '../context/AuthContext';
-import { Button, Badge } from "react-bootstrap";
 import { BadgeContext } from '../context/BadgeContext';
-import { toast, ToastContainer } from 'react-toastify';
-
-
+import { toast } from 'react-toastify';
 
 
 function Header() {
-  const { countBadge, setBadge, setOrderBadge, incrementBadge, orderBadge, toggleOrderBadge } = useContext(BadgeContext)
-
+  const { countBadge, setBadge, setOrderBadge, orderBadge } = useContext(BadgeContext);
   const { isAuthorizes, setIsAuthorizes } = useContext(AuthenticationContext);
-
-
-
   const [searchKey, setSearchKey] = useState('');
   const navigate = useNavigate();
 
   const handleLogout = () => {
     sessionStorage.clear();
-    setBadge(0)
-    setOrderBadge(false)
+    setBadge(0);
+    setOrderBadge(false);
     setIsAuthorizes(false);
     navigate('/');
   };
 
+  const handleProfile = () => {
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      toast('Please login');
+    } else {
+      navigate('/profile');
+    }
+  };
+
   const handleSearchChange = (e) => {
-    e.persist();
     setSearchKey(e.target.value);
   };
 
   const handleKeyPress = (e) => {
-    e.persist();
     const value = e.target.value.trim();
     if (e.key === 'Enter' && value !== '') {
       e.preventDefault();
@@ -42,58 +41,47 @@ function Header() {
     }
   };
 
-
-
   const handleBadge = () => {
-    console.log('clicked badge')
-    setBadge(0)
-
-    const token = sessionStorage.getItem('token')
+    setBadge(0);
+    const token = sessionStorage.getItem('token');
     if (!token) {
-      toast('please login')
+      toast('Please login');
     } else {
-      navigate('/cart')
+      navigate('/cart');
     }
-  }
-
+  };
 
   const handleOrderBadge = () => {
-    console.log('d')
-
-    const token = sessionStorage.getItem('token')
+    const token = sessionStorage.getItem('token');
     if (!token) {
-      toast('please login')
+      toast('Please login');
     } else {
-      // toggleOrderBadge()
-      setOrderBadge(false)
-      navigate('/bookedItems')
+      setOrderBadge(false);
+      navigate('/bookedItems');
     }
+  };
 
-
-  }
-
-
-  const handleLogin=()=>{
-    navigate('/login')
-    window.scroll.to(0,0)
-  }
-
+  const handleLogin = () => {
+    navigate('/login');
+    window.scroll.to(0, 0);
+  };
 
   return (
-    <Navbar className="bg-body-tertiary w-100" style={{ overflowX: 'hidden', position: 'fixed', zIndex: 100 }}>
+    <Navbar expand="lg" className="bg-body-tertiary" fixed="top">
       <Container fluid>
-        <Row className="w-100 align-items-center d-flex align-items-center justify-content-center">
-          {/* Logo */}
-          <Col xs={6} md={3} className="ms-1d-flex align-items-center">
-            <Link to={'/'} className="text-decoration-none">
-              <h2 className="fw-bold logo ms-5 fs-2" style={{ fontFamily: 'cursive' }}>RENTIFY</h2>
-            </Link>
-          </Col>
+        {/* Brand/Logo */}
+        <Navbar.Brand as={Link} to="/" className="fw-bold fs-2" style={{ fontFamily: 'cursive' }}>
+        <h2 className="fw-bold logo ms-5 fs-2" style={{ fontFamily: 'cursive' }}>RENTIFY</h2>
+        </Navbar.Brand>
 
+        {/* Toggler Button for Small Screens */}
+        <Navbar.Toggle aria-controls="navbarSupportedContent" />
+
+        {/* Collapsible Section */}
+        <Navbar.Collapse id="navbarSupportedContent">
           {/* Search Bar */}
-          <Col xs={12} md={6} className="mt-2 mt-md-0">
-            <Form>
-              <InputGroup>
+          <Form className="d-flex mx-auto my-2 my-lg-0" style={{ maxWidth: '500px', width: '100%' }}>
+          <InputGroup>
                 <Form.Control
                   type="text"
                   placeholder="Search..."
@@ -117,16 +105,13 @@ function Header() {
                   }}
                 ></i>
               </InputGroup>
-            </Form>
-          </Col>
+          </Form>
 
-          {/* Cart and Logout */}
-          <Col xs={6} md={3} className="d-flex p-2 justify-content-end align-items-center">
-            <div className="d-flex ">
-              {/* Cart Icon */}
-
-              <div onClick={handleBadge} className=' p-1  rounded-2' variant="primary">
-                <i className="fa-solid fa-cart-shopping"></i>
+          {/* Icons and Login/Logout */}
+          <Nav className="ms-auto d-flex align-items-center">
+            {/* Cart Icon */}
+            <Nav.Link onClick={handleBadge} className="p-2">
+            <i className="fa-solid fa-cart-shopping"></i>
                 <Badge
                   bg="dark"
                   text="light"
@@ -139,11 +124,11 @@ function Header() {
                     countBadge
                   }
                 </Badge>
-              </div>
+            </Nav.Link>
 
-
-              <div onClick={handleOrderBadge} className=' p-1 ms-2 rounded-2 text-decoration-none' >
-                <i class="fa-solid fa-box-archive"></i>
+            {/* Order Badge Icon */}
+            <Nav.Link onClick={handleOrderBadge} className="p-2">
+            <i class="fa-solid fa-box-archive"></i>
                 {
                   orderBadge &&
                   <Badge
@@ -161,40 +146,29 @@ function Header() {
                   >0
                   </Badge>
                 }
+            </Nav.Link>
 
-              </div>
+            {/* Profile Icon */}
+            <Nav.Link onClick={handleProfile} className="p-2">
+              <i className="fa-solid fa-user"></i>
+            </Nav.Link>
 
-              <div className=' p-1 ms-2 rounded-2 text-decoration-none'>
-              <i class="fa-solid fa-user"></i>
-              </div>
-
-
-
-              {/* Logout Button */}
-
-              {
-                isAuthorizes ?
-                  <div onClick={handleLogout} className="border rounded p-1 ms-3 text-dark cursor-pointer">
-                    Logout
-                  </div>
-                  :
-                  <div onClick={handleLogin} className="border rounded p-1 ms-3 text-dark cursor-pointer">
-                    Login
-                  </div>
-              }
-
-
-
-            </div>
-
-          </Col>
-        </Row>
+            {/* Login/Logout Button */}
+            {isAuthorizes ? (
+              <Nav.Link onClick={handleLogout} className="p-2">
+                Logout
+              </Nav.Link>
+            ) : (
+              <Nav.Link onClick={handleLogin} className="p-2">
+                Login
+              </Nav.Link>
+            )}
+          </Nav>
+        </Navbar.Collapse>
       </Container>
-
-
-
     </Navbar>
   );
 }
 
 export default Header;
+

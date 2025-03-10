@@ -1,0 +1,24 @@
+.prof-img {
+    height: 6rem !important;
+    width: 6rem !important;
+    border-radius: 50%;
+    background-color: blueviolet;
+  }
+
+  .img-hold{
+    height: 6rem !important;
+    width: 6rem !important;
+    border-radius: 50%; 
+  }
+  
+  @media (max-width: 460px) {
+    .prof-img {
+      height: 5rem;
+      width: 5rem;
+    }
+
+    .img-hold {
+      height: 5rem;
+      width: 5rem;
+    }
+  }
